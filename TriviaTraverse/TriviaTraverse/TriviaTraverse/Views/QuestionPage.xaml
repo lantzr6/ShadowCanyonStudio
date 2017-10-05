@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:TriviaTraverse.Converters"
+             x:Class="TriviaTraverse.Views.QuestionPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="cnvBoolInvert"></converters:InverseBooleanConverter>
+            <converters:CountdownConverter x:Key="cnvCountDown"></converters:CountdownConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0"
+                    Android="0"
+                    WinPhone="0" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <AbsoluteLayout x:Name="mL" Grid.Row="0" VerticalOptions="Fill">
+                <BoxView x:Name="TimerBackground" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                         BackgroundColor="Pink"
+                      AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+                <!--<Image x:Name="TimerBackground" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                       Source="timerbackground.png"
+                      AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>-->
+                <BoxView x:Name="TimerScale" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                              BackgroundColor="White"
+                      AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="{Binding Countdown.RemainTime, Converter={StaticResource cnvCountDown}}"/>
+                <Grid HorizontalOptions="FillAndExpand" BackgroundColor="Silver"
+                      AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds=".5,0,1,30">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Label Text="{Binding ActiveSection.ActiveQuestion.CurrentCategoryName}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Text="{Binding ActiveSection.ActiveQuestion.PointValue}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Text="{Binding PlayerObj.Coins, StringFormat='{0} coins'}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+                </Grid>
+                <Grid BackgroundColor="Silver" Margin="20,50,20,20"
+                             AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,.45">
+                    <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center"
+                                 Margin="30">
+                        <Image Source="" IsVisible="False"/>
+                        <Label Text="{Binding ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.Text}" TextColor="Black" FontAttributes="Bold" FontSize="18"/>
+                    </StackLayout>
+                </Grid>
+                <AbsoluteLayout AbsoluteLayout.LayoutFlags="All"  AbsoluteLayout.LayoutBounds=".5,1,1,.55">
+                    <StackLayout Orientation="Vertical"
+                                     Spacing="0" Margin="20,0,43,0"
+                                 AbsoluteLayout.LayoutFlags="All"  AbsoluteLayout.LayoutBounds="0,0,1,1">
+                        <Grid Margin="0,0,0,16" HeightRequest="46">
+                            <Button x:Name="btnAnswer1" Text="{Binding ActiveSection.ActiveQuestion.Answers[0]}" BackgroundColor="White" TextColor="Black"
+                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="0"
+                                   Margin="23,0,0,0" Style="{StaticResource ButtonStyle}">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding ActiveSection.ActiveQuestion.SelectedAnswerIdx}" Value="0">
+                                        <Setter Property="BackgroundColor" Value="Gray"/>
+                                        <Setter Property="TextColor" Value="White"/>
+                                    </DataTrigger>
+                                    <MultiTrigger TargetType="Button">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="0"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeWrong}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="BackgroundColor" Value="Silver"/>
+                                    </MultiTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <Label Text="{Binding ActiveSection.ActiveQuestion.PointValue, StringFormat='+{0}'}" HorizontalOptions="End" VerticalOptions="Center"
+                                   TextColor="Yellow" FontAttributes="Bold" FontSize="18"
+                                   Margin="0,0,0,24" IsVisible="False">
+                                <Label.Triggers>
+                                    <MultiTrigger TargetType="Label">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="0"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeCorrect}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Image Source="correct.png" IsVisible="False" HorizontalOptions="Start">
+                                <Image.Triggers>
+                                    <MultiTrigger TargetType="Image">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="0"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeActive}" Value="False"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Image.Triggers>
+                            </Image>
+                            <Image Source="wrong.png" IsVisible="False" HorizontalOptions="Start">
+                                <Image.Triggers>
+                                    <MultiTrigger TargetType="Image">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.WrongAnswerIdx}" Value="0"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeWrong}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Image.Triggers>
+                            </Image>
+                        </Grid>
+                        <Grid Margin="0,0,0,16" HeightRequest="46">
+                            <Button x:Name="btnAnswer2" Text="{Binding ActiveSection.ActiveQuestion.Answers[1]}" BackgroundColor="White" TextColor="Black"
+                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="1"
+                                   Margin="23,0,0,0" Style="{StaticResource ButtonStyle}">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding ActiveSection.ActiveQuestion.SelectedAnswerIdx}" Value="1">
+                                        <Setter Property="BackgroundColor" Value="Gray"/>
+                                        <Setter Property="TextColor" Value="White"/>
+                                    </DataTrigger>
+                                    <MultiTrigger TargetType="Button">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="1"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeWrong}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="BackgroundColor" Value="Silver"/>
+                                    </MultiTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <Label Text="{Binding ActiveSection.ActiveQuestion.PointValue, StringFormat='+{0}'}" HorizontalOptions="End" VerticalOptions="Center"
+                                   TextColor="Yellow" FontAttributes="Bold" FontSize="18"
+                                   Margin="0,0,0,24" IsVisible="False">
+                                <Label.Triggers>
+                                    <MultiTrigger TargetType="Label">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="1"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeCorrect}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Image Source="correct.png" IsVisible="False" HorizontalOptions="Start">
+                                <Image.Triggers>
+                                    <MultiTrigger TargetType="Image">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="1"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeActive}" Value="False"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Image.Triggers>
+                            </Image>
+                            <Image Source="wrong.png" IsVisible="False" HorizontalOptions="Start">
+                                <Image.Triggers>
+                                    <MultiTrigger TargetType="Image">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.WrongAnswerIdx}" Value="1"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeWrong}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Image.Triggers>
+                            </Image>
+                        </Grid>
+                        <Grid Margin="0,0,0,16" HeightRequest="46">
+                            <Button x:Name="btnAnswer3" Text="{Binding ActiveSection.ActiveQuestion.Answers[2]}" BackgroundColor="White" TextColor="Black"
+                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="2"
+                                   Margin="23,0,0,0" Style="{StaticResource ButtonStyle}">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding ActiveSection.ActiveQuestion.SelectedAnswerIdx}" Value="2">
+                                        <Setter Property="BackgroundColor" Value="Gray"/>
+                                        <Setter Property="TextColor" Value="White"/>
+                                    </DataTrigger>
+                                    <MultiTrigger TargetType="Button">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="2"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeWrong}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="BackgroundColor" Value="Silver"/>
+                                    </MultiTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <Label Text="{Binding ActiveSection.ActiveQuestion.PointValue, StringFormat='+{0}'}" HorizontalOptions="End" VerticalOptions="Center"
+                                   TextColor="Yellow" FontAttributes="Bold" FontSize="18"
+                                   Margin="0,0,0,24" IsVisible="False">
+                                <Label.Triggers>
+                                    <MultiTrigger TargetType="Label">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="2"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeCorrect}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Image Source="correct.png" IsVisible="False" HorizontalOptions="Start">
+                                <Image.Triggers>
+                                    <MultiTrigger TargetType="Image">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="2"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeActive}" Value="False"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Image.Triggers>
+                            </Image>
+                            <Image Source="wrong.png" IsVisible="False" HorizontalOptions="Start">
+                                <Image.Triggers>
+                                    <MultiTrigger TargetType="Image">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.WrongAnswerIdx}" Value="2"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeWrong}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Image.Triggers>
+                            </Image>
+                        </Grid>
+                        <Grid Margin="0,0,0,16" HeightRequest="46">
+                            <Button x:Name="btnAnswer4" Text="{Binding ActiveSection.ActiveQuestion.Answers[3]}" BackgroundColor="White" TextColor="Black"
+                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="3"
+                                   Margin="23,0,0,0" Style="{StaticResource ButtonStyle}">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding ActiveSection.ActiveQuestion.SelectedAnswerIdx}" Value="3">
+                                        <Setter Property="BackgroundColor" Value="Gray"/>
+                                        <Setter Property="TextColor" Value="White"/>
+                                    </DataTrigger>
+                                    <MultiTrigger TargetType="Button">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="3"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeWrong}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="BackgroundColor" Value="Silver"/>
+                                    </MultiTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <Label Text="{Binding ActiveSection.ActiveQuestion.PointValue, StringFormat='+{0}'}" HorizontalOptions="End" VerticalOptions="Center"
+                                   TextColor="Yellow" FontAttributes="Bold" FontSize="18"
+                                   Margin="0,0,0,24" IsVisible="False">
+                                <Label.Triggers>
+                                    <MultiTrigger TargetType="Label">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="3"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeCorrect}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Image Source="correct.png" IsVisible="False" HorizontalOptions="Start">
+                                <Image.Triggers>
+                                    <MultiTrigger TargetType="Image">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.CorrectAnswerIdx}" Value="3"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeActive}" Value="False"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Image.Triggers>
+                            </Image>
+                            <Image Source="wrong.png" IsVisible="False" HorizontalOptions="Start">
+                                <Image.Triggers>
+                                    <MultiTrigger TargetType="Image">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.WrongAnswerIdx}" Value="3"/>
+                                            <BindingCondition Binding="{Binding ActiveSection.ActiveQuestion.QuestionModeWrong}" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="IsVisible" Value="True"/>
+                                    </MultiTrigger>
+                                </Image.Triggers>
+                            </Image>
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Start"
+                                 AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,1" Margin="0,0,0,12"
+                           IsVisible="{Binding ActiveSection.ActiveQuestion.QuestionModeActive, Converter={StaticResource cnvBoolInvert}}">
+                        <Label Text="view question stats" TextColor="Blue">
+                            
+                <!--<Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ViewStatsCommand}" />
+                            </Label.GestureRecognizers>-->
+                </Label>
+                </StackLayout>
+            </AbsoluteLayout>
+            </AbsoluteLayout>
+            <AbsoluteLayout Grid.Row="1" VerticalOptions="FillAndExpand">
+                <Button x:Name="btnContinue" Text="Continue" BorderRadius="0" BackgroundColor="Gray" TextColor="White"
+                    Command="{Binding ContinueCommand}" HeightRequest="46"
+                    AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="1,1,1,50"
+                       IsVisible="{Binding ActiveSection.ActiveQuestion.QuestionModeActive, Converter={StaticResource cnvBoolInvert}}"
+                         Style="{StaticResource ButtonStyle}"/>
+                <Grid AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="1,1,1,1" BackgroundColor="White"
+                       IsVisible="{Binding ActiveSection.ActiveQuestion.QuestionModeActive}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="powerup_replace.png" HorizontalOptions="End" VerticalOptions="Center"/>
+                    <Image Grid.Column="1" Source="powerup_time.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Image Grid.Column="2" Source="powerup_fewer.png" HorizontalOptions="Start" VerticalOptions="Center"/>
+                </Grid>
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

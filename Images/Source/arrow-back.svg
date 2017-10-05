@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow-back</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="multi-player-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.451256793">
+        <g id="Start-screen-menu" transform="translate(-22.000000, -43.000000)" fill="#000000">
+            <g id="Group-2" transform="translate(0.000000, 24.000000)">
+                <g id="arrow-back" transform="translate(22.000000, 19.000000)">
+                    <polygon id="Shape" points="16 7 3.8 7 9.4 1.4 8 0 0 8 8 16 9.4 14.6 3.8 9 16 9"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

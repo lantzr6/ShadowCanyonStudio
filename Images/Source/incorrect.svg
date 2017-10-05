@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="46px" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>incorrect</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="onboarding" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Question-Tutorial-Incorrect" transform="translate(-12.000000, -435.000000)">
+            <g id="incorrect" transform="translate(12.000000, 435.000000)">
+                <circle id="mask-copy" fill="#C20F25" cx="23" cy="23" r="23"></circle>
+                <polygon id="Shape" fill="#FFFFFF" points="31.05 16.56 29.44 14.95 23 21.39 16.56 14.95 14.95 16.56 21.39 23 14.95 29.44 16.56 31.05 23 24.61 29.44 31.05 31.05 29.44 24.61 23"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

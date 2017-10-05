@@ -1,0 +1,22 @@
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.dll.config
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.deps.json
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.dll
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.pdb
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.csproj.CoreCompileInputs.cache
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.App.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Controls.HeaderUserControl.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.CampaignPage.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.DashboardPage.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.LoginPage.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.MainPage.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.QuestionPage.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.QuestionStatusPage.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.SignUpPage.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.StartPage.xaml.g.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.AssemblyInfo.cs
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\Trivia Traverse.dll
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\Trivia Traverse.pdb
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.csprojResolveAssemblyReference.cache
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Mono.Android.dll
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Mono.Android.pdb
+C:\Data\Projects\Trivia\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Mono.Android.xml

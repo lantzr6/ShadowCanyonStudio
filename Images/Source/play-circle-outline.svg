@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>play-circle-outline</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="onboarding" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.414458786">
+        <g id="Tutorial-Qs-locked" transform="translate(-157.000000, -419.000000)" fill="#000000">
+            <g id="Group-11" transform="translate(10.000000, 341.000000)">
+                <g id="play-circle-outline" transform="translate(147.000000, 78.000000)">
+                    <path d="M19,35 L33,24 L19,13 L19,35 L19,35 Z M24,0 C10.8,0 0,10.8 0,24 C0,37.2 10.8,48 24,48 C37.2,48 48,37.2 48,24 C48,10.8 37.2,0 24,0 L24,0 Z M24,43 C13.55,43 5,34.45 5,24 C5,13.55 13.55,5 24,5 C34.45,5 43,13.55 43,24 C43,34.45 34.45,43 24,43 L24,43 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

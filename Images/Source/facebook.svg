@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="158px" height="48px" viewBox="0 0 158 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>facebook</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="158" height="48"></rect>
+    </defs>
+    <g id="onboarding" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Log-in" transform="translate(-15.000000, -235.000000)">
+            <g id="facebook" transform="translate(15.000000, 235.000000)">
+                <g id="Rectangle" opacity="0.14305933">
+                    <use fill="#000000" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="157" height="47"></rect>
+                </g>
+                <g id="post-facebook" transform="translate(14.000000, 9.000000)" fill="#FFFFFF">
+                    <path d="M27,0 L3,0 C1.35,0 0,1.35 0,3 L0,27 C0,28.65 1.35,30 3,30 L27,30 C28.65,30 30,28.65 30,27 L30,3 C30,1.35 28.65,0 27,0 L27,0 Z M25.5,3 L25.5,7.5 L22.5,7.5 C21.6,7.5 21,8.1 21,9 L21,12 L25.5,12 L25.5,16.5 L21,16.5 L21,27 L16.5,27 L16.5,16.5 L13.5,16.5 L13.5,12 L16.5,12 L16.5,8.25 C16.5,5.4 18.9,3 21.75,3 L25.5,3 L25.5,3 Z" id="Shape"></path>
+                </g>
+                <text id="Facebook" font-family="Roboto-Regular, Roboto" font-size="16" font-weight="normal" fill-opacity="0.259001359" fill="#000000">
+                    <tspan x="59" y="32">Facebook</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

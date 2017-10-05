@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TriviaTraverse.Views.StartPage"
+             Style="{StaticResource PageStyle}">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0"
+                    Android="0"
+                    WinPhone="0" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Label Text="TriviaTraverse!!" FontSize="40" FontAttributes="Bold" TextColor="Black"
+                    AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.25"/>
+                <Button x:Name="btnStartTutorial" Text="Play Now!" BorderRadius="0" BackgroundColor="Black"  TextColor="White" Command="{Binding StartTutorialCommand}"
+                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.75,.8,.1"/>
+                <Button x:Name="btnLogin" Text="Log In" BorderRadius="0" BackgroundColor="Silver" TextColor="Black" Command="{Binding LoginCommand}"
+                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1"/>
+            </AbsoluteLayout>
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
+                <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                       AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5, .5">
+                    <Label Text="Setting up Tutorial." HorizontalTextAlignment="Center" TextColor="White" FontAttributes="Bold"/>
+                    <Label Text="Please wait..." HorizontalTextAlignment="Center" TextColor="White" FontAttributes="Bold"/>
+                    <ActivityIndicator Color="White" IsRunning="{Binding IsBusy}"/>
+                </StackLayout>
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

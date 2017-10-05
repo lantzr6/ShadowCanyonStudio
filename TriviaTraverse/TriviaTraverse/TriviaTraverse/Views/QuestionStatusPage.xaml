@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TriviaTraverse.Views.QuestionStatusPage"
+             xmlns:converters="clr-namespace:TriviaTraverse.Converters"
+             xmlns:ctrls="clr-namespace:TriviaTraverse.Controls"
+             Style="{StaticResource PageStyle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="cnvBoolInvert"></converters:InverseBooleanConverter>
+            <converters:IntCompareToBooleanConverter x:Key="cnvIntCompareToBoolean"></converters:IntCompareToBooleanConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0"
+                    Android="0"
+                    WinPhone="0" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <ctrls:HeaderUserControl Grid.Row="0"/>
+                <AbsoluteLayout Grid.Row="1" VerticalOptions="Fill">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10"
+                                 BackgroundColor="Silver"
+                                 AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,0,1,60">
+                        <Image Source="steps_circle.png"/>
+                        <Label Text="{Binding PlayerObj.CurrentSteps, StringFormat='You have walked {0:#,###.} steps today!'}" TextColor="Black" VerticalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.Column="0"
+                                 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".2,.2,.6,.3"
+                                 IsVisible="{Binding IsVisible, Source={x:Reference imgUnlocked}}">
+                        <Label Text="Way to go!" TextColor="Black" FontSize="28" FontAttributes="Bold"/>
+                        <Label FontSize="18" TextColor="Black" LineBreakMode="WordWrap">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <!--Span Text="5" FontSize="28" FontAttributes="Bold"/-->
+                                    <Span Text="You have questions ready for you to answer!"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+                    <Image x:Name="imgUnlocked" Source="unlocked_lefthalf.png" Grid.Column="1"
+                          AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1,.2,60,120"
+                          IsVisible="{Binding PlayerObj.QuestionReady}">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding StartQuestionCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.Column="0"
+                                 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".2,.2,.6,.3"
+                                 IsVisible="{Binding IsVisible, Source={x:Reference imgLocked}}">
+                        <Label Text="Keep Walking!" TextColor="Black" FontSize="28" FontAttributes="Bold"/>
+                        <Label FontSize="18" TextColor="Black" LineBreakMode="WordWrap"
+                               FormattedText="{Binding StepsNeededFormattedText}"/>
+                    </StackLayout>
+                    <Image x:Name="imgLocked" Source="locked_lefthalf.png" Grid.Column="1"
+                          AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1,.2,60,120"
+                          IsVisible="{Binding PlayerObj.QuestionReady, Converter={StaticResource cnvBoolInvert}}"/>
+                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                                 Margin="50,40"
+                                 AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,1">
+                        <Label Text="{Binding ActiveSection.SectionName}" TextColor="Black" FontSize="22" FontAttributes="Bold"/>
+                        <Grid BackgroundColor="Gray" HorizontalOptions="FillAndExpand" HeightRequest="1"
+                              Margin="0,8"/>
+                        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="18">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding ActiveSection.QuestionProgress}" FontSize="18" FontAttributes="Bold" TextColor="Black" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalTextAlignment="End"/>
+                            <Label Text="Correct answers:" FontSize="18" TextColor="Gray" Grid.Row="1" Grid.Column="0" HorizontalTextAlignment="Start"/>
+                            <Label Text="{Binding ActiveSection.NumberCorrect}" FontSize="18" FontAttributes="Bold" TextColor="Black" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End"/>
+                            <Label Text="Stars earned:" FontSize="18" TextColor="Gray" Grid.Row="2" Grid.Column="0" HorizontalTextAlignment="Start"/>
+                            <Label Text="{Binding ActiveSection.EarnedStars}" FontSize="18" FontAttributes="Bold" TextColor="Black" Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End"/>
+                            <Label Text="Points earned:" FontSize="18" TextColor="Gray" Grid.Row="3" Grid.Column="0" HorizontalTextAlignment="Start"/>
+                            <Label Text="{Binding ActiveSection.EarnedPoints}" FontSize="18" FontAttributes="Bold" TextColor="Black" Grid.Row="3" Grid.Column="1" HorizontalTextAlignment="End"/>
+                        </Grid>
+                    </StackLayout>
+                </AbsoluteLayout>
+                <Button x:Name="btnAnswerQuestion" Grid.Row="2" Text="Answer Next Question" BorderRadius="0" BackgroundColor="Silver" TextColor="Black"
+                        Command="{Binding StartQuestionCommand}"
+                        AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1"
+                        IsEnabled="{Binding IsVisible, Source={x:Reference imgUnlocked}}"/>
+                <Button x:Name="btnContinue" Grid.Row="2" Text="Continue" BorderRadius="0" BackgroundColor="Silver" TextColor="Black"
+                        Command="{Binding ContinueCommand}"
+                        AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1"
+                        IsVisible="{Binding IsSectionComplete}"/>
+                <Button x:Name="btnSignUp" Grid.Row="2" Text="Sign Up to continue" BorderRadius="0" BackgroundColor="Silver" TextColor="Black"
+                        Command="{Binding ContinueCommand}"
+                        AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1"
+                        IsVisible="{Binding IsReadyForSignUp}"/>
+            </Grid>
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding PlayerObj.TutorialInfoLevel, Converter={StaticResource cnvIntCompareToBoolean}, ConverterParameter=1}">
+                <AbsoluteLayout BackgroundColor="{StaticResource TutorialBackgroundBrush}" Padding="10"
+                      AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,.6,1,100">
+                    <Label Text="It takes 1000 steps to unlock each question. The more you walk, the more questions you can answer."
+                           TextColor="White" FontSize="18" Margin="0,0,25,0" VerticalTextAlignment="Center"
+                           AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+                    <Image Source="close.png"
+                          AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds="1,0">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CloseTutorialStepCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </AbsoluteLayout>
+            </AbsoluteLayout>
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding PlayerObj.TutorialInfoLevel, Converter={StaticResource cnvIntCompareToBoolean}, ConverterParameter=2}">
+                <AbsoluteLayout BackgroundColor="{StaticResource TutorialBackgroundBrush}" Padding="10"
+                      AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,.25,1,120">
+                    <Label Text="Here are 5000 steps to complete the tutorial. They will appear in the STEP BANK. Enjoy, you will have to earn your steps from now on."
+                           TextColor="White" FontSize="18" Margin="0,0,25,0" VerticalTextAlignment="Center"
+                           AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+                    <Image Source="close.png"
+                          AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds="1,0">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CloseTutorialStepCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </AbsoluteLayout>
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>edit</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="multi-player-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Start-screen" transform="translate(-82.000000, -223.000000)">
+            <g id="edit" transform="translate(82.000000, 223.000000)">
+                <circle id="Oval-2" fill="#989595" cx="12.5" cy="12.5" r="12.5"></circle>
+                <g id="create" transform="translate(7.000000, 6.000000)" fill="#FFFFFF">
+                    <path d="M0,10.2555556 L0,13 L2.74444444,13 L10.6888889,4.98333333 L7.94444444,2.23888889 L0,10.2555556 L0,10.2555556 Z M12.7833333,2.88888889 C13.0722222,2.6 13.0722222,2.16666667 12.7833333,1.87777778 L11.1222222,0.216666667 C10.8333333,-0.0722222222 10.4,-0.0722222222 10.1111111,0.216666667 L8.81111111,1.51666667 L11.5555556,4.26111111 L12.7833333,2.88888889 L12.7833333,2.88888889 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TriviaTraverse.Views.CampaignPage" x:Name="CampaignPage"
+             xmlns:converters="clr-namespace:TriviaTraverse.Converters"
+             xmlns:ctrls="clr-namespace:TriviaTraverse.Controls"
+             Style="{StaticResource PageStyle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="cnvBoolInvert"></converters:InverseBooleanConverter>
+            <converters:SectionStatusImageConverter x:Key="cnvSectionStatusImage"></converters:SectionStatusImageConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0"
+                    Android="0"
+                    WinPhone="0" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <ctrls:HeaderUserControl Grid.Row="0"/>
+                <AbsoluteLayout Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <AbsoluteLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+                                 IsVisible="{Binding SelectCategoryNotVisible}">
+                        <Label Text="{Binding ActiveStage.StageLevel, StringFormat='Stage {0}'}" TextColor="Black" FontAttributes="Bold"
+                               AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,0"/>
+                        <Grid AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds=".1,.1,130,50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" Orientation="Vertical">
+                                <Label Text="{Binding ActiveStage.Sections[5].SectionName}" TextColor="Black"/>
+                                <Label Text="{Binding ActiveStage.Sections[5].EarnedStars}" TextColor="Black"/>
+                            </StackLayout>
+                            <Image Grid.Column="1" Source="{Binding ActiveStage.Sections[5].NumberAnswered, Converter={StaticResource cnvSectionStatusImage}}" HeightRequest="50" WidthRequest="50">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSectionCommand}" CommandParameter="2"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                        <Grid AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds=".9,.1,130,50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" Orientation="Vertical">
+                                <Label Text="{Binding ActiveStage.Sections[4].SectionName}" TextColor="Black"/>
+                                <Label Text="{Binding ActiveStage.Sections[4].EarnedStars}" TextColor="Black"/>
+                            </StackLayout>
+                            <Image Grid.Column="1" Source="{Binding ActiveStage.Sections[4].NumberAnswered, Converter={StaticResource cnvSectionStatusImage}}" HeightRequest="50" WidthRequest="50">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSectionCommand}" CommandParameter="3"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                        <Grid AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds=".1,.4,130,50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" Orientation="Vertical">
+                                <Label Text="{Binding ActiveStage.Sections[3].SectionName}" TextColor="Black"/>
+                                <Label Text="{Binding ActiveStage.Sections[3].EarnedStars}" TextColor="Black"/>
+                            </StackLayout>
+                            <Image Grid.Column="1" Source="{Binding ActiveStage.Sections[3].NumberAnswered, Converter={StaticResource cnvSectionStatusImage}}" HeightRequest="50" WidthRequest="50">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSectionCommand}" CommandParameter="0"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                        <Grid AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds=".9,.4,130,50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" Orientation="Vertical">
+                                <Label Text="{Binding ActiveStage.Sections[2].SectionName}" TextColor="Black"/>
+                                <Label Text="{Binding ActiveStage.Sections[2].EarnedStars}" TextColor="Black"/>
+                            </StackLayout>
+                            <Image Grid.Column="1" Source="{Binding ActiveStage.Sections[2].NumberAnswered, Converter={StaticResource cnvSectionStatusImage}}" HeightRequest="50" WidthRequest="50">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSectionCommand}" CommandParameter="1"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                        <Grid AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds=".1,.7,130,50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" Orientation="Vertical">
+                                <Label Text="{Binding ActiveStage.Sections[0].SectionName}" TextColor="Black"/>
+                                <Label Text="{Binding ActiveStage.Sections[0].EarnedStars}" TextColor="Black"/>
+                            </StackLayout>
+                            <Image Grid.Column="1" Source="{Binding ActiveStage.Sections[0].NumberAnswered, Converter={StaticResource cnvSectionStatusImage}}" HeightRequest="50" WidthRequest="50">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSectionCommand}" CommandParameter="0"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                        <Grid AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds=".9,.7,130,50">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" Orientation="Vertical">
+                                <Label Text="{Binding ActiveStage.Sections[1].SectionName}" TextColor="Black"/>
+                                <Label Text="{Binding ActiveStage.Sections[1].EarnedStars}" TextColor="Black"/>
+                            </StackLayout>
+                            <Image Grid.Column="1" Source="{Binding ActiveStage.Sections[1].NumberAnswered, Converter={StaticResource cnvSectionStatusImage}}" HeightRequest="50" WidthRequest="50">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSectionCommand}" CommandParameter="1"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </Grid>
+                        <Image Source="unlocked_righthalf.png" HeightRequest="50"
+                               AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0,.9">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding PreviousStageCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image x:Name="imgNextStage" HeightRequest="100"
+                               Source="locked_lefthalf.png"
+                               AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1,.9">
+                            <Image.Triggers>
+                                <DataTrigger TargetType="Image"
+                                                 Binding="{Binding IsNextStageUnlocked}" Value="True">
+                                    <Setter Property="Source" Value="unlocked_lefthalf.png"/>
+                                </DataTrigger>
+                            </Image.Triggers>
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NextStageCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </AbsoluteLayout>
+                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                                 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,.5,.3"
+                                 IsVisible="{Binding SelectCategoryVisible}">
+                        <Grid BackgroundColor="Gray">
+                            <ListView Header="Pick a Category" ItemsSource="{Binding CampaignObj.CategoryQueue}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextCell Text="{Binding CategoryName}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <!--<ListView.Behaviors>
+                                    <b:EventToCommandBehavior EventName="ItemTapped" 
+                                      Command="{Binding SelectCategoryCommand}"
+                                      EventArgsParameterPath="Item"/>
+                                </ListView.Behaviors>-->
+                            </ListView>
+                        </Grid>
+                    </StackLayout>
+                </AbsoluteLayout>
+                <AbsoluteLayout Grid.Row="2" VerticalOptions="FillAndExpand">
+                    <Grid AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="1,1,1,1" BackgroundColor="White"
+                       IsVisible="{Binding ActiveSection.ActiveQuestion.QuestionModeActive}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="powerup_replace.png" HorizontalOptions="End" VerticalOptions="Center"/>
+                        <Image Grid.Column="1" Source="powerup_time.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Image Grid.Column="2" Source="powerup_fewer.png" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    </Grid>
+                </AbsoluteLayout>
+            </Grid>
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator Color="White" IsRunning="{Binding IsBusy}"
+                                   AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
