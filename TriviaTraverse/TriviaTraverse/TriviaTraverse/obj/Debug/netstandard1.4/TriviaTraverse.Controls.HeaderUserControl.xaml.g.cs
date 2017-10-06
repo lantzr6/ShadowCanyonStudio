@@ -11,8 +11,8 @@
 namespace TriviaTraverse.Controls {
     
     
-    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Data\\Projects\\Trivia\\TriviaTraverse\\TriviaTraverse\\TriviaTraverse\\Controls\\Hea" +
-        "derUserControl.xaml")]
+    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Data\\ShadowCanyonStudio\\TriviaTraverse\\TriviaTraverse\\TriviaTraverse\\Controls\\" +
+        "HeaderUserControl.xaml")]
     public partial class HeaderUserControl : global::Xamarin.Forms.Grid {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]

@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TriviaTraverse.Views.SignUpPage"
              xmlns:converters="clr-namespace:TriviaTraverse.Converters"
-             xmlns:ctrls="clr-namespace:TriviaTraverse.Controls">
+             xmlns:ctrls="clr-namespace:TriviaTraverse.Controls"
+             xmlns:fb_ctrls="clr-namespace:TriviaTraverse.Facebook.Controls"
+             >
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:InverseBooleanConverter x:Key="cnvBoolInvert"></converters:InverseBooleanConverter>
@@ -27,12 +29,7 @@
                           AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.25"/>
                     <StackLayout Orientation="Vertical" VerticalOptions="Center"
                           AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.1">
-                        <Button Text="Google +" BackgroundColor="Red" HorizontalOptions="Center" WidthRequest="200"
-                                Command="{Binding LoginGoogleCommand}"/>
-                        <Button Text="Facebook" BackgroundColor="Blue" HorizontalOptions="Center" WidthRequest="200"
-                                Command="{Binding LoginFacebookCommand}"/>
-                        <ctrls:FacebookLoginButton Text="Login With Facebook" VerticalOptions="Start" 
-                                HorizontalOptions="FillAndExpand"></ctrls:FacebookLoginButton>
+                        <fb_ctrls:FacebookLoginButton Command="{Binding LoginFacebookCommand}" />
                     </StackLayout>
                     <StackLayout Orientation="Vertical" Grid.Row="1" HorizontalOptions="FillAndExpand"
                           AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" AbsoluteLayout.LayoutBounds=".5,1,.7,200">
@@ -47,6 +44,11 @@
                             IsVisible="True"/>
                 </Grid>
             </Grid>
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator Color="White" IsRunning="{Binding IsBusy}"
+                                   AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
+            </AbsoluteLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

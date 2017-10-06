@@ -11,8 +11,8 @@
 namespace TriviaTraverse.Views {
     
     
-    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Data\\Projects\\Trivia\\TriviaTraverse\\TriviaTraverse\\TriviaTraverse\\Views\\MainPa" +
-        "ge.xaml")]
+    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Data\\ShadowCanyonStudio\\TriviaTraverse\\TriviaTraverse\\TriviaTraverse\\Views\\Mai" +
+        "nPage.xaml")]
     public partial class MainPage : global::Xamarin.Forms.MasterDetailPage {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]

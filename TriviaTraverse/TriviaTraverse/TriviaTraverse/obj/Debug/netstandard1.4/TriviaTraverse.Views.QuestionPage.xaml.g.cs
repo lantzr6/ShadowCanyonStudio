@@ -11,8 +11,8 @@
 namespace TriviaTraverse.Views {
     
     
-    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Data\\Projects\\Trivia\\TriviaTraverse\\TriviaTraverse\\TriviaTraverse\\Views\\Questi" +
-        "onPage.xaml")]
+    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Data\\ShadowCanyonStudio\\TriviaTraverse\\TriviaTraverse\\TriviaTraverse\\Views\\Que" +
+        "stionPage.xaml")]
     public partial class QuestionPage : global::Xamarin.Forms.ContentPage {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]

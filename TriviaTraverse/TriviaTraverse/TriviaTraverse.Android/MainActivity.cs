@@ -7,15 +7,12 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using TriviaTraverse.Services;
-using Android.Gms.Auth.Api.SignIn;
-using Android.Gms.Common.Apis;
-using Android.Gms.Common;
-using Android.Gms.Auth.Api;
 using Xamarin.Forms;
 using Android.Content;
 using TriviaTraverse.Droid;
 using Android.Util;
-
+using Xamarin.Facebook;
+using Xamarin.Facebook.AppEvents;
 
 namespace TriviaTraverse.Droid
 {
@@ -34,8 +31,9 @@ namespace TriviaTraverse.Droid
             //GoogleService._context = this.ApplicationContext;
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            
 
-            global::Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, bundle);
+            //FacebookSdk.SdkInitialize(this.ApplicationContext);  //depricated - now auto initializes
 
             LoadApplication(new App());
         }

@@ -4,36 +4,17 @@
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.GET_ACCOUNTS" />
   <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <application android:label="Trivia Traverse" android:name="android.app.Application" android:allowBackup="true" android:debuggable="true">
-    <activity android:label="CustomUrlSchemeInterceptorActivity" android:launchMode="singleTop" android:noHistory="true" android:name="md54dcdbff2a0823650b18ef95cc6d21b89.CustomUrlSchemeInterceptorActivity">
-      <intent-filter android:autoVerify="true">
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <data android:path="/oauth2redirect" />
-        <data android:scheme="com.googleusercontent.apps.758281653246-64puivlpijhsekmqh1bnrebtmqp0l680" />
-        <data android:scheme="https://www.facebook.com/connect/login_success.html" />
-      </intent-filter>
-    </activity>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <application android:label="Trivia Traverse" android:name="android.app.Application" android:allowBackup="true" android:icon="@drawable/icon" android:debuggable="true">
+    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
     <activity android:configChanges="orientation|screenSize" android:icon="@drawable/icon" android:label="TriviaTraverse" android:theme="@style/MainTheme" android:name="md54dcdbff2a0823650b18ef95cc6d21b89.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:label="Web Authenticator" android:name="md581ea35436e69ff6296ba639950f061de.FormAuthenticatorActivity" />
-    <activity android:label="Web Authenticator" android:name="md581ea35436e69ff6296ba639950f061de.WebAuthenticatorActivity" />
-    <receiver android:name="md581ea35436e69ff6296ba639950f061de.CustomTabsActionsBroadcastReceiver" />
-    <activity android:label="@string/title_activity_webview" android:theme="@android:style/Theme.DeviceDefault" android:name="md581ea35436e69ff6296ba639950f061de.WebViewActivity" />
-    <activity android:label="Web Authenticator Native Broswer" android:launchMode="singleTop" android:name="md581ea35436e69ff6296ba639950f061de.WebAuthenticatorNativeBrowserActivity" />
-    <activity android:name="com.microsoft.windowsazure.mobileservices.authentication.RedirectUrlActivity" />
-    <activity android:label="Web Authenticator" android:name="md53c585be971e02235139fd1aef11fc0c1.FormAuthenticatorActivity" />
-    <activity android:label="Web Authenticator" android:name="md53c585be971e02235139fd1aef11fc0c1.WebAuthenticatorActivity" />
-    <activity android:label="@string/title_activity_webview" android:theme="@android:style/Theme.DeviceDefault" android:name="md53c585be971e02235139fd1aef11fc0c1.WebViewActivity" />
-    <activity android:label="Web Authenticator Native Broswer" android:launchMode="singleTop" android:noHistory="true" android:name="md53c585be971e02235139fd1aef11fc0c1.WebAuthenticatorNativeBrowserActivity" />
-    <receiver android:name="md53c585be971e02235139fd1aef11fc0c1.CustomTabsActionsBroadcastReceiver" />
+    <activity android:label="" android:name="md5fd2c0e70d55c24ebab8d3aee8c9b95a5.FacebookLoginActivity" />
     <service android:name="md59f70a99687498e7ba187118950981d26.KeepAliveService" />
     <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="2147483647" android:authorities="triviatraverse.com.mono.MonoRuntimeProvider.__mono_init__" />
     <!--suppress ExportedReceiver-->
@@ -43,11 +24,28 @@
         <category android:name="mono.android.intent.category.SEPPUKU.triviatraverse.com" />
       </intent-filter>
     </receiver>
-    <activity android:name=".signin.internal.SignInHubActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:excludeFromRecents="true" android:exported="false" />
-    <!--Service handling Google Sign-In user revocation. For apps that do not integrate with
-            Google Sign-In, this service will never be started.-->
-    <service android:name=".signin.RevocationBoundService" android:exported="true" android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" />
-    <activity android:name="com.google.android.gms.common.api.GoogleApiActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:exported="false" />
-    <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+    <activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:theme="@style/com_facebook_activity_theme" />
+    <activity android:name="com.facebook.CustomTabMainActivity" />
+    <!--
+         The initialization ContentProvider will call FacebookSdk.sdkInitialize automatically
+         with the application context. This config is merged in with the host app's manifest,
+         but there can only be one provider with the same authority activated at any given
+         point; so if the end user has two or more different apps that use Facebook SDK, only the
+         first one will be able to use the provider. To work around this problem, we use the
+         following placeholder in the authority to identify each host application as if it was
+         a completely different provider.
+        -->
+    <provider android:name="com.facebook.internal.FacebookInitProvider" android:authorities="triviatraverse.com.FacebookInitProvider" android:exported="false" />
   </application>
+  <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
+  <activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" />
+  <activity android:name="com.facebook.CustomTabActivity" android:exported="true">
+    <intent-filter>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <category android:name="android.intent.category.BROWSABLE" />
+      <data android:scheme="@string/fb_login_protocol_scheme" />
+    </intent-filter>
+  </activity>
+  <meta-data android:name="android.support.VERSION" android:value="25.3.1" />
 </manifest>
