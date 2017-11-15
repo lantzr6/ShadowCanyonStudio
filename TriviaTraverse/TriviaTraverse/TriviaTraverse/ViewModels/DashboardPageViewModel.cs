@@ -16,12 +16,23 @@ namespace TriviaTraverse.ViewModels
 
         #region "Properties"
 
-        public PlayerLocal PlayerObj
+        public Player PlayerObj
         {
             get { return App.PlayerObj; }
         }
 
-        public CampaignSection ActiveSection
+        private Dashboard _dashboardObj = new Dashboard();
+        public Dashboard DashboardObj
+        {
+            get { return _dashboardObj; } 
+            set
+            {
+                _dashboardObj = value;
+                RaisePropertyChanged(nameof(DashboardObj));
+            }
+        }
+
+        public GameSection ActiveSection
         {
             get
             {
@@ -39,21 +50,7 @@ namespace TriviaTraverse.ViewModels
 
         #region "Commands"
 
-        private ICommand _playCampaignCommand;
-        public ICommand PlayCampaignCommand =>
-            _playCampaignCommand ?? (_playCampaignCommand = new Command(PlayCampaign, CanPlayCampaign));
 
-        private bool CanPlayCampaign()
-        {
-            return true;
-        }
-
-        private void PlayCampaign()
-        {
-            App.GameMode = "Campaign";
-            Navigation.PushAsync(new CampaignPage());
-
-        }
 
         private ICommand _joinGameCommand;
         public ICommand JoinGameCommand =>
@@ -64,23 +61,24 @@ namespace TriviaTraverse.ViewModels
             return true;
         }
 
-        private void JoinGame()
+        private async void JoinGame()
         {
-            Application.Current.MainPage.DisplayAlert("TO DO", "Not implemented yet.", "OK");
+            VGame vGame = await WebApi.Instance.JoinNewGame(PlayerObj.PlayerId);
+            LoadDashboardGames();
         }
 
-        private ICommand _createGameCommand;
-        public ICommand CreateGameCommand =>
-            _createGameCommand ?? (_createGameCommand = new Command(CreateGame, CanCreateGame));
+        private ICommand _refreshCommand;
+        public ICommand RefreshCommand =>
+            _refreshCommand ?? (_refreshCommand = new Command(OnRefresh, CanRefresh));
 
-        private bool CanCreateGame()
+        private bool CanRefresh()
         {
             return true;
         }
 
-        private void CreateGame()
+        private void OnRefresh()
         {
-            Application.Current.MainPage.DisplayAlert("TO DO", "Not implemented yet.", "OK");
+            LoadDashboardGames();
         }
 
 
@@ -92,14 +90,57 @@ namespace TriviaTraverse.ViewModels
         {
             Navigation = _navigation;
 
+
+            //Navigation.PushModalAsync(new SignUpPage());
+
             if (PlayerObj.PlayerLevel < 1)  //not logged in and tutorial not complete
             {
                 Navigation.PushModalAsync(new StartPage());
+            }
+            else
+            {
+                LoadDashboardGames();
             }
             //else if (!PlayerObj.IsLoginActive)
             //{
             //    Navigation.PushModalAsync(new LoginPage());
             //}            
+        }
+
+        public void PlayCampaign(object value)
+        {
+            Campaign obj = (Campaign)value;
+            if (obj != null)
+            {
+                App.GameMode = GameMode.Campaign;
+                Navigation.PushAsync(new CampaignBoardPage());
+            }
+        }
+
+        public void PlayVGame(object value)
+        {
+            VGame obj = (VGame)value;
+            if (obj != null)
+            {
+                Navigation.PushAsync(new GameBoardPage(obj.VGameId));
+            }
+        }
+
+        public void LoadDashboardGames()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                IsBusy = true;
+
+                DashboardObj = await WebApi.Instance.GetDashboard(PlayerObj.PlayerId);
+
+                IsBusy = false;
+            });
+        }
+
+        public void ClearDashboard()
+        {
+            DashboardObj = new Dashboard();
         }
 
     }

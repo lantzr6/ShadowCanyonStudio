@@ -17,12 +17,40 @@ namespace TriviaTraverse.ViewModels
 
         #region "Properties"
 
-        public PlayerLocal PlayerObj
+        public bool UserHeaderVisible { get; set; }
+        public bool VGameHeaderVisible { get; set; }
+
+        public Player PlayerObj
         {
             get { return App.PlayerObj; }
         }
+        public VGame VGameObj
+        {
+            get { return App.VGameObj; }
+        }
 
-        public CampaignSection ActiveSection
+        public TutorialMessagesStatus TutorialObj
+        {
+            get { return App.TutorialObj; }
+            set
+            {
+                App.TutorialObj = value;
+                RaisePropertyChanged(nameof(TutorialOneIsVisable));
+                RaisePropertyChanged(nameof(TutorialTwoIsVisable));
+            }
+        }
+
+        public bool TutorialOneIsVisable
+        {
+            get { return TutorialObj.QuestionStatusOne == false; }
+        }
+
+        public bool TutorialTwoIsVisable
+        {
+            get { return TutorialObj.QuestionStatusOne == true && TutorialObj.QuestionStatusTwo == false && ActiveSection.SectionType == GameSectionType.CampaignTutorial; }
+        }
+
+        public GameSection ActiveSection
         {
             get
             {
@@ -33,6 +61,34 @@ namespace TriviaTraverse.ViewModels
                 App.ActiveSection = value;
                 RaisePropertyChanged(nameof(ActiveSection));
             }
+        }
+
+        public int StepsNeeded
+        {
+            get
+            {
+                int stepsNeeded = 0;
+                switch (ActiveSection.SectionType)
+                {
+                    case GameSectionType.Campaign:
+                        stepsNeeded = 1000 - PlayerObj.StepBank;
+                        break;
+                    case GameSectionType.CampaignTutorial:
+                        stepsNeeded = 1000 - PlayerObj.StepBank;
+                        break;
+                    case GameSectionType.VersusRegular:
+                        stepsNeeded = 1000 - VGameObj.PlayerGameSteps;
+                        break;
+                    case GameSectionType.VersusFirst:
+                        stepsNeeded = 0;
+                        break;
+                }
+                return stepsNeeded;
+            }
+        }
+        public bool QuestionReady
+        {
+            get { return (StepsNeeded <= 0); }
         }
 
         private bool _isSectionComplete = false;
@@ -68,7 +124,7 @@ namespace TriviaTraverse.ViewModels
                 return new FormattedString
                 {
                     Spans = {
-                        new Span { Text = PlayerObj.StepsNeeded.ToString(), FontAttributes=FontAttributes.Bold, FontSize=28 },
+                        new Span { Text = StepsNeeded.ToString(), FontAttributes=FontAttributes.Bold, FontSize=28 },
                         new Span { Text = " steps before your next question is unlocked", FontSize=18 } }
                 };
             }
@@ -77,25 +133,37 @@ namespace TriviaTraverse.ViewModels
         #endregion
 
         #region "Commands"
-        private ICommand _closeTutorialStepCommandCommand;
-        public ICommand CloseTutorialStepCommand =>
-            _closeTutorialStepCommandCommand ?? (_closeTutorialStepCommandCommand = new Command(CloseTutorialStep, CanCloseTutorialStep));
-        private bool CanCloseTutorialStep()
+        private ICommand _closeTutorialOneCommand;
+        public ICommand CloseTutorialOneCommand =>
+            _closeTutorialOneCommand ?? (_closeTutorialOneCommand = new Command(CloseTutorialOne, CanCloseTutorialOne));
+        private bool CanCloseTutorialOne()
         {
             return true;
         }
-        private void CloseTutorialStep()
+        private void CloseTutorialOne()
         {
-            switch (PlayerObj.TutorialInfoLevel)
-            {
-                case 1:
-                    PlayerObj.TutorialInfoLevel++;
-                    break;
-                case 2:
-                    PlayerObj.StepBank += 5000;
-                    PlayerObj.TutorialInfoLevel++;
-                    break;
-            }
+            TutorialObj.QuestionStatusOne = true;
+            RaisePropertyChanged(nameof(TutorialOneIsVisable));
+            RaisePropertyChanged(nameof(TutorialTwoIsVisable));
+            App.UpdateTutorialData();
+        }
+
+        private ICommand _closeTutorialTwoCommand;
+        public ICommand CloseTutorialTwoCommand =>
+            _closeTutorialTwoCommand ?? (_closeTutorialTwoCommand = new Command(CloseTutorialTwo, CanCloseTutorialTwo));
+        private bool CanCloseTutorialTwo()
+        {
+            return true;
+        }
+        private void CloseTutorialTwo()
+        {
+            PlayerObj.StepBank += 5000;
+            TutorialObj.QuestionStatusTwo = true;
+            RaisePropertyChanged(nameof(TutorialTwoIsVisable));
+            RaisePropertyChanged(nameof(QuestionReady));
+            RaisePropertyChanged(nameof(StepsNeeded));
+            App.UpdatePlayerData();
+            App.UpdateTutorialData();
         }
 
         private ICommand _startQuestionCommand;
@@ -104,14 +172,23 @@ namespace TriviaTraverse.ViewModels
 
         private bool CanStartQuestion()
         {
-            return PlayerObj.QuestionReady;
+            return QuestionReady;
         }
 
         private async void StartQuestion()
         {
             BuildCurrentQuestion();
             ActiveSection.ActiveQuestion.QuestionModeActive = true;
-            PlayerObj.StepBank -= 1000;
+            switch (ActiveSection.SectionType)
+            {
+                case GameSectionType.Campaign:
+                case GameSectionType.CampaignTutorial:
+                    PlayerObj.StepBank -= 1000;
+                    break;
+            }
+
+            App.UpdatePlayerData();
+
             await Navigation.PushModalAsync(new QuestionPage());
         }
 
@@ -126,12 +203,13 @@ namespace TriviaTraverse.ViewModels
         {
             if (PlayerObj.PlayerLevel > 0)  //logged in
             {
-                Navigation.PopAsync();
+                ActiveSection.NewlyComplete = true;
+                Navigation.PopModalAsync();
             }
             else
             {
-                PlayerObj.TutorialInfoLevel = 3;
-                Navigation.PushModalAsync(new SignUpPage());
+                //PlayerObj.TutorialInfoLevel = 3;
+                Navigation.PushModalAsync(new SignUpPage(SignUpPageMode.SignUpOnly));
             }
         }
 
@@ -146,6 +224,17 @@ namespace TriviaTraverse.ViewModels
 
         public void PageSetup()
         {
+            if (App.GameMode == GameMode.VGame)
+            {
+                UserHeaderVisible = false;
+                VGameHeaderVisible = true;
+            }
+            else
+            {
+                UserHeaderVisible = true;
+                VGameHeaderVisible = false;
+            }
+
             if (ActiveSection.IsComplete)
             {
                 IsSectionComplete = true;
@@ -163,7 +252,9 @@ namespace TriviaTraverse.ViewModels
                 IsSectionComplete = false;
                 IsReadyForSignUp = false;
             }
-            RaisePropertyChanged("StepsNeededFormattedText");
+            RaisePropertyChanged(nameof(StepsNeeded));
+            RaisePropertyChanged(nameof(QuestionReady));
+            RaisePropertyChanged(nameof(StepsNeededFormattedText));
         }
 
 
@@ -173,7 +264,9 @@ namespace TriviaTraverse.ViewModels
             CQ = new CurrentQuestion();
 
             Question SQ = null;
-            SQ = ActiveSection.Questions.Where(o => o.QuestionLevel == (ActiveSection.NumberAnswered + 1)).FirstOrDefault();
+            //SQ = ActiveSection.Questions.Where(o => o.QuestionLevel == (ActiveSection.NumberAnswered + 1)).FirstOrDefault();
+            SQ = ActiveSection.Questions.Skip(ActiveSection.NumberAnswered).Take(1).FirstOrDefault();
+            //SQ = ActiveSection.Questions.Where(o => string.IsNullOrEmpty(o.PlayerAnswer)).OrderByDescending(o => o.QuestionLevel).FirstOrDefault();
             CQ.CurrentCategoryName = SQ.CategoryName;
 
             CQ.BaseSectionCategoryQuestion = SQ;
@@ -189,7 +282,7 @@ namespace TriviaTraverse.ViewModels
             CQ.Answers = answers;
             CQ.CorrectAnswerIdx = answers.IndexOf(SQ.AnswerCorrect);
 
-            CQ.IsLocked = (PlayerObj.StepBank < 1000);
+            CQ.IsLocked = (!QuestionReady);
             ActiveSection.ActiveQuestion = CQ;
         }
 

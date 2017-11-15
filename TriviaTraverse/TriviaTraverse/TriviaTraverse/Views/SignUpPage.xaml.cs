@@ -8,11 +8,11 @@ namespace TriviaTraverse.Views
         private SignUpPageViewModel vm;
 
 
-        public SignUpPage()
+        public SignUpPage(SignUpPageMode pageMode)
         {
             InitializeComponent();
 
-            vm = new SignUpPageViewModel(Navigation);
+            vm = new SignUpPageViewModel(Navigation, pageMode);
             this.BindingContext = vm;
         }
 

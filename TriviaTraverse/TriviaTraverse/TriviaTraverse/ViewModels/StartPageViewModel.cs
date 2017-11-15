@@ -15,7 +15,10 @@ namespace TriviaTraverse.ViewModels
     public class StartPageViewModel : ViewModelBase
     {
 
-        public PlayerLocal PlayerObj
+        #region "Properties"
+
+
+        public Player PlayerObj
         {
             get { return App.PlayerObj; }
         }
@@ -31,10 +34,9 @@ namespace TriviaTraverse.ViewModels
         }
 
 
-        public StartPageViewModel(INavigation _navigation)
-        {
-            Navigation = _navigation;
-        }
+        #endregion
+
+        #region "Commands"
 
         private ICommand _startTutorialCommand;
         public ICommand StartTutorialCommand =>
@@ -50,15 +52,18 @@ namespace TriviaTraverse.ViewModels
             Device.BeginInvokeOnMainThread(async () =>
             {
                 IsBusy = true;
-                if (Settings.UserPlayer.PlayerId == -1)
+
+                if (PlayerObj.PlayerId <= 0)
                 {
-                    Player player = await (GetNewTempPlayer());
+                    CampaignObj = null;
+                    App.TutorialObj = null;
+
+                    Player player = await WebApi.Instance.GetNewTempPlayerAsync();
                     PlayerObj.PlayerId = player.PlayerId;
                     PlayerObj.UserName = player.UserName;
                     PlayerObj.EmailAddr = player.EmailAddr;
                     PlayerObj.Password = player.Password;
                     PlayerObj.PlayerLevel = player.PlayerLevel;
-                    PlayerObj.TutorialInfoLevel = 1;
                 }
 
                 if (CampaignObj == null)
@@ -70,29 +75,24 @@ namespace TriviaTraverse.ViewModels
 
                 App.ActiveSection = ActiveStage.Sections[0];
                 int sectionId = ActiveStage.Sections[0].CampaignSectionId;
+                int campaignId = CampaignObj.PlayerCampaignId;
 
-                CampaignSection returnSection = await (GetSection(sectionId));
+                GameSection returnSection = await (GetSection(sectionId, PlayerObj.PlayerId, campaignId));
                 App.ActiveSection.Questions = returnSection.Questions;
 
-                App.GameMode = "Tutorial";
+                App.GameMode = GameMode.Tutorial;
                 await Navigation.PushModalAsync(new QuestionStatusPage());
                 IsBusy = false;
             });
 
         }
+        #endregion
 
-        public async Task<Player> GetNewTempPlayer()
+        public StartPageViewModel(INavigation _navigation)
         {
-            Player player;
-            player = await WebApi.Instance.GetNewTempPlayerAsync();
-            return player;
+            Navigation = _navigation;
         }
-        public async Task<CampaignSection> GetTutorial()
-        {
-            CampaignSection section;
-            section = await WebApi.Instance.GetTutorialAsync();
-            return section;
-        }
+
 
         private ICommand _loginCommand;
         public ICommand LoginCommand =>
@@ -103,15 +103,15 @@ namespace TriviaTraverse.ViewModels
             return true;
         }
 
-        private async void Login()
+        private void Login()
         {
-            await Navigation.PushModalAsync(new LoginPage());
+            Navigation.PushModalAsync(new SignUpPage(SignUpPageMode.Login));
         }
 
-        public async Task<CampaignSection> GetSection(int sectionId)
+        public async Task<GameSection> GetSection(int sectionId, int playerId,  int playerCampaignId)
         {
-            CampaignSection section;
-            section = await WebApi.Instance.GetSectionAsync(sectionId);
+            GameSection section;
+            section = await WebApi.Instance.GetSectionAsync(sectionId, playerId, playerCampaignId, false);
             return section;
         }
     }

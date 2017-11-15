@@ -9,31 +9,30 @@ using TriviaTraverse.Models;
 using TriviaTraverse.Views;
 using Xamarin.Forms;
 using static TriviaTraverse.Helpers.Settings;
+using TriviaTraverse.Facebook.Objects;
 
 namespace TriviaTraverse.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        INavigation Navigation;
-
-        public AuthenticationService(INavigation _navigation)
+        public AuthenticationService()
         {
-            Navigation = _navigation;
         }
 
-        public bool Login(string email, string password)
+        public async Task<Player> LoginAsync(string email, string password)
         {
-            if (password.Equals("trivia", StringComparison.OrdinalIgnoreCase))
-            {
-                App.PlayerObj.EmailAddr = email;
-                //Settings.IsLoginActive = true;
-                return true;
-            }
+            Player data = new Player();
+            data.UserName = "";
+            data.EmailAddr = email;
+            data.Password = password;
 
-            return false;
+            //Player isValid = await WebApi.Instance.GetAccountAsync(data);
+            data = await WebApi.Instance.GetAccountAsync(email, password);
+
+            return data;
         }
 
-        public async void UpdateAccountAsync()
+        public async Task UpdateAccountAsync()
         {
             Player data = new Player();
             data.PlayerId = App.PlayerObj.PlayerId;
@@ -41,7 +40,6 @@ namespace TriviaTraverse.Services
             data.EmailAddr = App.PlayerObj.EmailAddr;
             data.Password = App.PlayerObj.Password;
             data.PlayerLevel = App.PlayerObj.PlayerLevel;
-            data.TutorialInfoLevel = App.PlayerObj.TutorialInfoLevel;
             data.CurrentSteps = App.PlayerObj.CurrentSteps;
             data.StepBank = App.PlayerObj.StepBank;
             data.Coins = App.PlayerObj.Coins;
@@ -52,25 +50,33 @@ namespace TriviaTraverse.Services
 
         }
 
-        public void Logout()
+        public async void Logout()
         {
-            PlayerLocal data = App.PlayerObj;
-            data.PlayerId = -1;
-            data.UserName = string.Empty;
-            data.Password = string.Empty;
-            data.EmailAddr = string.Empty;
-            data.Coins = 0;
-            data.CurrentSteps = 0;
-            data.PlayerLevel = -1;
-            data.Points = 0;
-            data.Stars = 0;
-            data.StepBank = 0;
-            data.TutorialInfoLevel = -1;
+            App.PlayerObj.PlayerId = 0;
+            App.PlayerObj.UserName = string.Empty;
+            App.PlayerObj.Password = string.Empty;
+            App.PlayerObj.EmailAddr = string.Empty;
+            App.PlayerObj.Coins = 0;
+            App.PlayerObj.CurrentSteps = 0;
+            App.PlayerObj.PlayerLevel = -1;
+            App.PlayerObj.Points = 0;
+            App.PlayerObj.Stars = 0;
+            App.PlayerObj.StepBank = 0;
 
             App.CampaignObj = null;
+            App.TutorialObj = null;
+            App.VGameObj = null;
 
-            
-            Navigation.PushModalAsync(new LoginPage());
+            if (FbAccessToken.Current != null)
+            {
+                await FbAccessToken.Current.Clear();
+            }
+
+            Settings.AuthToken = "";
+            Settings.AuthTokenExpire = DateTime.MinValue;
+
+            App.ActiveSection = null;
+
         }
     }
 }

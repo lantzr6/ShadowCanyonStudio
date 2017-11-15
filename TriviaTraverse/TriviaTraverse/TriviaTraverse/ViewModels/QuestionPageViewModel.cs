@@ -15,7 +15,7 @@ namespace TriviaTraverse.ViewModels
 
         #region "Properties"
 
-        public PlayerLocal PlayerObj
+        public Player PlayerObj
         {
             get { return App.PlayerObj; }
         }
@@ -45,7 +45,7 @@ namespace TriviaTraverse.ViewModels
 
             }
         }
-        public CampaignSection ActiveSection
+        public GameSection ActiveSection
         {
             get
             {
@@ -58,6 +58,14 @@ namespace TriviaTraverse.ViewModels
             }
         }
 
+        public bool IsNotAnswered
+        {
+            get
+            {
+                return ActiveSection.ActiveQuestion.SelectedAnswerIdx == null;
+            }
+        }
+
 
         #endregion
 
@@ -66,12 +74,10 @@ namespace TriviaTraverse.ViewModels
         private ICommand _answerQuestionCommand;
         public ICommand AnswerQuestionCommand =>
             _answerQuestionCommand ?? (_answerQuestionCommand = new Command<string>(AnswerQuestion, CanAnswerQuestion));
-
         private bool CanAnswerQuestion(string parm)
         {
             return true;
         }
-
         private void AnswerQuestion(string parm)
         {
             AnswerQuestion(int.Parse(parm));
@@ -80,31 +86,13 @@ namespace TriviaTraverse.ViewModels
         private ICommand _continueCommand;
         public ICommand ContinueCommand =>
             _continueCommand ?? (_continueCommand = new Command(Continue, CanContinue));
-
         private bool CanContinue()
         {
             return true;
         }
-
         private async void Continue()
         {
             Countdown.ResetUpdating();  //reset now so the progress bar resets
-            //if (ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.QuestionLevel == ActiveSection.LastQuestionLevel)
-            //{
-            //    if (!Settings.TutorialIsComplete) { Settings.TutorialIsComplete = true; }
-            //    await _navigationService.NavigateAsync("/SectionCompletePage");
-            //}
-            //else
-            //{
-            //if (App.GameMode == "Campaign")
-            //{
-            //    await _navigationService.NavigateAsync("/Master/Navigation/DashboardPage/CampaignPage/QuestionStatusPage");
-            //}
-            //else
-            //{
-            //    await _navigationService.NavigateAsync("/StartPage/QuestionStatusPage",);
-            //}
-            //}
 
             await Navigation.PopModalAsync();
         }
@@ -112,17 +100,31 @@ namespace TriviaTraverse.ViewModels
         private ICommand _viewStatsCommand;
         public ICommand ViewStatsCommand =>
             _viewStatsCommand ?? (_viewStatsCommand = new Command(ViewStats, CanViewStats));
-
         private bool CanViewStats()
         {
             return true;
         }
-
         private void ViewStats()
         {
             /// view stats page
         }
 
+
+        private ICommand _powerUpMoreTimeCommand;
+        public ICommand PowerUpMoreTimeCommand =>
+            _powerUpMoreTimeCommand ?? (_powerUpMoreTimeCommand = new Command(OnPowerUpMoreTime, CanPowerUpMoreTime));
+        private bool CanPowerUpMoreTime()
+        {
+            return (PlayerObj.Coins >= 100);
+        }
+        private void OnPowerUpMoreTime()
+        {
+            Countdown.ResetSuccess += delegate
+            {
+                PlayerObj.Coins -= 100;
+            };
+            Countdown.ResetTime();
+        }
         #endregion
 
         public QuestionPageViewModel(INavigation _navigation)
@@ -130,14 +132,14 @@ namespace TriviaTraverse.ViewModels
             Navigation = _navigation;
 
             Countdown = new Countdown();
-            Countdown.StartUpdating(10, .25);
+            Countdown.StartUpdating(10, .01);
             Countdown.Completed += delegate
             {
                 CountdownExpired();
             };
         }
 
-        private void CountdownExpired()
+        public void CountdownExpired()
         {
             Countdown.StopUpdating();
             AnswerQuestion(-1);
@@ -145,7 +147,7 @@ namespace TriviaTraverse.ViewModels
 
         public async void AnswerQuestion(int answerIdx)
         {
-            if (ActiveSection.ActiveQuestion.SelectedAnswerIdx == -1 || answerIdx == -1) //only run if not answered yet or manually set by timeout
+            if (ActiveSection.ActiveQuestion.SelectedAnswerIdx is null || answerIdx == -1) //only run if not answered yet or manually set by timeout
             {
                 IsBusy = true;
                 Countdown.StopUpdating();
@@ -155,13 +157,10 @@ namespace TriviaTraverse.ViewModels
                 int curQuestionLevel = ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.QuestionLevel;
 
                 ActiveSection.ActiveQuestion.SelectedAnswerIdx = answerIdx;
-                //CurrentQuestion.BaseGameCategoryQuestion.PlayerAnswer = answer;
-                //CurrentQuestion.BaseGameCategoryQuestion.PointsRewarded = (curQuestionLevel * 100);
 
                 ActiveSection.NumberAnswered++;
                 if (answerIdx == ActiveSection.ActiveQuestion.CorrectAnswerIdx)
                 {
-                    //await App.MainPage.DisplayAlert("Result", "Correct !!", "OK");
                     ActiveSection.EarnedPoints += (curQuestionLevel * 100);
                     pointsRewarded = (curQuestionLevel * 100);
                     PlayerObj.Points += pointsRewarded;
@@ -174,11 +173,6 @@ namespace TriviaTraverse.ViewModels
                 {
                     ActiveSection.ActiveQuestion.WrongAnswerIdx = answerIdx;
                 }
-                //else
-                //{
-                //    await App.MainPage.DisplayAlert("Result", "Wrong :(", "OK");
-                //}
-                //CurrentQuestion.BaseGameCategoryQuestion.PointsRewarded = newPoints;
 
                 if (isCorrect)
                 {
@@ -189,20 +183,39 @@ namespace TriviaTraverse.ViewModels
                     ActiveSection.ActiveQuestion.QuestionModeWrong = true;
                 }
 
-                //update database
-
-                
-                PlayerQuestionResult inObj = new PlayerQuestionResult();
-                inObj.QuestionId = ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.QuestionId;
-                inObj.PlayerId = PlayerObj.PlayerId;
-                inObj.PlayerAnswerText = ActiveSection.ActiveQuestion.Answers[answerIdx];
-                inObj.IsCorrect = isCorrect;
-                inObj.PointsRewarded = pointsRewarded;
-                var retval = await WebApi.Instance.PostQuestionResults(inObj);
-                IsBusy = false;
-
                 //update bindings
                 RaisePropertyChanged(nameof(ActiveSection));
+                RaisePropertyChanged(nameof(IsNotAnswered));
+
+                //update database - combine this later - TODO
+                if (App.GameMode == GameMode.Campaign || App.GameMode == GameMode.Tutorial)
+                {
+                    PlayerQuestionResult inObj = new PlayerQuestionResult();
+                    inObj.QuestionId = ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.QuestionId;
+                    inObj.PlayerId = PlayerObj.PlayerId;
+                    inObj.PlayerAnswerText = (answerIdx > 0 ? ActiveSection.ActiveQuestion.Answers[answerIdx] : "");
+                    inObj.IsCorrect = isCorrect;
+                    inObj.PointsRewarded = pointsRewarded;
+                    var retval = await WebApi.Instance.PostCampaignQuestionResults(inObj);
+
+                    App.CampaignObj = App.CampaignObj; // ?????
+                }
+                else
+                {
+                    App.VGameObj.PlayerScore += pointsRewarded;
+
+                    PlayerVGameQuestionResult inObj = new PlayerVGameQuestionResult();
+                    inObj.QuestionId = ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.QuestionId;
+                    inObj.PlayerId = PlayerObj.PlayerId;
+                    inObj.PlayerAnswerText = (answerIdx > 0 ? ActiveSection.ActiveQuestion.Answers[answerIdx] : "");
+                    inObj.IsCorrect = isCorrect;
+                    inObj.PointsRewarded = pointsRewarded;
+                    inObj.VGameId = App.VGameObj.VGameId; //only difference - combine later
+                    var retval = await WebApi.Instance.PostVGameQuestionResults(inObj);
+                }
+                IsBusy = false;
+
+
             }
         }
 

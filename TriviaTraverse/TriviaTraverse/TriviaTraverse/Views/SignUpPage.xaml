@@ -5,7 +5,7 @@
              xmlns:converters="clr-namespace:TriviaTraverse.Converters"
              xmlns:ctrls="clr-namespace:TriviaTraverse.Controls"
              xmlns:fb_ctrls="clr-namespace:TriviaTraverse.Facebook.Controls"
-             >
+             Style="{StaticResource PageStyle}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:InverseBooleanConverter x:Key="cnvBoolInvert"></converters:InverseBooleanConverter>
@@ -19,31 +19,22 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <Label Text="TriviaTraverse!!" FontSize="40" FontAttributes="Bold" TextColor="Black"
-                          AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.25"/>
-                    <StackLayout Orientation="Vertical" VerticalOptions="Center"
-                          AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.1">
-                        <fb_ctrls:FacebookLoginButton Command="{Binding LoginFacebookCommand}" />
-                    </StackLayout>
-                    <StackLayout Orientation="Vertical" Grid.Row="1" HorizontalOptions="FillAndExpand"
-                          AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" AbsoluteLayout.LayoutBounds=".5,1,.7,200">
-                        <Entry Text="{Binding NewUserName}" Placeholder="username" VerticalOptions="EndAndExpand" />
-                        <Entry Text="{Binding NewEmailAddr}" Placeholder="email" VerticalOptions="EndAndExpand" />
-                        <Entry Text="{Binding NewPassword}" IsPassword="true" Placeholder="password" VerticalOptions="StartAndExpand" />
-                    </StackLayout>
-                </AbsoluteLayout>
-                <Grid VerticalOptions="FillAndExpand" Grid.Row="1">
-                    <Button Text="Create Account" BorderRadius="0" BackgroundColor="Gray" TextColor="Black"
+            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Image Source="logo.png" HeightRequest="100" HorizontalOptions="Center" Margin="0,30"/>
+                <StackLayout Orientation="Vertical" HorizontalOptions="Center" Margin="20,30">
+                    <fb_ctrls:FacebookLoginButton Command="{Binding LoginFacebookCommand}"/>
+                    <Label Text="We'll never post anything without your permission." TextColor="LightGray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                </StackLayout>
+                <Button Text="Log in with email" BorderRadius="0" BackgroundColor="White" TextColor="Black"
+                            Command="{Binding SignInCommand}"
+                            IsVisible="{Binding IsLoginAvailable}" Margin="20,30, 20, 12" Style="{StaticResource ButtonStyle}"/>
+                <Button Text="Sign up with email" BorderRadius="0" BackgroundColor="White" TextColor="Black"
                             Command="{Binding SignUpCommand}"
-                            IsVisible="True"/>
-                </Grid>
-            </Grid>
+                            IsVisible="True" Margin="20,0,20,0" Style="{StaticResource ButtonStyle}"/>
+
+                <Label Text="By signing up, you agree to our terms of use, privacy policy, and cookie policy."
+                       TextColor="LightGray" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="20,0,20,0"/>
+            </StackLayout>
             <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                   BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
                 <ActivityIndicator Color="White" IsRunning="{Binding IsBusy}"

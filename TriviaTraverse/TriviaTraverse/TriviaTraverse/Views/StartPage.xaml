@@ -12,12 +12,12 @@
     <ContentPage.Content>
         <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <Label Text="TriviaTraverse!!" FontSize="40" FontAttributes="Bold" TextColor="Black"
+                <Image Source="logo.png" HeightRequest="100" HorizontalOptions="Center"
                     AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.25"/>
-                <Button x:Name="btnStartTutorial" Text="Play Now!" BorderRadius="0" BackgroundColor="Black"  TextColor="White" Command="{Binding StartTutorialCommand}"
-                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.75,.8,.1"/>
+                <Button x:Name="btnStartTutorial" Text="Play Now!" BorderRadius="0" BackgroundColor="Orange" TextColor="White" Command="{Binding StartTutorialCommand}"
+                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.75,.8,.1" Style="{StaticResource ButtonStyle}"/>
                 <Button x:Name="btnLogin" Text="Log In" BorderRadius="0" BackgroundColor="Silver" TextColor="Black" Command="{Binding LoginCommand}"
-                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1"/>
+                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1" Style="{StaticResource ButtonStyle}"/>
             </AbsoluteLayout>
             <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                   BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">

@@ -18,8 +18,8 @@ namespace TriviaTraverse.Api
         public static WebApi Instance { get; } = new WebApi();
 
         //Our base API url
-        static string _baseUrl { get { return "https://triviamobileapi20170617041221.azurewebsites.net/api/"; } }
-        //static string _baseUrl { get { return "http://192.168.0.5:57579/api/"; } }
+        //static string _baseUrl { get { return "https://triviamobileapi20170617041221.azurewebsites.net/api/"; } }
+        static string _baseUrl { get { return "http://192.168.0.5:57579/api/"; } }
 
         public HttpClient CreateClient()
         {
@@ -47,13 +47,13 @@ namespace TriviaTraverse.Api
                     // Build up the data to POST.
                     List<KeyValuePair<string, string>> postData = new List<KeyValuePair<string, string>>();
                     postData.Add(new KeyValuePair<string, string>("grant_type", "password"));
-                    postData.Add(new KeyValuePair<string, string>("username", App.PlayerObj.UserName));
+                    postData.Add(new KeyValuePair<string, string>("username", App.PlayerObj.EmailAddr));
                     postData.Add(new KeyValuePair<string, string>("password", App.PlayerObj.Password));
 
                     FormUrlEncodedContent content = new FormUrlEncodedContent(postData);
 
                     // Post to the Server and parse the response.
-                    HttpResponseMessage response = await httpClient.PostAsync("Token", content);
+                    var response = await httpClient.PostAsync("Token", content);
                     string jsonString = await response.Content.ReadAsStringAsync();
                     object responseData = JsonConvert.DeserializeObject(jsonString);
 
@@ -98,23 +98,23 @@ namespace TriviaTraverse.Api
             return player;
         }
 
-        public async Task<CampaignSection> GetTutorialAsync()
+        public async Task<GameSection> GetTutorialAsync(int playerId)
         {
-            CampaignSection tutorial = null;
+            GameSection tutorial = null;
             try
             {
-                //if (Settings.AuthTokenExpire < DateTime.Now)
-                //{
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
                     await GetAuthToken();
-                //}
-                var url = _baseUrl + string.Format("Start/GetTutorial/?player = " + Settings.UserPlayer.PlayerId.ToString());
+                }
+                var url = _baseUrl + string.Format("Start/GetTutorial/?player = " + playerId.ToString());
                 using (var httpClient = CreateClient())
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
                     var result = await httpClient.GetAsync(url);
                     var responseText = await result.Content.ReadAsStringAsync();
 
-                    tutorial = JsonConvert.DeserializeObject<CampaignSection>(responseText);
+                    tutorial = JsonConvert.DeserializeObject<GameSection>(responseText);
                 }
             }
             catch (Exception ex)
@@ -124,23 +124,30 @@ namespace TriviaTraverse.Api
             return tutorial;
         }
 
-        public async Task<CampaignSection> GetSectionAsync(int sectionId)
+        public async Task<GameSection> GetSectionAsync(int sectionId, int playerId, int playerCampaignId, bool retry)
         {
-            CampaignSection section = null;
+            GameSection section = null;
             try
             {
                 if (Settings.AuthTokenExpire < DateTime.Now)
                 {
                     await GetAuthToken();
                 }
-                var url = _baseUrl + "Start/GetSection/?id=" + sectionId.ToString() + "&player=" + Settings.UserPlayer.PlayerId.ToString();
+                var url = _baseUrl + "Start/GetSection/?id=" + sectionId.ToString() + "&player=" + playerId.ToString() + "&pcId=" + playerCampaignId.ToString() + "&retry=" + retry;
                 using (var httpClient = CreateClient())
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
                     var result = await httpClient.GetAsync(url);
+                    if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await GetAuthToken();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                        result = await httpClient.GetAsync(url);
+                    }
                     var responseText = await result.Content.ReadAsStringAsync();
 
-                    section = JsonConvert.DeserializeObject<CampaignSection>(responseText);
+                    section = JsonConvert.DeserializeObject<GameSection>(responseText);
                 }
             }
             catch (Exception ex)
@@ -148,6 +155,28 @@ namespace TriviaTraverse.Api
                 Debug.WriteLine("Problem " + ex.Message);
             }
             return section;
+        }
+
+
+        public async Task<Player> GetAccountAsync(string emailaddress, string password)
+        {
+            Player retVal = null;
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("getting account");
+                string url = _baseUrl + string.Format("Account/GetAccount?email={0}&password={1}",emailaddress, password);
+                HttpClient httpClient = CreateClient();
+                HttpResponseMessage result = await httpClient.GetAsync(url);
+                    string responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = JsonConvert.DeserializeObject<Player>(responseText);
+                    System.Diagnostics.Debug.WriteLine("finished getting: " + retVal);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            return retVal;
         }
 
         public async Task<string> UpdateAccountAsync(Player inObj)
@@ -175,11 +204,11 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("Account Updated");
             return retVal;
         }
 
-
-        public async Task<string> PostQuestionResults(PlayerQuestionResult inObj)
+        public async Task<string> UpdateTutorialMessageStatusAsync(TutorialMessagesStatus inObj)
         {
             string retVal = "";
             try
@@ -188,7 +217,103 @@ namespace TriviaTraverse.Api
                 {
                     await GetAuthToken();
                 }
-                var url = _baseUrl + "Question/SaveResult";
+                var url = _baseUrl + string.Format("Start/UpdateTutorialMessageStatus");
+                using (var httpClient = CreateClient())
+                {
+                    var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(inObj));
+                    var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+                    var result = await httpClient.PostAsync(url, httpContent);
+                    var responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = responseText;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            Debug.WriteLine("Tutorial Updated");
+            return retVal;
+        }
+        
+        public async Task<VGame> UpdateVGameAsync(VGamePlayerUpdate inObj)
+        {
+            VGame retVal = null;
+            try
+            {
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
+                    await GetAuthToken();
+                }
+                var url = _baseUrl + "Game/UpdateVGamePlayer";
+                using (var httpClient = CreateClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+
+                    var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(inObj));
+                    var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+                    var result = await httpClient.PostAsync(url, httpContent);
+                    if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await GetAuthToken();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                        result = await httpClient.PostAsync(url, httpContent);
+                    }
+                    var responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = JsonConvert.DeserializeObject<VGame>(responseText);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            return retVal;
+        }
+
+
+        public async Task<string> PostCampaignQuestionResults(PlayerQuestionResult inObj)
+        {
+            string retVal = "";
+            try
+            {
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
+                    await GetAuthToken();
+                }
+                var url = _baseUrl + "Question/UpdateCampaignQuestionResult";
+                using (var httpClient = CreateClient())
+                {
+                    var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(inObj));
+                    var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                    var result = await httpClient.PostAsync(url, httpContent);
+                    var responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = responseText;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            return retVal;
+        }
+
+        public async Task<string> PostVGameQuestionResults(PlayerVGameQuestionResult inObj)
+        {
+            string retVal = "";
+            try
+            {
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
+                    await GetAuthToken();
+                }
+                var url = _baseUrl + "Question/UpdateVGameQuestionResult";
                 using (var httpClient = CreateClient())
                 {
                     var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(inObj));
@@ -217,13 +342,20 @@ namespace TriviaTraverse.Api
                 {
                     await GetAuthToken();
                 }
-                var url = _baseUrl + "Campaign/Retrieve/?playerid="+playerid.ToString();
+                var url = _baseUrl + "Campaign/Retrieve/?playerid=" + playerid.ToString();
                 using (var httpClient = CreateClient())
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
 
-                    var result = await httpClient.GetAsync(url);
-                    var responseText = await result.Content.ReadAsStringAsync();
+                    HttpResponseMessage result = await httpClient.GetAsync(url);
+                    if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await GetAuthToken();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                        result = await httpClient.GetAsync(url);
+                    }
+                    string responseText = await result.Content.ReadAsStringAsync();
 
                     retVal = JsonConvert.DeserializeObject<Campaign>(responseText);
                 }
@@ -234,6 +366,181 @@ namespace TriviaTraverse.Api
             }
             return retVal;
         }
+
+        public async Task<Dashboard> GetDashboard(int playerid)
+        {
+            Dashboard retVal = null;
+            try
+            {
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
+                    await GetAuthToken();
+                }
+                var url = _baseUrl + "Dashboard/GetGames/?playerid=" + playerid.ToString();
+                using (var httpClient = CreateClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+
+                    HttpResponseMessage result = await httpClient.GetAsync(url);
+                    if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await GetAuthToken();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                        result = await httpClient.GetAsync(url);
+                    }
+                    string responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = JsonConvert.DeserializeObject<Dashboard>(responseText);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            return retVal;
+        }
+
+        public async Task<VGame> JoinNewGame(int playerid)
+        {
+            VGame retVal = null;
+            try
+            {
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
+                    await GetAuthToken();
+                }
+                var url = _baseUrl + "Game/JoinNewGame/?playerid=" + playerid.ToString();
+                using (var httpClient = CreateClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+
+                    HttpResponseMessage result = await httpClient.GetAsync(url);
+                    if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await GetAuthToken();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                        result = await httpClient.GetAsync(url);
+                    }
+                    string responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = JsonConvert.DeserializeObject<VGame>(responseText);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            return retVal;
+        }
+
+        public async Task<VGame> GetGame(int vgameid, int playerid)
+        {
+            VGame retVal = null;
+            try
+            {
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
+                    await GetAuthToken();
+                }
+                var url = _baseUrl + string.Format("Game/GetGame/?vgameid={0}&playerid={1}", vgameid, playerid);
+                using (var httpClient = CreateClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+
+                    HttpResponseMessage result = await httpClient.GetAsync(url);
+                    if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await GetAuthToken();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                        result = await httpClient.GetAsync(url);
+                    }
+                    string responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = JsonConvert.DeserializeObject<VGame>(responseText);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            return retVal;
+        }
+
+        public async Task<VGame> StartGame(int vgameid, int playerid)
+        {
+            VGame retVal = null;
+            try
+            {
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
+                    await GetAuthToken();
+                }
+                var url = _baseUrl + string.Format("Game/StartGame/?vgameid={0}&playerid={1}", vgameid, playerid);
+                using (var httpClient = CreateClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+
+                    HttpResponseMessage result = await httpClient.GetAsync(url);
+                    if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await GetAuthToken();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                        result = await httpClient.GetAsync(url);
+                    }
+                    string responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = JsonConvert.DeserializeObject<VGame>(responseText);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            return retVal;
+        }
+
+        public async Task<VGame> PostSelectedCategories(VGameSelectedCategories inObj)
+        {
+            VGame retVal = null;
+            try
+            {
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
+                    await GetAuthToken();
+                }
+                var url = _baseUrl + "Game/PostSelectedCategories";
+                using (var httpClient = CreateClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+
+                    var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(inObj));
+                    var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+                    var result = await httpClient.PostAsync(url, httpContent);
+                    if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await GetAuthToken();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                        result = await httpClient.PostAsync(url, httpContent);
+                    }
+                    var responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = JsonConvert.DeserializeObject<VGame>(responseText);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            return retVal;
+        }
+
+
 
         public async Task<NewCampaignStageReturn> PostNextCampaignCategory(NewCampaignStageInfo inObj)
         {
@@ -253,6 +560,13 @@ namespace TriviaTraverse.Api
                     var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
 
                     var result = await httpClient.PostAsync(url, httpContent);
+                    if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    {
+                        await GetAuthToken();
+                        httpClient.DefaultRequestHeaders.Clear();
+                        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
+                        result = await httpClient.PostAsync(url, httpContent);
+                    }
                     var responseText = await result.Content.ReadAsStringAsync();
 
                     retVal = JsonConvert.DeserializeObject<NewCampaignStageReturn>(responseText);

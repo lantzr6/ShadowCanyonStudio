@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TriviaTraverse.Views.SignUpDataPage"
+             xmlns:converters="clr-namespace:TriviaTraverse.Converters"
+             xmlns:ctrls="clr-namespace:TriviaTraverse.Controls"
+             xmlns:fb_ctrls="clr-namespace:TriviaTraverse.Facebook.Controls"
+             Style="{StaticResource PageStyle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="cnvBoolInvert"></converters:InverseBooleanConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0"
+                    Android="0"
+                    WinPhone="0" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Vertical" Grid.Row="1" HorizontalOptions="FillAndExpand">
+                    <Entry Text="{Binding NewUserName}" Placeholder="username" VerticalOptions="EndAndExpand" />
+                    <Entry Text="{Binding NewEmailAddr}" Placeholder="email adress" VerticalOptions="EndAndExpand" />
+                    <Entry Text="{Binding NewPassword}" IsPassword="true" Placeholder="password (minimum 6 characters)" VerticalOptions="StartAndExpand" />
+                </StackLayout>
+                <Button Text="Sign up" BorderRadius="0" BackgroundColor="Orange" TextColor="White"
+                            Command="{Binding SignUpCommand}"
+                            IsVisible="True" Margin="20,30, 20, 12" Style="{StaticResource ButtonStyle}"/>
+                <Label Text="By signing up, you agree to our terms of use, privacy policy, and cookie policy."
+                       TextColor="LightGray" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="20,0,20,0"/>
+            </StackLayout>
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator Color="White" IsRunning="{Binding IsBusy}"
+                                   AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

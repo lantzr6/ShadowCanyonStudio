@@ -4,10 +4,11 @@
              x:Class="TriviaTraverse.Views.DashboardPage"
              xmlns:converters="clr-namespace:TriviaTraverse.Converters"
              xmlns:ctrls="clr-namespace:TriviaTraverse.Controls"
+             xmlns:b="clr-namespace:TriviaTraverse.Behaviors"
              Style="{StaticResource PageStyleDashboard}">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:InverseBooleanConverter x:Key="cnvBoolInvert"></converters:InverseBooleanConverter>
+            <converters:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Padding>
@@ -27,13 +28,12 @@
                 <ctrls:HeaderUserControl Grid.Row="0"/>
                 <StackLayout Orientation="Vertical" Grid.Row="1" VerticalOptions="Fill">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10"
-                                 BackgroundColor="Silver"
-                                 AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,0,1,60">
+                                 BackgroundColor="Silver">
                         <Image Source="steps_circle.png"/>
                         <Label Text="{Binding PlayerObj.CurrentSteps, StringFormat='You have walked {0:N} steps today!'}" TextColor="Black" VerticalOptions="Center"/>
                     </StackLayout>
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                                 Margin="50,20">
+                                 Margin="20,4">
                         <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
                             <Grid VerticalOptions="Center" HorizontalOptions="Center">
                                 <Image Source="avatar.png"/>
@@ -45,27 +45,39 @@
                                 <Label Text="Experience Points: ????" TextColor="Black"/>
                             </StackLayout>
                         </StackLayout>
-                        <Button Text="Campaign" Command="{Binding PlayCampaignCommand}"/>
-                        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                                     Margin="0,20,0,0">
-                            <Label Text="RECENT CHALLENGES" TextColor="Gray"/>
-                            <ListView/>
-                        </StackLayout>
+                        <Label Text="Campaigns" TextColor="Gray"/>
+                        <ListView x:Name="lstCampaigns" ItemsSource="{Binding DashboardObj.Campaigns}" BackgroundColor="LightGray" VerticalOptions="Start">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextCell Text="{Binding PlayerCampaignId}" TextColor="Black"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Label Text="RECENT CHALLENGES" TextColor="Gray"/>
+                        <ListView x:Name="lstVGames" ItemsSource="{Binding DashboardObj.VGames}" BackgroundColor="LightGray" VerticalOptions="Start">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextCell Text="{Binding GameName}" TextColor="Black"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackLayout>
                 </StackLayout>
                 <Grid VerticalOptions="FillAndExpand" Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Text="Join Game" BorderRadius="0" BackgroundColor="Gray" TextColor="Black"
+                    <Button Grid.Column="0" Text="Join Versus Game" BorderRadius="0" BackgroundColor="Gray" TextColor="Black"
                             Command="{Binding JoinGameCommand}"
-                            IsVisible="True"/>
-                    <Button Grid.Column="1" Text="Start New Game" BorderRadius="0" BackgroundColor="Gray" TextColor="Black"
-                            Command="{Binding CreateGameCommand}"
                             IsVisible="True"/>
                 </Grid>
             </Grid>
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
+                <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                       AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5, .5">
+                    <Label Text="Retrieving Games." HorizontalTextAlignment="Center" TextColor="White" FontAttributes="Bold"/>
+                    <Label Text="Please wait..." HorizontalTextAlignment="Center" TextColor="White" FontAttributes="Bold"/>
+                    <ActivityIndicator Color="White" IsRunning="{Binding IsBusy}"/>
+                </StackLayout>
+            </AbsoluteLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

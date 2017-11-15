@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:TriviaTraverse.Converters"
-             x:Class="TriviaTraverse.Views.QuestionPage">
+             x:Class="TriviaTraverse.Views.QuestionPage"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             Style="{StaticResource PageStyle}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:InverseBooleanConverter x:Key="cnvBoolInvert"></converters:InverseBooleanConverter>
@@ -22,15 +24,10 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
             <AbsoluteLayout x:Name="mL" Grid.Row="0" VerticalOptions="Fill">
-                <BoxView x:Name="TimerBackground" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                         BackgroundColor="Pink"
-                      AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
-                <!--<Image x:Name="TimerBackground" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                       Source="timerbackground.png"
-                      AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>-->
-                <BoxView x:Name="TimerScale" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                              BackgroundColor="White"
-                      AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="{Binding Countdown.RemainTime, Converter={StaticResource cnvCountDown}}"/>
+                <skia:SKCanvasView x:Name="canvasView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                                   AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+                                   PaintSurface="canvasView_PaintSurface"/>
+
                 <Grid HorizontalOptions="FillAndExpand" BackgroundColor="Silver"
                       AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds=".5,0,1,30">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
@@ -45,6 +42,7 @@
                                  Margin="30">
                         <Image Source="" IsVisible="False"/>
                         <Label Text="{Binding ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.Text}" TextColor="Black" FontAttributes="Bold" FontSize="18"/>
+                        <Label Text="{Binding ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.QuestionId}" TextColor="Black" FontAttributes="Italic" FontSize="10"/>
                     </StackLayout>
                 </Grid>
                 <AbsoluteLayout AbsoluteLayout.LayoutFlags="All"  AbsoluteLayout.LayoutBounds=".5,1,1,.55">
@@ -53,7 +51,7 @@
                                  AbsoluteLayout.LayoutFlags="All"  AbsoluteLayout.LayoutBounds="0,0,1,1">
                         <Grid Margin="0,0,0,16" HeightRequest="46">
                             <Button x:Name="btnAnswer1" Text="{Binding ActiveSection.ActiveQuestion.Answers[0]}" BackgroundColor="White" TextColor="Black"
-                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="0"
+                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="0" IsEnabled="{Binding IsNotAnswered}"
                                    Margin="23,0,0,0" Style="{StaticResource ButtonStyle}">
                                 <Button.Triggers>
                                     <DataTrigger TargetType="Button"
@@ -108,7 +106,7 @@
                         </Grid>
                         <Grid Margin="0,0,0,16" HeightRequest="46">
                             <Button x:Name="btnAnswer2" Text="{Binding ActiveSection.ActiveQuestion.Answers[1]}" BackgroundColor="White" TextColor="Black"
-                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="1"
+                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="1" IsEnabled="{Binding IsNotAnswered}"
                                    Margin="23,0,0,0" Style="{StaticResource ButtonStyle}">
                                 <Button.Triggers>
                                     <DataTrigger TargetType="Button"
@@ -163,7 +161,7 @@
                         </Grid>
                         <Grid Margin="0,0,0,16" HeightRequest="46">
                             <Button x:Name="btnAnswer3" Text="{Binding ActiveSection.ActiveQuestion.Answers[2]}" BackgroundColor="White" TextColor="Black"
-                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="2"
+                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="2" IsEnabled="{Binding IsNotAnswered}"
                                    Margin="23,0,0,0" Style="{StaticResource ButtonStyle}">
                                 <Button.Triggers>
                                     <DataTrigger TargetType="Button"
@@ -218,7 +216,7 @@
                         </Grid>
                         <Grid Margin="0,0,0,16" HeightRequest="46">
                             <Button x:Name="btnAnswer4" Text="{Binding ActiveSection.ActiveQuestion.Answers[3]}" BackgroundColor="White" TextColor="Black"
-                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="3"
+                                    Command="{Binding AnswerQuestionCommand}" CommandParameter="3" IsEnabled="{Binding IsNotAnswered}"
                                    Margin="23,0,0,0" Style="{StaticResource ButtonStyle}">
                                 <Button.Triggers>
                                     <DataTrigger TargetType="Button"
@@ -271,6 +269,7 @@
                                 </Image.Triggers>
                             </Image>
                         </Grid>
+                        <Label Text="{Binding Countdown.RemainTime}" TextColor="Black" FontSize="Default"/>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Start"
                                  AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,1" Margin="0,0,0,12"
@@ -298,7 +297,16 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Source="powerup_replace.png" HorizontalOptions="End" VerticalOptions="Center"/>
-                    <Image Grid.Column="1" Source="powerup_time.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <BoxView Grid.Column="1" BackgroundColor="Black" HorizontalOptions="Center" VerticalOptions="Center">
+                        <BoxView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PowerUpMoreTimeCommand}"/>
+                        </BoxView.GestureRecognizers>
+                    </BoxView>
+                    <!--<Image Grid.Column="1" Source="powerup_time.png" BackgroundColor="Black" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PowerUpMoreTimeCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>-->
                     <Image Grid.Column="2" Source="powerup_fewer.png" HorizontalOptions="Start" VerticalOptions="Center"/>
                 </Grid>
             </AbsoluteLayout>

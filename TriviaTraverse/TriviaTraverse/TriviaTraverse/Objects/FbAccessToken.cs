@@ -54,7 +54,8 @@ namespace TriviaTraverse.Facebook.Objects
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("No access token found: " + e.InnerException.Message);
+                string msg = e.InnerException != null ? e.InnerException.Message : e.Message;
+                System.Diagnostics.Debug.WriteLine("No access token found: " + msg);
                 return null;
             }
 

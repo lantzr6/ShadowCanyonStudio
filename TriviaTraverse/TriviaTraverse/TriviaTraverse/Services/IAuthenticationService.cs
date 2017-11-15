@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TriviaTraverse.Models;
 
 namespace TriviaTraverse.Services
 {
     public interface IAuthenticationService
     {
-        bool Login(string email, string password);
+        Task<Player> LoginAsync(string email, string password);
 
-        void UpdateAccountAsync();
+        Task UpdateAccountAsync();
 
         void Logout();
     }

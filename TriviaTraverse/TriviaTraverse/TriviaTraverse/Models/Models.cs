@@ -16,60 +16,298 @@ namespace TriviaTraverse.Models
         Complete
     }
 
-    public class UserData
+    public enum GameSectionType
     {
-        private bool _isLoginActive;
-        public bool IsLoginActive
-        {
-            get { return _isLoginActive; }
-            set
-            {
-                if (_isLoginActive != value)
-                {
-                    _isLoginActive = value;
-                    Settings.UserDataStorage = this;
-                }
-            }
-        }
-
-        private int _campaignStageLevel;
-        public int CampaignStageLevel
-        {
-            get { return _campaignStageLevel; }
-            set
-            {
-                if (_campaignStageLevel != value)
-                {
-                    _campaignStageLevel = value;
-                    Settings.UserDataStorage = this;
-                }
-            }
-        }
-
-
+        Campaign,
+        CampaignTutorial,
+        VersusFirst,
+        VersusRegular
     }
 
+    public enum GameMode
+    {
+        Campaign,
+        VGame,
+        Tutorial
+    }
+
+    //public class UserData
+    //{
+
+    //    private bool _isLoginActive;
+    //    public bool IsLoginActive
+    //    {
+    //        get { return _isLoginActive; }
+    //        set
+    //        {
+    //            if (_isLoginActive != value)
+    //            {
+    //                _isLoginActive = value;
+    //                Settings.UserDataStorage = this;
+    //            }
+    //        }
+    //    }
+
+    //    private int _campaignStageLevel;
+    //    public int CampaignStageLevel
+    //    {
+    //        get { return _campaignStageLevel; }
+    //        set
+    //        {
+    //            if (_campaignStageLevel != value)
+    //            {
+    //                _campaignStageLevel = value;
+    //                Settings.UserDataStorage = this;
+    //            }
+    //        }
+    //    }
 
 
-    public class Player
+    //}
+
+
+
+    public class Player : INotifyPropertyChanged
     {
         public int PlayerId { get; set; }
-        public string UserName { get; set; }
-        public string EmailAddr { get; set; }
-        public string Password { get; set; }
-        public int PlayerLevel { get; set; }
-        public int TutorialInfoLevel { get; set; }
-        public int CurrentSteps { get; set; }
-        public int StepBank { get; set; }
-        public int Coins { get; set; }
-        public int Stars { get; set; }
-        public int Points { get; set; }
+        private string _userName;
+        public string UserName
+        {
+            get { return _userName; }
+            set
+            {
+                if (_userName != value)
+                {
+                    _userName = value;
+                    RaisePropertyChanged(nameof(UserName));
+                }
+            }
+        }
+        private string _emailAddr;
+        public string EmailAddr
+        {
+            get { return _emailAddr; }
+            set
+            {
+                if (_emailAddr != value)
+                {
+                    _emailAddr = value;
+                    RaisePropertyChanged(nameof(EmailAddr));
+                }
+            }
+        }
+        private bool _fbLogin;
+        public bool FbLogin
+        {
+            get { return _fbLogin; }
+            set
+            {
+                if (_fbLogin != value)
+                {
+                    _fbLogin = value;
+                    RaisePropertyChanged(nameof(FbLogin));
+                }
+            }
+        }
+        private string _password;
+        public string Password
+        {
+            get { return _password; }
+            set
+            {
+                if (_password != value)
+                {
+                    _password = value;
+                    RaisePropertyChanged(nameof(Password));
+                }
+            }
+        }
+        private int _playerLevel;
+        public int PlayerLevel
+        {
+            get { return _playerLevel; }
+            set
+            {
+                if (_playerLevel != value)
+                {
+                    _playerLevel = value;
+                    RaisePropertyChanged(nameof(PlayerLevel));
+                }
+            }
+        }
+        private int _currentSteps;
+        public int CurrentSteps
+        {
+            get { return _currentSteps; }
+            set
+            {
+                if (_currentSteps != value)
+                {
+                    _currentSteps = value;
+                    RaisePropertyChanged(nameof(CurrentSteps));
+                }
+            }
+        }
+        private int _stepBank;
+        public int StepBank
+        {
+            get { return _stepBank; }
+            set
+            {
+                if (_stepBank != value)
+                {
+                    _stepBank = value;
+                    RaisePropertyChanged(nameof(StepBank));
+                }
+            }
+        }
+        private int _coins;
+        public int Coins
+        {
+            get { return _coins; }
+            set
+            {
+                if (_coins != value)
+                {
+                    _coins = value;
+                    RaisePropertyChanged(nameof(Coins));
+                }
+            }
+        }
+        private int _stars;
+        public int Stars
+        {
+            get { return _stars; }
+            set
+            {
+                if (_stars != value)
+                {
+                    _stars = value;
+                    RaisePropertyChanged(nameof(Stars));
+                }
+            }
+        }
+        private int _points;
+        public int Points
+        {
+            get { return _points; }
+            set
+            {
+                if (_points != value)
+                {
+                    _points = value;
+                    RaisePropertyChanged(nameof(Points));
+                }
+            }
+        }
+
+
+        #region INotifyPropertyChanged implementation
+
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Raises the property changed event.
+        /// </summary>
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
     }
 
-
-    public class Dashboard
+    public class TutorialMessagesStatus : INotifyPropertyChanged
     {
-        public List<Game> ActiveGames { get; set; }
+        public bool QuestionStatusOne { get; set; }
+        public bool QuestionStatusTwo { get; set; }
+
+        public bool CampaignSectionNewlyComplete { get; set; }
+        public bool CampaignStageNewlyUnlocked { get; set; }
+        public bool CampaignStageBonus { get; set; }
+
+        public TutorialMessagesStatus()
+        {
+            QuestionStatusOne = false;
+            QuestionStatusTwo = false;
+            CampaignSectionNewlyComplete = false;
+            CampaignStageNewlyUnlocked = false;
+            CampaignStageBonus = false;
+        }
+
+        #region INotifyPropertyChanged implementation
+
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Raises the property changed event.
+        /// </summary>
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
+    }
+
+    public class Dashboard : INotifyPropertyChanged
+    {
+        private List<Campaign> _campaigns;
+        public List<Campaign> Campaigns
+        {
+            get { return _campaigns; }
+            set
+            {
+                _campaigns = value;
+                RaisePropertyChanged(nameof(Campaign));
+            }
+        }
+        private List<VGame> _vGames;
+        public List<VGame> VGames
+        {
+            get { return _vGames; }
+            set
+            {
+                _vGames = value;
+                RaisePropertyChanged(nameof(VGames));
+            }
+        }
+
+
+        #region INotifyPropertyChanged implementation
+
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Raises the property changed event.
+        /// </summary>
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
     }
 
     public class SelectableItemWrapper<T>
@@ -150,14 +388,14 @@ namespace TriviaTraverse.Models
         public List<string> Answers { get; set; }  //randomized
         public int CorrectAnswerIdx { get; set; }
         public int WrongAnswerIdx { get; set; }
-        public int SelectedAnswerIdx { get; set; }
+        public int? SelectedAnswerIdx { get; set; }
         public string SelectedAnswerValue
         {
             get
             {
                 if (SelectedAnswerIdx > -1 && (SelectedAnswerIdx < Answers.Count - 1))
                 {
-                    return Answers[SelectedAnswerIdx];
+                    return Answers[SelectedAnswerIdx.Value];
                 }
                 else
                 {
@@ -167,7 +405,7 @@ namespace TriviaTraverse.Models
         }
         public CurrentQuestion()
         {
-            SelectedAnswerIdx = -1;
+            //SelectedAnswerIdx = -1;
             CorrectAnswerIdx = -1;
             WrongAnswerIdx = -1;
         }
@@ -249,7 +487,7 @@ namespace TriviaTraverse.Models
         #endregion
     }
 
-    public class CampaignSection : INotifyPropertyChanged
+    public class GameSection : INotifyPropertyChanged
     {
         public int CampaignSectionId { get; set; }
         public List<Question> Questions { get; set; }
@@ -271,6 +509,22 @@ namespace TriviaTraverse.Models
             get
             {
                 return (NumberAnswered >= NumberOfQuestions);  //should never by greater than, but just incase
+            }
+        }
+        private bool _newlyComplete = false;
+        public bool NewlyComplete
+        {
+            get
+            {
+                return _newlyComplete;
+            }
+            set
+            {
+                if (_newlyComplete != value)
+                {
+                    _newlyComplete = value;
+                    RaisePropertyChanged(nameof(NewlyComplete));
+                }
             }
         }
 
@@ -375,6 +629,33 @@ namespace TriviaTraverse.Models
                 RaisePropertyChanged(nameof(EarnedCoins));
             }
         }
+        GameSectionType _sectionType;
+        public GameSectionType SectionType
+        {
+            get
+            {
+                return _sectionType;
+            }
+            set
+            {
+                _sectionType = value;
+                RaisePropertyChanged(nameof(SectionType));
+            }
+        }
+
+        public GameSection() { }
+        public GameSection(VGameCategory vcat)
+        {
+            this.SectionType = GameSectionType.VersusRegular;
+            this.Questions = vcat.Questions;
+            this.SectionName = vcat.CategoryName;
+            this.NumberOfQuestions = 5;
+            this.NumberAnswered = 0;
+            this.NumberCorrect = 0;
+            this.EarnedStars = 0;
+            this.EarnedPoints = 0;
+            this.EarnedCoins = 0;
+        }
 
         #region INotifyPropertyChanged implementation
 
@@ -397,23 +678,6 @@ namespace TriviaTraverse.Models
 
         #endregion
     }
-
-    //public class CampaignSection
-    //{
-    //    public int CampaignSectionId { get; set; }
-    //    public string SectionName { get; set; }
-    //    public IList<SectionQuestion> SectionQuestions { get; set; }
-    //    public int NumberOfQuestions { get; set; }
-    //    public int NumberAnswered { get; set; }
-    //    public int EarnedStars { get; set; }
-    //    public int EarnedPoints { get; set; }
-    //}
-
-    //public class SectionQuestion
-    //{
-    //    public string CategoryName { get; set; }
-    //    public SectionCategoryQuestion SectionCategoryQuestion { get; set; }
-    //}
 
     public class Campaign
     {
@@ -453,6 +717,13 @@ namespace TriviaTraverse.Models
         public string AnswerWrong3 { get; set; }
         public string PlayerAnswer { get; set; }
         public int PointsRewarded { get; set; }
+        public bool PlayerCorrect
+        {
+            get
+            {
+                return (PlayerAnswer == AnswerCorrect);
+            }
+        }
     }
 
     public class PlayerQuestionResult
@@ -464,13 +735,29 @@ namespace TriviaTraverse.Models
         public bool IsCorrect { get; set; }
         public int PointsRewarded { get; set; }
     }
+    public class PlayerVGameQuestionResult
+    {
+        public int PlayerQuestionResultId { get; set; }
+        public int PlayerId { get; set; }
+        public int QuestionId { get; set; }
+        public string PlayerAnswerText { get; set; }
+        public bool IsCorrect { get; set; }
+        public int PointsRewarded { get; set; }
+        public int VGameId { get; set; }
+    }
+    public class VGamePlayerUpdate
+    {
+        public int VGameId { get; set; }
+        public int PlayerId { get; set; }
+        public int GameSteps { get; set; }
+    }
 
     public class CampaignStageCategory
     {
         public int CampaignStageCategoryId { get; set; }
         public int StageLevel { get; set; }
         public int StarsRequired { get; set; }
-        public IList<CampaignSection> Sections { get; set; }
+        public IList<GameSection> Sections { get; set; }
         public bool IsUnLocked
         {
             get
@@ -478,8 +765,6 @@ namespace TriviaTraverse.Models
                 return (App.PlayerObj.Stars >= StarsRequired);
             }
         }
-        
-
     }
 
     public class NewCampaignStageInfo
@@ -488,6 +773,7 @@ namespace TriviaTraverse.Models
         public int CampaignCategoryId { get; set; }
         public int StageLevel { get; set; }
     }
+
     public class NewCampaignStageReturn
     {
         public CampaignStageCategory NewStage { get; set; }
@@ -500,12 +786,79 @@ namespace TriviaTraverse.Models
         public string CategoryName { get; set; }
     }
 
+    public class VGame : INotifyPropertyChanged
+    {
+        public int VGameId { get; set; }
+        public string GameName { get; set; }
+        public string GameTypeName { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public int PlayerMax { get; set; }
+        public int PlayerGameSteps { get; set; }
+        public int PlayerScore { get; set; }
 
+        public int TotalPlayers { get { return VGamePlayers.Count; } }
 
+        public IList<VGamePlayer> VGamePlayers { get; set; }
+        public IList<GameSection> Sections { get; set; }
+        public IList<VGameCategory> CategoryQueue { get; set; }
 
+        #region INotifyPropertyChanged implementation
 
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Raises the property changed event.
+        /// </summary>
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
+        #endregion
+    }
+
+    public class VGameSelectedCategories
+    {
+        public int PlayerId { get; set; }
+        public int VGameId { get; set; }
+        public IList<VGameCategory> SelectedCategories { get; set; }
+
+        public VGameSelectedCategories()
+        {
+            this.SelectedCategories = new List<VGameCategory>();
+        }
+    }
+
+    public class VGamePlayer
+    {
+        public int VGamePlayerId { get; set; }
+        public string UserName { get; set; }
+        public int GameSteps { get; set; }
+        public int Score { get; set; }
+        public int Stage { get; set; }
+        public int QuestionsAnswered { get; set; }
+    }
+
+    public class VGameCategory
+    {
+        public int VGameCategoryId { get; set; }
+        public int Stage { get; set; }
+        public string CategoryName { get; set; }
+        public bool IsUsed { get; set; }
+        public bool IsNotUsed
+        {
+            get { return !IsUsed; }
+        }
+        public List<Question> Questions { get; set; }  //holds questions to build stage on device
+    }
 
     public class Game
     {

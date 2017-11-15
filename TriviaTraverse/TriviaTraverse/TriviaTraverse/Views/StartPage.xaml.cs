@@ -26,5 +26,11 @@ namespace TriviaTraverse.Views
             this.BindingContext = vm;
 
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            //return base.OnBackButtonPressed();
+            return true;  //prevent hardware back button
+        }
     }
 }

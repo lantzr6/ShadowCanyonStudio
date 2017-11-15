@@ -25,14 +25,9 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <ctrls:HeaderUserControl Grid.Row="0"/>
+                <ctrls:HeaderUserControl Grid.Row="0" IsVisible="{Binding UserHeaderVisible}"/>
+                <ctrls:HeaderVGameControl Grid.Row="0" IsVisible="{Binding VGameHeaderVisible}"/>
                 <AbsoluteLayout Grid.Row="1" VerticalOptions="Fill">
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10"
-                                 BackgroundColor="Silver"
-                                 AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,0,1,60">
-                        <Image Source="steps_circle.png"/>
-                        <Label Text="{Binding PlayerObj.CurrentSteps, StringFormat='You have walked {0:#,###.} steps today!'}" TextColor="Black" VerticalOptions="Center"/>
-                    </StackLayout>
                     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.Column="0"
                                  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".2,.2,.6,.3"
                                  IsVisible="{Binding IsVisible, Source={x:Reference imgUnlocked}}">
@@ -48,7 +43,7 @@
                     </StackLayout>
                     <Image x:Name="imgUnlocked" Source="unlocked_lefthalf.png" Grid.Column="1"
                           AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1,.2,60,120"
-                          IsVisible="{Binding PlayerObj.QuestionReady}">
+                          IsVisible="{Binding QuestionReady}">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding StartQuestionCommand}"/>
                         </Image.GestureRecognizers>
@@ -62,7 +57,7 @@
                     </StackLayout>
                     <Image x:Name="imgLocked" Source="locked_lefthalf.png" Grid.Column="1"
                           AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1,.2,60,120"
-                          IsVisible="{Binding PlayerObj.QuestionReady, Converter={StaticResource cnvBoolInvert}}"/>
+                          IsVisible="{Binding QuestionReady, Converter={StaticResource cnvBoolInvert}}"/>
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                                  Margin="50,40"
                                  AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,1">
@@ -104,32 +99,32 @@
                         IsVisible="{Binding IsReadyForSignUp}"/>
             </Grid>
             <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                  BackgroundColor="#AA000000" IsVisible="{Binding PlayerObj.TutorialInfoLevel, Converter={StaticResource cnvIntCompareToBoolean}, ConverterParameter=1}">
+                  BackgroundColor="#AA000000" IsVisible="{Binding TutorialOneIsVisable}">
+                    <AbsoluteLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CloseTutorialOneCommand}"/>
+                    </AbsoluteLayout.GestureRecognizers>
                 <AbsoluteLayout BackgroundColor="{StaticResource TutorialBackgroundBrush}" Padding="10"
-                      AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,.6,1,100">
+                      AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,.6,1,100" InputTransparent="True">
                     <Label Text="It takes 1000 steps to unlock each question. The more you walk, the more questions you can answer."
                            TextColor="White" FontSize="18" Margin="0,0,25,0" VerticalTextAlignment="Center"
-                           AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+                           AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" InputTransparent="True"/>
                     <Image Source="close.png"
-                          AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds="1,0">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding CloseTutorialStepCommand}"/>
-                        </Image.GestureRecognizers>
+                          AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds="1,0" InputTransparent="True">
                     </Image>
                 </AbsoluteLayout>
             </AbsoluteLayout>
             <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                  BackgroundColor="#AA000000" IsVisible="{Binding PlayerObj.TutorialInfoLevel, Converter={StaticResource cnvIntCompareToBoolean}, ConverterParameter=2}">
+                  BackgroundColor="#AA000000" IsVisible="{Binding TutorialTwoIsVisable}">
+                <AbsoluteLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CloseTutorialTwoCommand}"/>
+                </AbsoluteLayout.GestureRecognizers>
                 <AbsoluteLayout BackgroundColor="{StaticResource TutorialBackgroundBrush}" Padding="10"
                       AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional" AbsoluteLayout.LayoutBounds="0,.25,1,120">
                     <Label Text="Here are 5000 steps to complete the tutorial. They will appear in the STEP BANK. Enjoy, you will have to earn your steps from now on."
                            TextColor="White" FontSize="18" Margin="0,0,25,0" VerticalTextAlignment="Center"
-                           AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+                           AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" InputTransparent="True"/>
                     <Image Source="close.png"
-                          AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds="1,0">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding CloseTutorialStepCommand}" />
-                        </Image.GestureRecognizers>
+                          AbsoluteLayout.LayoutFlags="PositionProportional"  AbsoluteLayout.LayoutBounds="1,0" InputTransparent="True">
                     </Image>
                 </AbsoluteLayout>
             </AbsoluteLayout>

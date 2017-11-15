@@ -6,6 +6,9 @@
     <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\ModernHttpClient\library_project_imports\res</ResolvedResourceDirectory>
     <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\PCLCrypto\library_project_imports\res</ResolvedResourceDirectory>
     <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Plugin.Settings\library_project_imports\res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\SkiaSharp\library_project_imports\res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\SkiaSharp.Views.Android\library_project_imports\res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\SkiaSharp.Views.Forms\library_project_imports\res</ResolvedResourceDirectory>
     <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Android.Support.Design\library_project_imports\res</ResolvedResourceDirectory>
     <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Android.Support.Transition\library_project_imports\res</ResolvedResourceDirectory>
     <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Android.Support.v7.AppCompat\library_project_imports\res</ResolvedResourceDirectory>
@@ -21,6 +24,9 @@
     <ResolvedAssetDirectory>obj\Debug\__library_projects__\ModernHttpClient\library_project_imports\assets</ResolvedAssetDirectory>
     <ResolvedAssetDirectory>obj\Debug\__library_projects__\PCLCrypto\library_project_imports\assets</ResolvedAssetDirectory>
     <ResolvedAssetDirectory>obj\Debug\__library_projects__\Plugin.Settings\library_project_imports\assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>obj\Debug\__library_projects__\SkiaSharp\library_project_imports\assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>obj\Debug\__library_projects__\SkiaSharp.Views.Android\library_project_imports\assets</ResolvedAssetDirectory>
+    <ResolvedAssetDirectory>obj\Debug\__library_projects__\SkiaSharp.Views.Forms\library_project_imports\assets</ResolvedAssetDirectory>
     <ResolvedAssetDirectory>obj\Debug\__library_projects__\Xamarin.Facebook\library_project_imports\assets</ResolvedAssetDirectory>
     <ResolvedAssetDirectory>obj\Debug\__library_projects__\Xamarin.Forms.Platform.Android\library_project_imports\assets</ResolvedAssetDirectory>
     <ResolvedAssetDirectory>obj\Debug\__library_projects__\Xamarin.Forms.Platform\library_project_imports\assets</ResolvedAssetDirectory>
@@ -31,6 +37,9 @@
     <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\ModernHttpClient.stamp</ResolvedResourceDirectoryStamp>
     <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\PCLCrypto.stamp</ResolvedResourceDirectoryStamp>
     <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Plugin.Settings.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\SkiaSharp.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\SkiaSharp.Views.Android.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\SkiaSharp.Views.Forms.stamp</ResolvedResourceDirectoryStamp>
     <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Android.Support.Design.stamp</ResolvedResourceDirectoryStamp>
     <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Android.Support.Transition.stamp</ResolvedResourceDirectoryStamp>
     <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Android.Support.v7.AppCompat.stamp</ResolvedResourceDirectoryStamp>

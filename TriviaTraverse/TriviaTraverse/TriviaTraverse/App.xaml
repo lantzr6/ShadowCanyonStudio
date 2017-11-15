@@ -12,9 +12,11 @@
         <Setter Property="BackgroundColor" Value="#ffffff" />
       </Style>
       <Style x:Key="ButtonStyle" TargetType="Button" ApplyToDerivedTypes="True">
-        <Setter Property="HeightRequest" Value="46" />
-      </Style>
-
+            <Setter Property="HeightRequest" Value="46" />
+            <Setter Property="BorderColor" Value="Gray"/>
+            <Setter Property="BorderRadius" Value="4"/>
+            <Setter Property="BorderWidth" Value="1"/>
+        </Style>
 
       <Color x:Key="TutorialBackgroundBrush">#DDA0DD</Color><!--Plum-->
 

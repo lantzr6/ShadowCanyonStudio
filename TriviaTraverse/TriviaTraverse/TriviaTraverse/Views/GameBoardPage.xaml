@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TriviaTraverse.Views.GameBoardPage"
+             xmlns:converters="clr-namespace:TriviaTraverse.Converters"
+             xmlns:ctrls="clr-namespace:TriviaTraverse.Controls"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:b="clr-namespace:TriviaTraverse.Behaviors"
+             Style="{StaticResource PageStyle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="20"
+                    Android="0"
+                    WinPhone="0" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ctrls:HeaderVGameControl Grid.Row="0"/>
+
+                <skia:SKCanvasView x:Name="canvasView" Grid.Row="1"
+                                   EnableTouchEvents="True"
+                                   Touch="canvasView_Touch"
+                                   PaintSurface="canvasView_PaintSurface"/>
+
+                <Grid Grid.Row="1" BackgroundColor="Gray" VerticalOptions="Center" HorizontalOptions="Center"
+                                 IsVisible="{Binding SelectCategoryVisible}">
+                    <ListView x:Name="lstCategory" Header="Pick a Category" ItemsSource="{Binding WrappedItems}" BackgroundColor="LightGray">
+                        <ListView.Behaviors>
+                            <b:ListViewSelectedItemBehavior Command="{Binding SelectCategoryCommand}" Converter="{StaticResource SelectedItemConverter}" />
+                        </ListView.Behaviors>
+                    </ListView>
+                </Grid>
+
+            </Grid>
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator Color="White" IsRunning="{Binding IsBusy}"
+                                   AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

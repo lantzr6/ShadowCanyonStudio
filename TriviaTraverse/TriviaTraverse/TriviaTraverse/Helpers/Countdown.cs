@@ -9,6 +9,7 @@
 //
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 //using System.Timers;
@@ -28,6 +29,17 @@ namespace TriviaTraverse.Helpers
         /// <summary>
         /// Gets the remain time in seconds.
         /// </summary>
+        public bool TimerActive
+        {
+            get { return timerActive; }
+
+            private set
+            {
+                timerActive = value;
+                OnPropertyChanged();
+            }
+        }
+
         public double RemainTime
         {
             get { return remainTime; }
@@ -35,6 +47,17 @@ namespace TriviaTraverse.Helpers
             private set
             {
                 remainTime = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double TotalTime
+        {
+            get { return totalTime; }
+
+            private set
+            {
+                totalTime = value;
                 OnPropertyChanged();
             }
         }
@@ -48,6 +71,11 @@ namespace TriviaTraverse.Helpers
         /// Occurs when ticked.
         /// </summary>
         public event Action Ticked;
+
+        /// <summary>
+        /// Occurs after timer is rest.
+        /// </summary>
+        public event Action ResetSuccess;
 
         /// <summary>
         /// The timer.
@@ -64,7 +92,7 @@ namespace TriviaTraverse.Helpers
         /// <summary>
         /// The remain time total.
         /// </summary>
-        double remainTimeTotal;
+        double totalTime;
 
         /// <summary>
         /// Starts the updating with specified period, total time and period are specified in seconds.
@@ -76,8 +104,8 @@ namespace TriviaTraverse.Helpers
             //    ResetUpdating();
             //}
 
-            timerActive = true;
-            remainTimeTotal = total;
+            TimerActive = true;
+            TotalTime = total;
             RemainTime = total;
 
             StartDateTime = DateTime.Now;
@@ -86,13 +114,13 @@ namespace TriviaTraverse.Helpers
             //timer.Elapsed += (sender, e) => Tick();
             //timer.Enabled = true;
 
-            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            resetingTime = false;
+            Device.StartTimer(TimeSpan.FromSeconds(period), () =>
             {
                 return Tick();
 
                 //return true; // True = Repeat again, False = Stop the timer
             });
-
         }
 
         /// <summary>
@@ -105,7 +133,7 @@ namespace TriviaTraverse.Helpers
             //    timer.Enabled = false;
             //    timer = null;
             //}
-            timerActive = false;
+            TimerActive = false;
         }
 
         /// <summary>
@@ -114,9 +142,15 @@ namespace TriviaTraverse.Helpers
         public void ResetUpdating()
         {
             RemainTime = 0;
-            remainTimeTotal = 0;
+            TotalTime = 0;
 
-            timerActive = false;
+            TimerActive = false;
+        }
+
+        private bool resetingTime = false;
+        public void ResetTime()
+        {
+            resetingTime = true;
         }
 
         /// <summary>
@@ -124,13 +158,24 @@ namespace TriviaTraverse.Helpers
         /// </summary>
         public bool Tick()
         {
-            if (timerActive)
+            //Debug.WriteLine("countdown tick");
+
+            if (resetingTime)
+            {
+                StartDateTime = DateTime.Now;
+                RemainTime = TotalTime;
+                resetingTime = false;
+                var resetSuccess = ResetSuccess;
+                resetSuccess();
+            }
+
+            if (TimerActive)
             {
                 var delta = (DateTime.Now - StartDateTime).TotalSeconds;
 
-                if (delta < remainTimeTotal)
+                if (delta < TotalTime)
                 {
-                    RemainTime = remainTimeTotal - delta;
+                    RemainTime = TotalTime - delta;
 
                     var ticked = Ticked;
                     if (ticked != null)
