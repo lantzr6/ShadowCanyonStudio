@@ -13,7 +13,7 @@
     </ContentPage.Resources>
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
-                    iOS="0"
+                    iOS="0,20,0,0"
                     Android="0"
                     WinPhone="0" />
     </ContentPage.Padding>
@@ -23,10 +23,25 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <ctrls:HeaderUserControl Grid.Row="0" IsVisible="{Binding UserHeaderVisible}"/>
-                <ctrls:HeaderVGameControl Grid.Row="0" IsVisible="{Binding VGameHeaderVisible}"/>
+                <Grid Grid.Row="0" BackgroundColor="Silver" Padding="6" HeightRequest="50" IsVisible="{Binding VGameHeaderVisible}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Text="back" Command="{Binding CloseCommand}"/>
+                    <StackLayout Grid.Column="1" Orientation="Vertical">
+                        <Label Text="{Binding VGameObj.PlayerGameSteps}" TextColor="Black" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Text="GAME STEPS" TextColor="Black" FontSize="12" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" Orientation="Vertical">
+                        <Label Text="{Binding VGameObj.PlayerScore}" TextColor="Black" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Text="SCORE" TextColor="Black" FontSize="12" HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                </Grid>
                 <AbsoluteLayout Grid.Row="1" VerticalOptions="Fill">
                     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Grid.Column="0"
                                  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".2,.2,.6,.3"
@@ -85,17 +100,51 @@
                         </Grid>
                     </StackLayout>
                 </AbsoluteLayout>
-                <Button x:Name="btnAnswerQuestion" Grid.Row="2" Text="Answer Next Question" BorderRadius="0" BackgroundColor="Silver" TextColor="Black"
-                        Command="{Binding StartQuestionCommand}"
-                        AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1"
-                        IsEnabled="{Binding IsVisible, Source={x:Reference imgUnlocked}}"/>
+                <Grid Grid.Row="2" VerticalOptions="Center" HorizontalOptions="Center"
+                      IsVisible="{Binding IsVisible, Source={x:Reference imgUnlocked}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Text="{Binding ActiveSection.Questions[0].PointValue, StringFormat='{0} pts'}"
+                            BorderRadius="0" BackgroundColor="Silver" TextColor="Black" HorizontalOptions="Center"
+                        Command="{Binding StartQuestionCommand}" CommandParameter="{Binding ActiveSection.Questions[0].QuestionId}"
+                        IsEnabled="{Binding ActiveSection.Questions[0].IsUnanswered}"/>
+                    <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center">
+                        <Button Text="{Binding ActiveSection.Questions[1].PointValue, StringFormat='{0} pts'}"
+                            BorderRadius="0" BackgroundColor="Silver" TextColor="Black" HorizontalOptions="Center"
+                        Command="{Binding StartQuestionCommand}" CommandParameter="{Binding ActiveSection.Questions[1].QuestionId}"
+                        IsEnabled="{Binding ActiveSection.Questions[1].IsUnanswered}"/>
+                        <Button Text="{Binding ActiveSection.Questions[2].PointValue, StringFormat='{0} pts'}"
+                            BorderRadius="0" BackgroundColor="Silver" TextColor="Black" HorizontalOptions="Center"
+                        Command="{Binding StartQuestionCommand}" CommandParameter="{Binding ActiveSection.Questions[2].QuestionId}"
+                        IsEnabled="{Binding ActiveSection.Questions[2].IsUnanswered}"/>
+                        <Button Text="{Binding ActiveSection.Questions[3].PointValue, StringFormat='{0} pts'}"
+                            BorderRadius="0" BackgroundColor="Silver" TextColor="Black" HorizontalOptions="Center"
+                        Command="{Binding StartQuestionCommand}" CommandParameter="{Binding ActiveSection.Questions[3].QuestionId}"
+                        IsEnabled="{Binding ActiveSection.Questions[3].IsUnanswered}"/>
+                        <Button Text="{Binding ActiveSection.Questions[4].PointValue, StringFormat='{0} pts'}"
+                            BorderRadius="0" BackgroundColor="Silver" TextColor="Black" HorizontalOptions="Center"
+                        Command="{Binding StartQuestionCommand}" CommandParameter="{Binding ActiveSection.Questions[4].QuestionId}"
+                        IsEnabled="{Binding ActiveSection.Questions[4].IsUnanswered}"/>
+                    </StackLayout>
+                    <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center">
+                        <Button Text="{Binding ActiveSection.Questions[5].PointValue, StringFormat='{0} pts'}"
+                            BorderRadius="0" BackgroundColor="Silver" TextColor="Black" HorizontalOptions="Center"
+                        Command="{Binding StartQuestionCommand}" CommandParameter="{Binding ActiveSection.Questions[5].QuestionId}"
+                        IsEnabled="{Binding ActiveSection.Questions[5].IsUnanswered}"/>
+                        <Button Text="{Binding ActiveSection.Questions[6].PointValue, StringFormat='{0} pts'}"
+                            BorderRadius="0" BackgroundColor="Silver" TextColor="Black" HorizontalOptions="Center"
+                        Command="{Binding StartQuestionCommand}" CommandParameter="{Binding ActiveSection.Questions[6].QuestionId}"
+                        IsEnabled="{Binding ActiveSection.Questions[6].IsUnanswered}"/>
+                    </StackLayout>
+                </Grid>
                 <Button x:Name="btnContinue" Grid.Row="2" Text="Continue" BorderRadius="0" BackgroundColor="Silver" TextColor="Black"
-                        Command="{Binding ContinueCommand}"
-                        AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1"
+                        Command="{Binding ContinueCommand}" VerticalOptions="Center"
                         IsVisible="{Binding IsSectionComplete}"/>
                 <Button x:Name="btnSignUp" Grid.Row="2" Text="Sign Up to continue" BorderRadius="0" BackgroundColor="Silver" TextColor="Black"
-                        Command="{Binding ContinueCommand}"
-                        AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1"
+                        Command="{Binding ContinueCommand}" VerticalOptions="Center"
                         IsVisible="{Binding IsReadyForSignUp}"/>
             </Grid>
             <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"

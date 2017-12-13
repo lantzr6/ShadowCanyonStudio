@@ -198,6 +198,17 @@ namespace TriviaTraverse.ViewModels
         #endregion
 
         #region "Commands"
+        private ICommand _closeCommand;
+        public ICommand CloseCommand =>
+            _closeCommand ?? (_closeCommand = new Command(OnClose, CanClose));
+        private bool CanClose()
+        {
+            return true;
+        }
+        private async void OnClose()
+        {
+            await Navigation.PopAsync();
+        }
 
         private ICommand _selectCategoryCommand;
         public ICommand SelectCategoryCommand =>

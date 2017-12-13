@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="221119ae6af14fae927ea22cf43b027b" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.CampaignCategory" Width="1.5" PointX="0.75" PointY="12" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.CampaignSection" Width="1.5" PointX="3" PointY="15.25" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.CampaignStage" Width="1.5" PointX="0.75" PointY="16.375" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.Category" Width="1.5" PointX="6" PointY="21.875" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.GameCategoryQuestionPlayerResult" Width="1.5" PointX="12.75" PointY="2.125" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.GameType" Width="1.5" PointX="3.75" PointY="2.75" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.Player" Width="2.375" PointX="0.625" PointY="5" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.PlayerCampaign" Width="1.5" PointX="3.75" PointY="6.375" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.PlayerCampaignCategoryQueue" Width="1.5" PointX="6" PointY="11.125" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.PlayerCampaignSectionQuestion" Width="1.5" PointX="5.25" PointY="15.125" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.PlayerCampaignStageCategory" Width="1.5" PointX="3" PointY="11.375" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.PlayerQuestionResult" Width="1.5" PointX="13.5" PointY="15.125" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.PlayerTutorialMessageStatus" Width="2.625" PointX="3.125" PointY="19" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.Question" Width="1.5" PointX="8.25" PointY="13.875" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.QuestionType" Width="1.5" PointX="6" PointY="19" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.VGame" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.VGameCategory" Width="1.5" PointX="8.25" PointY="2.125" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.VGameCategorySectionQuestion" Width="1.5" PointX="10.5" PointY="11.375" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.VGameName" Width="1.5" PointX="0.75" PointY="2.125" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.VGamePlayer" Width="1.5" PointX="8.25" PointY="6.625" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.VGamePlayerCategory" Width="1.5" PointX="10.5" PointY="4.75" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.VGamePlayerSectionQuestion" Width="1.5" PointX="10.5" PointY="15.125" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_CampaignSection_CampaignCategory" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerCampaignCategoryQueue_CampaignCategory" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerCampaignStageCategory_CampaignStageCategory" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerCampaignSectionQuestion_CampaignSection" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_Question_CampaignSection" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerCampaignStageCategory_CampaignStage" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_Question_Category" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGameCategory_Category" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGame_GameType" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerCampaign_Player" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerQuestionResult_Player" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerTutorialMessageStatus_Player" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGamePlayer_Player" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGamePlayerCategory_Player" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGamePlayerSectionQuestion_Player" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerCampaignCategoryQueue_PlayerCampaign" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerCampaignSectionQuestion_PlayerCampaign" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerCampaignStageCategory_PlayerCampaign" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerCampaignSectionQuestion_Question" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_PlayerQuestionResult_Question" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_Question_QuestionType" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGameCategorySectionQuestion_Question" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGamePlayerSectionQuestion_Question" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGameCategory_VGame" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGamePlayer_VGame" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGamePlayerSectionQuestion_VGame" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGameCategorySectionQuestion_VGameCategory" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_VGamePlayerCategory_VGameCategory" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

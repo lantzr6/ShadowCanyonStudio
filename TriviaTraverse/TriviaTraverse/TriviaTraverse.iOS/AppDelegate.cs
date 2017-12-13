@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using HealthKit;
 
 namespace TriviaTraverse.iOS
 {
@@ -13,6 +14,12 @@ namespace TriviaTraverse.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
+
+        //public override void OnActivated(UIApplication application)
+        //{
+        //    MyApp.HealthStore = new HKHealthStore();
+        //    MyApp.ValidateAuthorization();
+        //}
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -27,5 +34,7 @@ namespace TriviaTraverse.iOS
 
             return base.FinishedLaunching(app, options);
         }
+
+        
     }
 }

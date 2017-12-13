@@ -69,6 +69,10 @@ namespace TriviaTraverse.Models
 
     public class Player : INotifyPropertyChanged
     {
+        public Player()
+        {
+            LastStepUpdate = DateTime.Today;
+        }
         public int PlayerId { get; set; }
         private string _userName;
         public string UserName
@@ -161,6 +165,19 @@ namespace TriviaTraverse.Models
                 }
             }
         }
+        private DateTime _lastStepUpdate;
+        public DateTime LastStepUpdate
+        {
+            get { return _lastStepUpdate; }
+            set
+            {
+                if (_lastStepUpdate != value)
+                {
+                    _lastStepUpdate = value;
+                    RaisePropertyChanged(nameof(LastStepUpdate));
+                }
+            }
+        }
         private int _coins;
         public int Coins
         {
@@ -201,13 +218,18 @@ namespace TriviaTraverse.Models
             }
         }
 
+        public DateTime LastStepUpdateLocal
+        {
+            get { return this.LastStepUpdate.ToLocalTime(); }
+        }
 
-        #region INotifyPropertyChanged implementation
 
-        /// <summary>
-        /// Occurs when property changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+    #region INotifyPropertyChanged implementation
+
+    /// <summary>
+    /// Occurs when property changed.
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Raises the property changed event.
@@ -508,7 +530,7 @@ namespace TriviaTraverse.Models
         {
             get
             {
-                return (NumberAnswered >= NumberOfQuestions);  //should never by greater than, but just incase
+                return (NumberAnswered == 5);
             }
         }
         private bool _newlyComplete = false;
@@ -706,7 +728,7 @@ namespace TriviaTraverse.Models
         {
             get
             {
-                return (QuestionType.Trim() == "MultipleChoice");
+                return (QuestionType.Trim() == "Multi 4");
             }
         }
         public bool HasImage { get; set; }
@@ -717,6 +739,19 @@ namespace TriviaTraverse.Models
         public string AnswerWrong3 { get; set; }
         public string PlayerAnswer { get; set; }
         public int PointsRewarded { get; set; }
+        public bool IsUnanswered { get; set; }
+        //private bool _isUnanswered = true;
+        //public bool IsUnanswered
+        //    {
+        //    get { return _isUnanswered; }
+        //    set
+        //    {
+        //        if (value != _isUnanswered)
+        //        {
+        //            _isUnanswered = value; RaisePropertyChanged(nameof(IsUnanswered));
+        //        }
+        //    }
+        //    }
         public bool PlayerCorrect
         {
             get
@@ -724,6 +759,31 @@ namespace TriviaTraverse.Models
                 return (PlayerAnswer == AnswerCorrect);
             }
         }
+        public int PointValue
+        {
+            get { return QuestionLevel * 100; }
+        }
+
+        #region INotifyPropertyChanged implementation
+
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Raises the property changed event.
+        /// </summary>
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
     }
 
     public class PlayerQuestionResult
@@ -750,6 +810,7 @@ namespace TriviaTraverse.Models
         public int VGameId { get; set; }
         public int PlayerId { get; set; }
         public int GameSteps { get; set; }
+        public DateTime LastStepUpdate { get; set; }
     }
 
     public class CampaignStageCategory
@@ -791,13 +852,29 @@ namespace TriviaTraverse.Models
         public int VGameId { get; set; }
         public string GameName { get; set; }
         public string GameTypeName { get; set; }
+        public bool IsPrivate { get; set; }
+        public int GameStepCap { get; set; }
+        public int GameLength { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public int PlayerMax { get; set; }
         public int PlayerGameSteps { get; set; }
         public int PlayerScore { get; set; }
+        public DateTime PlayerLastStepQuery { get; set; }
 
+        public DateTime StartTimeLocal { get { return this.StartTime.ToLocalTime(); } }
+        public DateTime EndTimeLocal { get { return this.EndTime.ToLocalTime(); } }
+        public DateTime PlayerLastStepQueryLocal { get { return this.PlayerLastStepQuery.ToLocalTime(); } }
         public int TotalPlayers { get { return VGamePlayers.Count; } }
+
+        public bool IsActive
+        {
+            get
+            {
+                DateTime now = DateTime.Now;
+                return (now >= StartTimeLocal && now < EndTimeLocal);
+            }
+        }
 
         public IList<VGamePlayer> VGamePlayers { get; set; }
         public IList<GameSection> Sections { get; set; }
@@ -944,6 +1021,22 @@ namespace TriviaTraverse.Models
         public int GameCategoryId { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
+    }
+
+    public class StepData
+    {
+        public int VGameId { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public int Steps { get; set; }
+        public bool Complete { get; set; }
+
+        public StepData()
+        {
+            Steps = 0;
+            EndTime = DateTime.MinValue;
+            Complete = false;
+        }
     }
 
 }

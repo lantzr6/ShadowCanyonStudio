@@ -1,10 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TriviaTraverse.Views.GameJoinPage">
+             x:Class="TriviaTraverse.Views.GameJoinPage"
+             Style="{StaticResource PageStyle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0,20,0,0"
+                    Android="0"
+                    WinPhone="0" />
+    </ContentPage.Padding>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin Forms!" />
-        </StackLayout>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackLayout Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Button Text="back" VerticalOptions="Start" Command="{Binding CloseCommand}"/>
+                <Label Grid.Column="0" Grid.ColumnSpan="2" Text="New Versus Game" TextColor="Black" FontSize="Large"
+                       HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+            </StackLayout>
+            <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Center">
+                <Button x:Name="btnPublic" Text="Public" FontSize="Small" Clicked="OnBtnPublicClicked"/>
+                <Button x:Name="btnPrivate" Text="Private" FontSize="Small" Clicked="OnBtnPrivateClicked"/>
+            </StackLayout>
+            <StackLayout Grid.Row="2" Orientation="Vertical" VerticalOptions="Center">
+                <Label Text="Select you step goal:" TextColor="Black" FontSize="Medium" HorizontalOptions="Start" HorizontalTextAlignment="Start"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                    <Button x:Name="btn5K" Text="5,000 Steps" FontSize="Small" Clicked="OnBtn5KClicked"/>
+                    <Button x:Name="btn8K" Text="8,000 Steps" FontSize="Small" Clicked="OnBtn8KClicked"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                    <Button x:Name="btn10K" Text="10,000 Steps" FontSize="Small" Clicked="OnBtn10KClicked"/>
+                    <Button x:Name="btn15K" Text="15,000 Steps" FontSize="Small" Clicked="OnBtn15KClicked"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Center">
+                <Switch x:Name="switchAuto" IsToggled="True" Toggled="OnSwitchAutoToggled"/>
+                <Label Text="Auto Join Daily" TextColor="Black" FontSize="Medium"/>
+            </StackLayout>
+            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="Start Game" BorderRadius="0" BackgroundColor="White" TextColor="Black"
+                            Command="{Binding StartGameCommand}" Margin="20,40,20,0" Style="{StaticResource ButtonStyle}"/>
+
+            <AbsoluteLayout Grid.Row="0" Grid.Column="0" Grid.RowSpan="7" Grid.ColumnSpan="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator Color="White" IsRunning="{Binding IsBusy}"
+                                   AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
+            </AbsoluteLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

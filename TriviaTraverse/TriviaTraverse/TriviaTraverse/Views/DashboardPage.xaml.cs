@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using TriviaTraverse.Models;
 using TriviaTraverse.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,8 +27,18 @@ namespace TriviaTraverse.Views
             vm = new DashboardPageViewModel(Navigation);
             this.BindingContext = vm;
 
-            lstCampaigns.ItemSelected += CampaignSelected;
             lstVGames.ItemSelected += VGameSelected;
+
+            //MessagingCenter.Subscribe<MasterPage, List<StepData>>(this, "Steps", (sender, arg) => {
+            //    Device.BeginInvokeOnMainThread(() => {
+            //        //foreach(StepData i in (List<StepData>)arg)
+            //        //{
+            //            //DisplayAlert("New Steps " + i.VGameId.ToString(), i.Steps.ToString(), "Ok");
+                        
+            //       // }
+            //        vm.UpdateSteps((List<StepData>)arg);
+            //    });
+            //});
 
         }
 
@@ -36,15 +48,9 @@ namespace TriviaTraverse.Views
             lstVGames.SelectedItem = null;
         }
 
-        private void CampaignSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem != null) { vm.PlayCampaign(e.SelectedItem); }
-            lstCampaigns.SelectedItem = null;
-        }
-
         public void LoadDashboard()
         {
-            lstCampaigns.SelectedItem = null;
+            //lstCampaigns.SelectedItem = null;
             lstVGames.SelectedItem = null;
 
             vm.LoadDashboardGames();

@@ -39,6 +39,11 @@ C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Xamarin.Forms.Platform.Android.dll
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Xamarin.Forms.Platform.dll
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Xamarin.Forms.Xaml.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Xamarin.GooglePlayServices.Base.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Xamarin.GooglePlayServices.Basement.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Xamarin.GooglePlayServices.Fitness.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Xamarin.GooglePlayServices.Location.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Xamarin.GooglePlayServices.Tasks.dll
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Java.Interop.dll
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Microsoft.CSharp.dll
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Mono.Android.dll
@@ -86,4 +91,5 @@ C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\System.ComponentModel.dll
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\System.Collections.Concurrent.dll
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\Mono.Security.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\System.Console.dll
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\android\assets\System.Net.Primitives.dll

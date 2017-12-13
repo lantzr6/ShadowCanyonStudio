@@ -38,15 +38,37 @@ namespace TriviaTraverse.Services
             data.PlayerId = App.PlayerObj.PlayerId;
             data.UserName = App.PlayerObj.UserName;
             data.EmailAddr = App.PlayerObj.EmailAddr;
+            data.FbLogin = App.PlayerObj.FbLogin;
             data.Password = App.PlayerObj.Password;
             data.PlayerLevel = App.PlayerObj.PlayerLevel;
             data.CurrentSteps = App.PlayerObj.CurrentSteps;
             data.StepBank = App.PlayerObj.StepBank;
+            data.LastStepUpdate = App.PlayerObj.LastStepUpdate;
             data.Coins = App.PlayerObj.Coins;
             data.Stars = App.PlayerObj.Stars;
             data.Points = App.PlayerObj.Points;
 
             await WebApi.Instance.UpdateAccountAsync(data);
+
+        }
+
+        public async Task NewAccountAsync()
+        {
+            Player data = new Player();
+            data.PlayerId = App.PlayerObj.PlayerId;
+            data.UserName = App.PlayerObj.UserName;
+            data.EmailAddr = App.PlayerObj.EmailAddr;
+            data.FbLogin = App.PlayerObj.FbLogin;
+            data.Password = App.PlayerObj.Password;
+            data.PlayerLevel = App.PlayerObj.PlayerLevel;
+            data.CurrentSteps = App.PlayerObj.CurrentSteps;
+            data.StepBank = App.PlayerObj.StepBank;
+            data.LastStepUpdate = App.PlayerObj.LastStepUpdate;
+            data.Coins = App.PlayerObj.Coins;
+            data.Stars = App.PlayerObj.Stars;
+            data.Points = App.PlayerObj.Points;
+
+            await WebApi.Instance.NewAccountAsync(data);
 
         }
 
@@ -62,6 +84,7 @@ namespace TriviaTraverse.Services
             App.PlayerObj.Points = 0;
             App.PlayerObj.Stars = 0;
             App.PlayerObj.StepBank = 0;
+            App.PlayerObj.LastStepUpdate = DateTime.MinValue;
 
             App.CampaignObj = null;
             App.TutorialObj = null;

@@ -12,7 +12,6 @@ using TriviaTraverse.Models;
 using TriviaTraverse.Services;
 using TriviaTraverse.Views;
 using Xamarin.Forms;
-using static Android.Provider.SyncStateContract;
 using static TriviaTraverse.Helpers.Settings;
 
 namespace TriviaTraverse.ViewModels
@@ -116,7 +115,7 @@ namespace TriviaTraverse.ViewModels
             PlayerObj.PlayerLevel = 1;
             PlayerObj.FbLogin = false;
 
-            await App._authenticationService.UpdateAccountAsync();
+            await App._authenticationService.NewAccountAsync();
    
             IsBusy = false;
 

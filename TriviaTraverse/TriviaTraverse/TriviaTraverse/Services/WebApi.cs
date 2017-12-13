@@ -18,8 +18,8 @@ namespace TriviaTraverse.Api
         public static WebApi Instance { get; } = new WebApi();
 
         //Our base API url
-        //static string _baseUrl { get { return "https://triviamobileapi20170617041221.azurewebsites.net/api/"; } }
-        static string _baseUrl { get { return "http://192.168.0.5:57579/api/"; } }
+        static string _baseUrl { get { return "https://triviatraverseapi20171207014847.azurewebsites.net/api/"; } }
+        //static string _baseUrl { get { return "http://192.168.0.5:57579/api/"; } }
 
         public HttpClient CreateClient()
         {
@@ -77,29 +77,114 @@ namespace TriviaTraverse.Api
             return retVal;
         }
 
-        public async Task<Player> GetNewTempPlayerAsync()
+        public async Task<bool> CheckEmailExists(string email)
         {
-            Player player = null;
+            Debug.WriteLine("Start CheckEmailExists");
+            bool retVal = true;
             try
             {
-                var url = _baseUrl + string.Format("Start/NewPlayer");
+                var url = _baseUrl + string.Format("Account/CheckEmailExists/?email={0}", email);
                 using (var httpClient = CreateClient())
                 {
                     var result = await httpClient.GetAsync(url);
                     var responseText = await result.Content.ReadAsStringAsync();
-
-                    player = JsonConvert.DeserializeObject<Player>(responseText);
+                    retVal = bool.Parse(responseText);
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+
+            Debug.WriteLine("End CheckEmailExists");
+            return retVal;
+        }
+
+        public async Task<bool> CheckUserNameExists(string username)
+        {
+            Debug.WriteLine("Start CheckUserNameExists");
+            bool retVal = true;
+            try
+            {
+                var url = _baseUrl + string.Format("Account/CheckUserNameExists/?username={0}", username);
+                using (var httpClient = CreateClient())
+                {
+                    var result = await httpClient.GetAsync(url);
+                    var responseText = await result.Content.ReadAsStringAsync();
+                    retVal = bool.Parse(responseText);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+
+            Debug.WriteLine("End CheckUserNameExists");
+            return retVal;
+        }
+
+        public async Task<Player> NewAccountAsync(Player inObj)
+        {
+            Debug.WriteLine("Start NewAccountAsync");
+            Player player = null;
+            try
+            {
+                var url = _baseUrl + String.Format("Start/NewAccount");
+                using (var httpClient = CreateClient())
+                {
+                    var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(inObj));
+                    var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+                    var result = await httpClient.PostAsync(url, httpContent);
+                    string responseText = await result.Content.ReadAsStringAsync();
+                    player = JsonConvert.DeserializeObject<Player>(responseText);
+                }
+                Debug.WriteLine("Account Created");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+
+            Debug.WriteLine("End NewAccountAsync");
             return player;
         }
 
+        public async Task<string> UpdateAccountAsync(Player inObj)
+        {
+            Debug.WriteLine("Start UpdateAccountAsync");
+            //inObj.LastStepUpdate = inObj.LastStepUpdate.ToUniversalTime();
+            string retVal = "";
+            try
+            {
+                if (Settings.AuthTokenExpire < DateTime.Now)
+                {
+                    await GetAuthToken();
+                }
+                var url = _baseUrl + string.Format("Account/UpdateAccount");
+                using (var httpClient = CreateClient())
+                {
+                    var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(inObj));
+                    var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+                    var result = await httpClient.PostAsync(url, httpContent);
+                    var responseText = await result.Content.ReadAsStringAsync();
+
+                    retVal = responseText;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem " + ex.Message);
+            }
+            Debug.WriteLine("End UpdateAccountAsync");
+            return retVal;
+        }
+
+
         public async Task<GameSection> GetTutorialAsync(int playerId)
         {
+            Debug.WriteLine("Start GetTutorialAsync");
             GameSection tutorial = null;
             try
             {
@@ -121,11 +206,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End GetTutorialAsync");
             return tutorial;
         }
 
         public async Task<GameSection> GetSectionAsync(int sectionId, int playerId, int playerCampaignId, bool retry)
         {
+            Debug.WriteLine("Start GetSectionAsync");
             GameSection section = null;
             try
             {
@@ -154,62 +241,37 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End GetSectionAsync");
             return section;
         }
 
 
         public async Task<Player> GetAccountAsync(string emailaddress, string password)
         {
+            Debug.WriteLine("Start GetAccountAsync");
             Player retVal = null;
             try
             {
                 System.Diagnostics.Debug.WriteLine("getting account");
-                string url = _baseUrl + string.Format("Account/GetAccount?email={0}&password={1}",emailaddress, password);
+                string url = _baseUrl + string.Format("Account/GetAccount?email={0}&password={1}", emailaddress, password);
                 HttpClient httpClient = CreateClient();
                 HttpResponseMessage result = await httpClient.GetAsync(url);
-                    string responseText = await result.Content.ReadAsStringAsync();
+                string responseText = await result.Content.ReadAsStringAsync();
 
-                    retVal = JsonConvert.DeserializeObject<Player>(responseText);
-                    System.Diagnostics.Debug.WriteLine("finished getting: " + retVal);
+                retVal = JsonConvert.DeserializeObject<Player>(responseText);
+                System.Diagnostics.Debug.WriteLine("finished getting: " + retVal);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
-            return retVal;
-        }
-
-        public async Task<string> UpdateAccountAsync(Player inObj)
-        {
-            string retVal = "";
-            try
-            {
-                if (Settings.AuthTokenExpire < DateTime.Now)
-                {
-                    await GetAuthToken();
-                }
-                var url = _baseUrl + string.Format("Account/UpdateAccount");
-                using (var httpClient = CreateClient())
-                {
-                    var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(inObj));
-                    var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-
-                    var result = await httpClient.PostAsync(url, httpContent);
-                    var responseText = await result.Content.ReadAsStringAsync();
-
-                    retVal = responseText;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Problem " + ex.Message);
-            }
-            Debug.WriteLine("Account Updated");
+            Debug.WriteLine("End GetAccountAsync");
             return retVal;
         }
 
         public async Task<string> UpdateTutorialMessageStatusAsync(TutorialMessagesStatus inObj)
         {
+            Debug.WriteLine("Start UpdateTutorialMessageStatusAsync");
             string retVal = "";
             try
             {
@@ -233,12 +295,14 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
-            Debug.WriteLine("Tutorial Updated");
+            Debug.WriteLine("End UpdateTutorialMessageStatusAsync");
             return retVal;
         }
-        
-        public async Task<VGame> UpdateVGameAsync(VGamePlayerUpdate inObj)
+
+        public async Task<VGame> UpdateVGamePlayerAsync(VGamePlayerUpdate inObj)
         {
+            Debug.WriteLine("Start UpdateVGamePlayerAsync");
+            //inObj.LastStepUpdate = inObj.LastStepUpdate.ToUniversalTime();
             VGame retVal = null;
             try
             {
@@ -271,12 +335,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End UpdateVGameAsync");
             return retVal;
         }
 
-
         public async Task<string> PostCampaignQuestionResults(PlayerQuestionResult inObj)
         {
+            Debug.WriteLine("Start PostCampaignQuestionResults");
             string retVal = "";
             try
             {
@@ -301,11 +366,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End PostCampaignQuestionResults");
             return retVal;
         }
 
         public async Task<string> PostVGameQuestionResults(PlayerVGameQuestionResult inObj)
         {
+            Debug.WriteLine("Start PostVGameQuestionResults");
             string retVal = "";
             try
             {
@@ -330,11 +397,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End PostVGameQuestionResults");
             return retVal;
         }
 
         public async Task<Campaign> GetCampaign(int playerid)
         {
+            Debug.WriteLine("Start GetCampaign");
             Campaign retVal = null;
             try
             {
@@ -364,11 +433,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End GetCampaign");
             return retVal;
         }
 
         public async Task<Dashboard> GetDashboard(int playerid)
         {
+            Debug.WriteLine("Start GetDashboard");
             Dashboard retVal = null;
             try
             {
@@ -398,11 +469,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End GetDashboard");
             return retVal;
         }
 
-        public async Task<VGame> JoinNewGame(int playerid)
+        public async Task<VGame> JoinNewGame(int playerid, string gameType, string gameCap, bool gameAuto)
         {
+            Debug.WriteLine("Start JoinNewGame");
             VGame retVal = null;
             try
             {
@@ -410,7 +483,7 @@ namespace TriviaTraverse.Api
                 {
                     await GetAuthToken();
                 }
-                var url = _baseUrl + "Game/JoinNewGame/?playerid=" + playerid.ToString();
+                var url = _baseUrl + String.Format("Game/JoinNewGame/?playerid={0}&gameType={1}&gameCap={2}&gameAuto={3}", playerid.ToString(), gameType, gameCap, gameAuto);
                 using (var httpClient = CreateClient())
                 {
                     httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + Settings.AuthToken);
@@ -432,11 +505,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End JoinNewGame");
             return retVal;
         }
 
         public async Task<VGame> GetGame(int vgameid, int playerid)
         {
+            Debug.WriteLine("Start GetGame");
             VGame retVal = null;
             try
             {
@@ -466,11 +541,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End GetGame");
             return retVal;
         }
 
         public async Task<VGame> StartGame(int vgameid, int playerid)
         {
+            Debug.WriteLine("Start StartGame");
             VGame retVal = null;
             try
             {
@@ -500,11 +577,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End StartGame");
             return retVal;
         }
 
         public async Task<VGame> PostSelectedCategories(VGameSelectedCategories inObj)
         {
+            Debug.WriteLine("Start PostSelectedCategories");
             VGame retVal = null;
             try
             {
@@ -537,13 +616,13 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End PostSelectedCategories");
             return retVal;
         }
-
-
-
+        
         public async Task<NewCampaignStageReturn> PostNextCampaignCategory(NewCampaignStageInfo inObj)
         {
+            Debug.WriteLine("Start PostNextCampaignCategory");
             NewCampaignStageReturn retVal = null;
             try
             {
@@ -576,144 +655,8 @@ namespace TriviaTraverse.Api
             {
                 Debug.WriteLine("Problem " + ex.Message);
             }
+            Debug.WriteLine("End PostNextCampaignCategory");
             return retVal;
         }
-
-
-
-        /// old
-
-        public async Task<Dashboard> Old_GetDashboardAsync()
-        {
-            int playerId = App.PlayerObj.PlayerId;
-            Dashboard dashboard = null;
-            try
-            {
-                //TODO: Check network connection
-                //if (await CheckNetworkConnection())
-                //{
-                var url = _baseUrl + "Dashboard/" + playerId;
-                using (var httpClient = CreateClient())
-                {
-                    var result = await httpClient.GetAsync(url);
-                    var responseText = await result.Content.ReadAsStringAsync();
-                    //Serialize the json object to our c# classes
-                    dashboard = JsonConvert.DeserializeObject<Dashboard>(responseText);
-                }
-                //}
-            }
-            catch (Exception ex)
-            {
-                //In case something we have a problem...
-                Debug.WriteLine("Whooops! " + ex.Message);
-            }
-            return dashboard;
-        }
-
-        public async Task<Game> Old_GetGameAsync(int gameId)
-        {
-            int playerId = App.PlayerObj.PlayerId;
-            Game newGame = null;
-            try
-            {
-                var url = _baseUrl + string.Format("Game?id={0}&playerid={1}", gameId, playerId);
-                using (var httpClient = CreateClient())
-                {
-                    var result = await httpClient.GetAsync(url);
-                    var responseText = await result.Content.ReadAsStringAsync();
-
-                    newGame = JsonConvert.DeserializeObject<Game>(responseText);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Problem " + ex.Message);
-            }
-            return newGame;
-        }
-
-        public async Task<string> Old_PostGamePlayerUpdate(GamePlayer GP)
-        {
-            string retVal;
-
-            var url = _baseUrl + "GamePlayer";
-            using (var httpClient = CreateClient())
-            {
-                var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(GP));
-                var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-
-                var result = await httpClient.PostAsync(url, httpContent);
-                var responseText = await result.Content.ReadAsStringAsync();
-
-                retVal = responseText;
-            }
-
-            return retVal;
-        }
-
-        public async Task<string> Old_PostGamePlayerQuestionResults(GamePlayerQuestionResult GPQR)
-        {
-            string retVal;
-
-            var url = _baseUrl + "GamePlayerQuestionResult";
-            using (var httpClient = CreateClient())
-            {
-                var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(GPQR));
-                var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-
-                var result = await httpClient.PostAsync(url, httpContent);
-                var responseText = await result.Content.ReadAsStringAsync();
-
-                retVal = responseText;
-            }
-
-            return retVal;
-        }
-
-        public async Task<Game> Old_CreateGameAsync()
-        {
-            int playerId = App.PlayerObj.PlayerId;
-            Game newGame = null;
-            try
-            {
-                var url = _baseUrl + "CreateGame/" + playerId;
-                using (var httpClient = CreateClient())
-                {
-                    var result = await httpClient.GetAsync(url);
-                    var responseText = await result.Content.ReadAsStringAsync();
-
-                    newGame = JsonConvert.DeserializeObject<Game>(responseText);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Problem " + ex.Message);
-            }
-            return newGame;
-        }
-
-        public async Task<Game> Old_JoinGameAsync(int gameId)
-        {
-            int playerId = App.PlayerObj.PlayerId;
-            Game newGame = null;
-            try
-            {
-                var url = _baseUrl + string.Format("JoinGame?id={0}&playerid={1}", gameId, playerId);
-                using (var httpClient = CreateClient())
-                {
-                    var result = await httpClient.GetAsync(url);
-                    var responseText = await result.Content.ReadAsStringAsync();
-
-                    newGame = JsonConvert.DeserializeObject<Game>(responseText);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Problem " + ex.Message);
-            }
-            return newGame;
-        }
-
     }
-
 }

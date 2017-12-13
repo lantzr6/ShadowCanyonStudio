@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             x:Class="TriviaTraverse.Views.TutorialPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0,20,0,0"
+                    Android="0"
+                    WinPhone="0" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <skia:SKCanvasView x:Name="canvasView" Grid.Row="0"
+                                   EnableTouchEvents="True"
+                                   Touch="canvasView_Touch"
+                                   PaintSurface="canvasView_PaintSurface"/>
+                <Button Grid.Row="1" VerticalOptions="Fill" HorizontalOptions="Fill"
+                    Text="skip tutorial" FontAttributes="Bold" TextColor="White" BackgroundColor="Black"
+                        Command="{Binding SkipCommand}"/>
+            </Grid>
+            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
+                <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                       AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5, .5">
+                    <Label Text="{Binding BusyMessage}" HorizontalTextAlignment="Center" TextColor="White" FontAttributes="Bold"/>
+                    <Label Text="Please wait..." HorizontalTextAlignment="Center" TextColor="White" FontAttributes="Bold"/>
+                    <ActivityIndicator Color="White" IsRunning="{Binding IsBusy}"/>
+                </StackLayout>
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

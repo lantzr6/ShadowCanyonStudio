@@ -4,18 +4,17 @@
         <TargetFramework>netstandard1.4</TargetFramework>
         <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
         <AssemblyName>Trivia Traverse</AssemblyName>
+        <Configurations>Debug;Release;DebugLocal</Configurations>
     </PropertyGroup>
     <ItemGroup>
       <None Remove="images\locked_lefthalf.png" />
       <None Remove="images\locked_righthalf.png" />
-      <None Remove="images\star.png" />
       <None Remove="images\unlocked_lefthalf.png" />
       <None Remove="images\unlocked_righthalf.png" />
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Include="images\locked_lefthalf.png" />
       <EmbeddedResource Include="images\locked_righthalf.png" />
-      <EmbeddedResource Include="images\star.png" />
       <EmbeddedResource Include="images\unlocked_lefthalf.png" />
       <EmbeddedResource Include="images\unlocked_righthalf.png" />
     </ItemGroup>
@@ -32,14 +31,6 @@
       <Folder Include="Properties\" />
     </ItemGroup>
     <ItemGroup>
-      <Reference Include="Mono.Android">
-        <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v7.1\Mono.Android.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-    <ItemGroup>
-      <Compile Update="Controls\HeaderVGameControl.xaml.cs">
-        <DependentUpon>HeaderVGameControl.xaml</DependentUpon>
-      </Compile>
       <Compile Update="Views\GameBoardPage.xaml.cs">
         <DependentUpon>GameBoardPage.xaml</DependentUpon>
       </Compile>

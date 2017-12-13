@@ -86,7 +86,7 @@ namespace TriviaTraverse.ViewModels
 
                 data = await WebApi.Instance.GetAccountAsync(EmailAddr, Password);
 
-                if (data != null)
+                if (data != null && data.PlayerId > 0)
                 {
                     PlayerObj.PlayerId = data.PlayerId;
                     PlayerObj.UserName = data.UserName;

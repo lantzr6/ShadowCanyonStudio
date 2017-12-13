@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="TriviaTraverse171207Entities-Web.config Connection String" description="TriviaTraverse171207Entities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.TriviaTraverseModel.csdl|res://*/Models.TriviaTraverseModel.ssdl|res://*/Models.TriviaTraverseModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=triviatraverse.database.windows.net;initial catalog=TriviaTraverse171207;persist security info=True;user id=shadowadmin;password=2017UpHill;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Data\\ShadowCanyonStudio\\TriviaTraverse\\TriviaTraverseApi\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='TriviaTraverse171207Entities']/@connectionString" />
+  </parameter>
+</parameters>

@@ -28,6 +28,46 @@ namespace TriviaTraverse.Views
             }
         }
 
+        #region "Properties"
+        private int newAnimationCountdown;
+
+        private bool UpdateBoard = true;
+
+        SKBitmap stageNextUnlocked = new SKBitmap { };
+        SKBitmap stageNextLocked = new SKBitmap { };
+        SKBitmap stagePreviousUnlocked = new SKBitmap { };
+        SKBitmap stagePreviousLocked = new SKBitmap { };
+
+        bool ObjectsCreated = false;
+        int screenWidth = 0;
+        int screenHeight = 0;
+        float margin2 = 0;
+        float margin4 = 0;
+        float margin6 = 0;
+        float margin8 = 0;
+        float margin10 = 0;
+        float margin12 = 0;
+
+        float sectionRadius = 0;
+
+        SKPaint blackSmallTextPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Black, TextSize = 46 };
+        SKPaint inactiveSmallTextPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Gray, TextSize = 46 };
+        SKPaint blackLargeTextPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Black, TextSize = 80 };
+
+        SKPaint inactiveStrokePaint = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.Gray, StrokeWidth = 6, IsAntialias = true };
+        SKPaint highlightStrokePaint = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.CornflowerBlue, StrokeWidth = 8, IsAntialias = true };
+
+        SKPaint blackFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Black };
+        SKPaint completeFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.ForestGreen };
+        SKPaint whiteFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.White };
+        SKPaint highlightFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.CornflowerBlue };
+        SKPaint inactiveFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Gray };
+        SKPaint yellowFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Gold };
+
+        SKPoint section0Center; SKPoint section1Center; SKPoint section2Center; SKPoint section3Center; SKPoint section4Center; SKPoint section5Center; SKPoint section6Center;
+        SKPath GameStagePath; SKPath starPath;
+        #endregion
+
 
 
 
@@ -37,18 +77,6 @@ namespace TriviaTraverse.Views
 
             Assembly assembly = GetType().GetTypeInfo().Assembly;
             Stream stream2 = assembly.GetManifestResourceStream("TriviaTraverse.images.unlocked_lefthalf.png");
-
-            //var rrr = assembly.GetManifestResourceNames();
-
-            List<SKPoint> starPoints = CalculateStarPoints(0, 0, 5, 20, 10);
-            starPath.MoveTo(starPoints[0]);
-            for (int i = 1; i < starPoints.Count - 1; i++)
-            {
-                starPath.LineTo(starPoints[i]);
-            }
-            starPath.LineTo(starPoints.Last());
-            starPath.Close();
-
 
             // Create Stage Next UnLocked Bitmap
             using (Stream stream = assembly.GetManifestResourceStream("TriviaTraverse.images.unlocked_lefthalf.png"))
@@ -142,63 +170,6 @@ namespace TriviaTraverse.Views
 
 
 
-        SKPaint blackThinStrokePaint = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.Black, StrokeWidth = 1, IsAntialias = true };
-        SKPaint blackStrokePaint = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.Black, StrokeWidth = 6, IsAntialias = true };
-        SKPaint inactiveStrokePaint = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.Gray, StrokeWidth = 6, IsAntialias = true };
-        SKPaint highlightStrokePaint = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.CornflowerBlue, StrokeWidth = 8, IsAntialias = true };
-
-        SKPaint blackFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Black };
-        SKPaint completeFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.ForestGreen };
-        SKPaint whiteFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.White };
-
-
-
-
-        #region "Properties"
-        private int newAnimationCountdown;
-
-        private bool UpdateBoard = true;
-
-        SKBitmap stageNextUnlocked = new SKBitmap { };
-        SKBitmap stageNextLocked = new SKBitmap { };
-        SKBitmap stagePreviousUnlocked = new SKBitmap { };
-        SKBitmap stagePreviousLocked = new SKBitmap { };
-        SKBitmap starImage = new SKBitmap { };
-
-        bool ObjectsCreated = false;
-        int screenWidth = 0;
-        int screenHeight = 0;
-        float margin2 = 0;
-        float margin4 = 0;
-        //float margin6 = 0;
-        float margin8 = 0;
-        float margin10 = 0;
-        float riseX = 0;
-        float riseY = 0;
-        float fallX = 0;
-        float fallY = 0;
-        float sectionRiseY = 0;
-        float mntWidth = 0;
-        float mntHeight = 0;
-
-        SKPaint blackSmallTextPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Black, TextSize = 46 };
-        SKPaint inactiveSmallTextPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Gray, TextSize = 46 };
-        SKPaint blackLargeTextPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Black, TextSize = 80 };
-        SKPaint playerNameTextPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Black, TextSize = 60, TextAlign = SKTextAlign.Center };
-
-        SKPaint highlightFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.CornflowerBlue };
-        SKPaint stepFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Brown.WithAlpha(127) };
-        SKPaint questionFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Fuchsia.WithAlpha(127) };
-        SKPaint inactiveFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Gray };
-        SKPaint yellowFillPaint = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Gold };
-        SKPaint paintGraph = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.LightGreen, StrokeWidth = 8, StrokeCap = SKStrokeCap.Round, StrokeJoin = SKStrokeJoin.Round };
-        SKPaint paintLines = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.LightGray, StrokeWidth = 6, StrokeCap = SKStrokeCap.Round, StrokeJoin = SKStrokeJoin.Round };
-        SKPaint paintMntOutline = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.DarkGray, StrokeWidth = 4, StrokeCap = SKStrokeCap.Round, StrokeJoin = SKStrokeJoin.Round };
-        SKPath GameNamePath; SKPath ScorePath; SKPath starPath;
-        SKRect statsRect; SKRect backRect;
-        SKPath graphPath; SKPath graphLinePath;
-        #endregion
-
         private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             //setup global objects
@@ -210,14 +181,41 @@ namespace TriviaTraverse.Views
                 //one pixel = .0005f;
                 margin2 = screenHeight * .001f;
                 margin4 = margin2 * 2;
-                //margin6 = margin2 * 3;
+                margin6 = margin2 * 3;
                 margin8 = margin2 * 4;
                 margin10 = margin2 * 5;
+                margin12 = margin2 * 6;
+                
+                sectionRadius = screenHeight * .05f;
+
+                inactiveStrokePaint.TextSize = margin4;
+                highlightStrokePaint.TextSize = margin6;
 
                 blackSmallTextPaint.TextSize = screenHeight * .0221f;
                 inactiveSmallTextPaint.TextSize = blackSmallTextPaint.TextSize;
                 blackLargeTextPaint.TextSize = screenHeight * .0385f;
 
+                GameStagePath = new SKPath();
+                GameStagePath.MoveTo(0, screenHeight * .0577f);
+                GameStagePath.RLineTo(screenWidth, 0);
+
+                List<SKPoint> starPoints = CalculateStarPoints(0, 0, 5, screenHeight * .01f, screenHeight * .005f);
+                starPath = new SKPath();
+                starPath.MoveTo(starPoints[0]);
+                for (int i = 1; i < starPoints.Count - 1; i++)
+                {
+                    starPath.LineTo(starPoints[i]);
+                }
+                starPath.LineTo(starPoints.Last());
+                starPath.Close();
+
+                section3Center = new SKPoint(screenWidth / 2, (screenHeight / 2) - (screenHeight * .05f));
+                section0Center = new SKPoint(section3Center.X, section3Center.Y + (screenHeight * .30f));
+                section1Center = new SKPoint(section3Center.X - (screenWidth * .30f), section3Center.Y + (screenHeight * .175f));
+                section2Center = new SKPoint(section3Center.X + (screenWidth * .30f), section3Center.Y + (screenHeight * .175f));
+                section4Center = new SKPoint(section3Center.X - (screenWidth * .30f), section3Center.Y - (screenHeight * .175f));
+                section5Center = new SKPoint(section3Center.X + (screenWidth * .30f), section3Center.Y - (screenHeight * .175f));
+                section6Center = new SKPoint(section3Center.X, section3Center.Y - (screenHeight * .30f));
             }
             
             clickAreas.Clear();
@@ -228,25 +226,8 @@ namespace TriviaTraverse.Views
             canvas.Clear();
 
             if (vm.CampaignObj != null && vm.ActiveStage != null)
-            {
-                // Set transforms
-                canvas.Translate(screenWidth / 2, screenHeight / 2);
-                //canvas.Scale(Math.Min(width / 210f, height / 520f));
-
-                int trueZeroX = -(screenWidth / 2);
-                int trueZeroY = -(screenHeight / 2);
-                int trueEndX = (screenWidth / 2);
-                int trueEndY = (screenHeight / 2);
-                int bottomBorder = 12;
-
-                using (SKPath path = new SKPath())
-                {
-                    path.MoveTo(trueZeroX, trueZeroY+120);
-                    path.LineTo(trueEndX, trueZeroY+120);
-
-                    //canvas.DrawPath(path, highlightStrokePaint);
-                    canvas.DrawTextOnPath("Stage " + vm.ActiveStage.StageLevel.ToString(), path, 0, 0, blackLargeTextPaint);
-                }
+            {              
+                canvas.DrawTextOnPath("Stage " + vm.ActiveStage.StageLevel.ToString(), GameStagePath, 0, 0, blackLargeTextPaint);
 
                 //draw stage nav
                 //set next stage button image
@@ -263,32 +244,40 @@ namespace TriviaTraverse.Views
                 {
                     nextButton = stageNextLocked;
                 }
+                //base traverse line Y
+                float baseLineY = (screenHeight * .9f);
                 //line previous to middle
-                canvas.DrawLine(trueZeroX, trueEndY - bottomBorder - nextButton.Height / 2, 0, trueEndY - bottomBorder - nextButton.Height / 2, highlightStrokePaint);
+                canvas.DrawLine(0, baseLineY, section0Center.X, baseLineY, highlightStrokePaint);
                 //line middle to section 0
-                canvas.DrawLine(0, trueEndY - bottomBorder - nextButton.Height / 2, 0, 460, highlightStrokePaint);
+                canvas.DrawLine(screenWidth / 2, baseLineY, section0Center.X, section0Center.Y, highlightStrokePaint);
                 if (IsMoreStages || vm.ActiveStage != vm.CampaignObj.Stages.Last())
                 {
                     //line middle to next
-                    if (nextStageLocked)
-                    {
-                        canvas.DrawLine(0, trueEndY - bottomBorder - nextButton.Height / 2, trueEndX, trueEndY - bottomBorder - nextButton.Height / 2, inactiveStrokePaint);
-                    }
-                    else
-                    {
-                        canvas.DrawLine(0, trueEndY - bottomBorder - nextButton.Height / 2, trueEndX, trueEndY - bottomBorder - nextButton.Height / 2, highlightStrokePaint);
-                    }
+                    canvas.DrawLine(screenWidth / 2, baseLineY, screenWidth, baseLineY, nextStageLocked?inactiveStrokePaint: highlightStrokePaint);
+
                     //draw next stage button
-                    SKRect rectNext = new SKRect(trueEndX - nextButton.Width, trueEndY - bottomBorder - nextButton.Height, trueEndX, trueEndY - bottomBorder);
-                    canvas.DrawBitmap(nextButton, rectNext, whiteFillPaint);
+                    // Draw a bitmap rescaled
+                    float target = screenWidth * .1f;
+                    float scaleFactor = target / float.Parse(nextButton.Width.ToString());
+                    canvas.SetMatrix(SKMatrix.MakeScale(scaleFactor, scaleFactor));
+                    SKPoint pos = new SKPoint(screenWidth - (nextButton.Width * scaleFactor), baseLineY - ((nextButton.Height * scaleFactor) / 2));
+                    SKRect rectNext = new SKRect(pos.X, pos.Y, screenWidth, pos.Y + (nextButton.Width * scaleFactor));
                     RegisterClickArea("next", rectNext);
+                    canvas.DrawBitmap(nextButton, pos.X / scaleFactor, pos.Y / scaleFactor);
+                    canvas.ResetMatrix();
                 }
                 //draw previous stage button
                 if (vm.ActiveStage.StageLevel > 1)
                 {
-                    SKRect rectPrevious = new SKRect(trueZeroX, trueEndY - bottomBorder - stagePreviousUnlocked.Height, trueZeroX + stagePreviousUnlocked.Width, trueEndY - bottomBorder);
-                    canvas.DrawBitmap(stagePreviousUnlocked, rectPrevious, whiteFillPaint);
+                    // Draw a bitmap rescaled
+                    float target = screenWidth * .1f;
+                    float scaleFactor = target / float.Parse(stagePreviousUnlocked.Width.ToString());
+                    canvas.SetMatrix(SKMatrix.MakeScale(scaleFactor, scaleFactor));
+                    SKPoint pos = new SKPoint(0, baseLineY - ((stagePreviousUnlocked.Height * scaleFactor) / 2));
+                    SKRect rectPrevious = new SKRect(pos.X, pos.Y, (stagePreviousUnlocked.Width * scaleFactor), pos.Y + (stagePreviousUnlocked.Height * scaleFactor));
                     RegisterClickArea("previous", rectPrevious);
+                    canvas.DrawBitmap(stagePreviousUnlocked, pos.X, pos.Y / scaleFactor);
+                    canvas.ResetMatrix();
                 }
 
                 //draw connector lines
@@ -299,43 +288,35 @@ namespace TriviaTraverse.Views
                 bool section4Complete = vm.ActiveStage.Sections[4].IsComplete;
                 bool section5Perfect = vm.ActiveStage.Sections[5].IsComplete && vm.ActiveStage.Sections[5].NumberCorrect == 5;
                 // from 0 - 1
-                canvas.DrawLine(0, 460, -290, 230, section0Complete ? highlightStrokePaint : inactiveStrokePaint);
+                canvas.DrawLine(section0Center.X, section0Center.Y, section1Center.X, section1Center.Y, section0Complete ? highlightStrokePaint : inactiveStrokePaint);
                 // from 0 - 2
-                canvas.DrawLine(0, 460, 290, 230, section0Complete ? highlightStrokePaint : inactiveStrokePaint);
+                canvas.DrawLine(section0Center.X, section0Center.Y, section2Center.X, section2Center.Y, section0Complete ? highlightStrokePaint : inactiveStrokePaint);
                 // from 1 - 3
-                canvas.DrawLine(-290, 230, 0, 0, section1Complete ? highlightStrokePaint : inactiveStrokePaint);
+                canvas.DrawLine(section1Center.X, section1Center.Y, section3Center.X, section3Center.Y, section1Complete ? highlightStrokePaint : inactiveStrokePaint);
                 // from 2 - 3
-                canvas.DrawLine(290, 230, 0, 0, section2Complete ? highlightStrokePaint : inactiveStrokePaint);
+                canvas.DrawLine(section2Center.X, section2Center.Y, section3Center.X, section3Center.Y, section2Complete ? highlightStrokePaint : inactiveStrokePaint);
                 // from 3 - 4
-                canvas.DrawLine(0, 0, -290, -230, section3Complete ? highlightStrokePaint : inactiveStrokePaint);
+                canvas.DrawLine(section3Center.X, section3Center.Y, section4Center.X, section4Center.Y, section3Complete ? highlightStrokePaint : inactiveStrokePaint);
                 // from 3 - 5
-                canvas.DrawLine(0, 0, 290, -230, section3Complete ? highlightStrokePaint : inactiveStrokePaint);
+                canvas.DrawLine(section3Center.X, section3Center.Y, section5Center.X, section5Center.Y, section3Complete ? highlightStrokePaint : inactiveStrokePaint);
                 // from 5 - 6
-                canvas.DrawLine(290, -230, 0, -460, section5Perfect ? highlightStrokePaint : inactiveStrokePaint);
+                canvas.DrawLine(section5Center.X, section5Center.Y, section6Center.X, section6Center.Y, section5Perfect ? highlightStrokePaint : inactiveStrokePaint);
 
                 //draw section circles
-                SKPoint center = new SKPoint();
                 // section 0
-                center.X = 0; center.Y = 460;
-                DrawSectionCircle(canvas, 0, true, center);
+                DrawSectionCircle(canvas, 0, true, section0Center);
                 // section 1
-                center.X = -290; center.Y = 230;
-                DrawSectionCircle(canvas, 1, section0Complete, center);
+                DrawSectionCircle(canvas, 1, section0Complete, section1Center);
                 // section 2
-                center.X = 290; center.Y = 230;
-                DrawSectionCircle(canvas, 2, section0Complete, center);
+                DrawSectionCircle(canvas, 2, section0Complete, section2Center);
                 // section 3
-                center.X = 0; center.Y = 0;
-                DrawSectionCircle(canvas, 3, (section1Complete || section2Complete), center);
+                DrawSectionCircle(canvas, 3, (section1Complete || section2Complete), section3Center);
                 // section 4
-                center.X = -290; center.Y = -230;
-                DrawSectionCircle(canvas, 4, section3Complete, center);
+                DrawSectionCircle(canvas, 4, section3Complete, section4Center);
                 // section 5
-                center.X = 290; center.Y = -230;
-                DrawSectionCircle(canvas, 5, section3Complete, center);
+                DrawSectionCircle(canvas, 5, section3Complete, section5Center);
                 // section 6 - Bonus
-                center.X = 0; center.Y = -460;
-                DrawSectionCircle(canvas, 6, section5Perfect, center);
+                DrawSectionCircle(canvas, 6, section5Perfect, section6Center);
             }
         }
 
@@ -343,9 +324,7 @@ namespace TriviaTraverse.Views
 
         private void RegisterClickArea(string name, SKRect area, string value = null)
         {
-            int adjWidth = screenWidth / 2;
-            int adjHeight = screenHeight / 2;
-            SKRect newArea = new SKRect(area.Left + adjWidth, area.Top + adjHeight, area.Right + adjWidth, area.Bottom + adjHeight);
+            SKRect newArea = new SKRect(area.Left, area.Top, area.Right, area.Bottom);
             clickAreas.Add(new CampaignBoardClickArea() { Name = name, Area = newArea, Value = value });
         }
 
@@ -389,7 +368,6 @@ namespace TriviaTraverse.Views
             //Debug.WriteLine("Draw section " + sectionIdx.ToString());
             GameSection section = null;
             SKRect rect = new SKRect();
-            float radius = 87;
             float startAngle = 0;
             float sweepAngleBase = 360f / 5;
             float sweepAngle = 0;
@@ -400,22 +378,22 @@ namespace TriviaTraverse.Views
                 if (section.IsComplete)
                 {
                     //draw complete circle
-                    float sectionRadius = radius;
-                    if (section.NewlyComplete) { sectionRadius -= (newAnimationCountdown *2); Debug.WriteLine(newAnimationCountdown.ToString() + "   " + sectionRadius.ToString()); }
+                    float sectionRadiusAni = sectionRadius;  //setup animation
+                    if (section.NewlyComplete) { sectionRadiusAni -= (newAnimationCountdown * 2); }
+                    //Debug.WriteLine(newAnimationCountdown.ToString() + "   " + sectionRadiusAni.ToString()); }
 
-                    rect = new SKRect(center.X - radius, center.Y - radius, center.X + radius, center.Y + radius);
-                    canvas.DrawCircle(center.X, center.Y, sectionRadius, completeFillPaint);
+                    rect = new SKRect(center.X - sectionRadius, center.Y - sectionRadius, center.X + sectionRadius, center.Y + sectionRadius);
+                    canvas.DrawCircle(center.X, center.Y, sectionRadiusAni, completeFillPaint);
 
                     RegisterClickArea("SectionRetry", rect, sectionIdx.ToString());
-
 
                     if (section.NewlyComplete && newAnimationCountdown == 0) { section.NewlyComplete = false; }
                 }
                 else
                 {
                     //draw pie wedges
-                    rect = new SKRect(center.X - radius, center.Y - radius, center.X + radius, center.Y + radius);
-                    canvas.DrawCircle(center.X, center.Y, radius, blackFillPaint);
+                    rect = new SKRect(center.X - sectionRadius, center.Y - sectionRadius, center.X + sectionRadius, center.Y + sectionRadius);
+                    canvas.DrawCircle(center.X, center.Y, sectionRadius, blackFillPaint);
                     if (section.NumberAnswered > 0)
                     {
                         sweepAngle = section.NumberAnswered * sweepAngleBase;
@@ -434,8 +412,8 @@ namespace TriviaTraverse.Views
             else
             {
                 //draw inactive circle
-                canvas.DrawCircle(center.X, center.Y, radius, whiteFillPaint);
-                canvas.DrawCircle(center.X, center.Y, radius, inactiveStrokePaint);
+                canvas.DrawCircle(center.X, center.Y, sectionRadius, whiteFillPaint);
+                canvas.DrawCircle(center.X, center.Y, sectionRadius, inactiveStrokePaint);
             }
 
             //draw text
@@ -445,50 +423,52 @@ namespace TriviaTraverse.Views
             switch (sectionIdx)
             {
                 case 0:
-                    textPoint.X = center.X + radius - 8;
-                    textPoint.Y = center.Y + (radius / 2) + newPaint.TextSize;
+                    textPoint.X = center.X + sectionRadius - margin8;
+                    textPoint.Y = center.Y + (sectionRadius / 2) + newPaint.TextSize;
                     newPaint.TextAlign = SKTextAlign.Left;
                     break;
                 case 3:
-                    textPoint.X = center.X + radius + 12;
-                    textPoint.Y = center.Y - 7 + newPaint.TextSize;
+                    textPoint.X = center.X + sectionRadius + margin12;
+                    textPoint.Y = center.Y - margin8 + newPaint.TextSize;
                     newPaint.TextAlign = SKTextAlign.Left;
                     break;
                 case 1:
                 case 4:
-                    textPoint.X = center.X - radius - radius;
-                    textPoint.Y = center.Y + radius + newPaint.TextSize;
+                    textPoint.X = center.X - (sectionRadius * 2);
+                    textPoint.Y = center.Y + sectionRadius + newPaint.TextSize;
                     newPaint.TextAlign = SKTextAlign.Left;
                     break;
                 case 2:
                 case 5:
-                    textPoint.X = center.X - radius;
-                    textPoint.Y = center.Y + radius + newPaint.TextSize;
+                    textPoint.X = center.X - sectionRadius;
+                    textPoint.Y = center.Y + sectionRadius + newPaint.TextSize;
                     newPaint.TextAlign = SKTextAlign.Left;
                     break;
                 case 6:
-                    textPoint.X = center.X + radius + 8; ;
-                    textPoint.Y = center.Y - radius + newPaint.TextSize;
+                    textPoint.X = center.X + sectionRadius + margin8; ;
+                    textPoint.Y = center.Y - sectionRadius + newPaint.TextSize;
                     newPaint.TextAlign = SKTextAlign.Left;
                     break;
             }
 
-
+            //draw text
             using (SKPath path = new SKPath())
             {
                 path.MoveTo(textPoint.X, textPoint.Y);
-                path.LineTo(textPoint.X + 400, textPoint.Y);
+                path.LineTo(textPoint.X + (screenWidth * .2778f), textPoint.Y);
 
                 canvas.DrawTextOnPath(section.SectionName, path, 0, 0, newPaint);
             }
-            SKPoint starPoint = new SKPoint(textPoint.X, textPoint.Y + 8);
+            //stars
+            SKPoint starPoint = new SKPoint(textPoint.X, textPoint.Y + margin8);
             for (int i = 1; i <= 5; i++)
             {
+
                 canvas.Save();
-                canvas.Translate(starPoint.X + 20, starPoint.Y + 20);
+                canvas.Translate(starPoint.X + (margin10 * 2), starPoint.Y + (margin10 * 2));
                 canvas.DrawPath(starPath, section.NumberCorrect >= i ? yellowFillPaint : inactiveFillPaint);
                 canvas.Restore();
-                starPoint.X += starPath.TightBounds.Width + 8;
+                starPoint.X += starPath.TightBounds.Width + margin8;
             }
         }
     }

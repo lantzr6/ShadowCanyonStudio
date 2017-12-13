@@ -151,18 +151,20 @@ namespace TriviaTraverse.ViewModels
             {
                 IsBusy = true;
                 Countdown.StopUpdating();
+                CurrentQuestion CQ = ActiveSection.ActiveQuestion;
                 bool isCorrect = false;
                 int pointsRewarded = 0;
 
-                int curQuestionLevel = ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.QuestionLevel;
+                int curQuestionLevel = CQ.BaseSectionCategoryQuestion.QuestionLevel;
 
-                ActiveSection.ActiveQuestion.SelectedAnswerIdx = answerIdx;
+                CQ.SelectedAnswerIdx = answerIdx;
+                CQ.BaseSectionCategoryQuestion.IsUnanswered = false;
 
                 ActiveSection.NumberAnswered++;
-                if (answerIdx == ActiveSection.ActiveQuestion.CorrectAnswerIdx)
+                if (answerIdx == CQ.CorrectAnswerIdx)
                 {
-                    ActiveSection.EarnedPoints += (curQuestionLevel * 100);
-                    pointsRewarded = (curQuestionLevel * 100);
+                    ActiveSection.EarnedPoints += CQ.PointValue;
+                    pointsRewarded = CQ.PointValue;
                     PlayerObj.Points += pointsRewarded;
                     ActiveSection.EarnedStars++;
                     PlayerObj.Stars++;
@@ -171,16 +173,16 @@ namespace TriviaTraverse.ViewModels
                 }
                 else
                 {
-                    ActiveSection.ActiveQuestion.WrongAnswerIdx = answerIdx;
+                    CQ.WrongAnswerIdx = answerIdx;
                 }
 
                 if (isCorrect)
                 {
-                    ActiveSection.ActiveQuestion.QuestionModeCorrect = true;
+                    CQ.QuestionModeCorrect = true;
                 }
                 else
                 {
-                    ActiveSection.ActiveQuestion.QuestionModeWrong = true;
+                    CQ.QuestionModeWrong = true;
                 }
 
                 //update bindings
@@ -191,9 +193,9 @@ namespace TriviaTraverse.ViewModels
                 if (App.GameMode == GameMode.Campaign || App.GameMode == GameMode.Tutorial)
                 {
                     PlayerQuestionResult inObj = new PlayerQuestionResult();
-                    inObj.QuestionId = ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.QuestionId;
+                    inObj.QuestionId = CQ.BaseSectionCategoryQuestion.QuestionId;
                     inObj.PlayerId = PlayerObj.PlayerId;
-                    inObj.PlayerAnswerText = (answerIdx > 0 ? ActiveSection.ActiveQuestion.Answers[answerIdx] : "");
+                    inObj.PlayerAnswerText = (answerIdx > 0 ? CQ.Answers[answerIdx] : "");
                     inObj.IsCorrect = isCorrect;
                     inObj.PointsRewarded = pointsRewarded;
                     var retval = await WebApi.Instance.PostCampaignQuestionResults(inObj);
@@ -205,9 +207,9 @@ namespace TriviaTraverse.ViewModels
                     App.VGameObj.PlayerScore += pointsRewarded;
 
                     PlayerVGameQuestionResult inObj = new PlayerVGameQuestionResult();
-                    inObj.QuestionId = ActiveSection.ActiveQuestion.BaseSectionCategoryQuestion.QuestionId;
+                    inObj.QuestionId = CQ.BaseSectionCategoryQuestion.QuestionId;
                     inObj.PlayerId = PlayerObj.PlayerId;
-                    inObj.PlayerAnswerText = (answerIdx > 0 ? ActiveSection.ActiveQuestion.Answers[answerIdx] : "");
+                    inObj.PlayerAnswerText = (answerIdx > 0 ? CQ.Answers[answerIdx] : "");
                     inObj.IsCorrect = isCorrect;
                     inObj.PointsRewarded = pointsRewarded;
                     inObj.VGameId = App.VGameObj.VGameId; //only difference - combine later

@@ -133,6 +133,17 @@ namespace TriviaTraverse.ViewModels
         #endregion
 
         #region "Commands"
+        private ICommand _closeCommand;
+        public ICommand CloseCommand =>
+            _closeCommand ?? (_closeCommand = new Command(OnClose, CanClose));
+        private bool CanClose()
+        {
+            return true;
+        }
+        private async void OnClose()
+        {
+            await Navigation.PopAsync();
+        }
         private ICommand _closeTutorialOneCommand;
         public ICommand CloseTutorialOneCommand =>
             _closeTutorialOneCommand ?? (_closeTutorialOneCommand = new Command(CloseTutorialOne, CanCloseTutorialOne));
@@ -168,26 +179,30 @@ namespace TriviaTraverse.ViewModels
 
         private ICommand _startQuestionCommand;
         public ICommand StartQuestionCommand =>
-            _startQuestionCommand ?? (_startQuestionCommand = new Command(StartQuestion, CanStartQuestion));
+            _startQuestionCommand ?? (_startQuestionCommand = new Command<object>(StartQuestion, CanStartQuestion));
 
-        private bool CanStartQuestion()
+        private bool CanStartQuestion(object value)
         {
             return QuestionReady;
         }
 
-        private async void StartQuestion()
+        private async void StartQuestion(object value)
         {
-            BuildCurrentQuestion();
+            BuildCurrentQuestion(int.Parse(value.ToString()));
             ActiveSection.ActiveQuestion.QuestionModeActive = true;
             switch (ActiveSection.SectionType)
             {
                 case GameSectionType.Campaign:
                 case GameSectionType.CampaignTutorial:
                     PlayerObj.StepBank -= 1000;
+                    App.UpdatePlayerData();
+                    break;
+                case GameSectionType.VersusRegular:
+                    VGameObj.PlayerGameSteps -= 1000;
+                    VGamePlayerUpdate inObj = new VGamePlayerUpdate() { VGameId = VGameObj.VGameId, PlayerId = PlayerObj.PlayerId, GameSteps = VGameObj.PlayerGameSteps, LastStepUpdate = VGameObj.PlayerLastStepQuery };
+                    App.VGameObj = await WebApi.Instance.UpdateVGamePlayerAsync(inObj);
                     break;
             }
-
-            App.UpdatePlayerData();
 
             await Navigation.PushModalAsync(new QuestionPage());
         }
@@ -209,7 +224,7 @@ namespace TriviaTraverse.ViewModels
             else
             {
                 //PlayerObj.TutorialInfoLevel = 3;
-                Navigation.PushModalAsync(new SignUpPage(SignUpPageMode.SignUpOnly));
+                Navigation.PushModalAsync(new LoginPage());
             }
         }
 
@@ -255,18 +270,17 @@ namespace TriviaTraverse.ViewModels
             RaisePropertyChanged(nameof(StepsNeeded));
             RaisePropertyChanged(nameof(QuestionReady));
             RaisePropertyChanged(nameof(StepsNeededFormattedText));
+            RaisePropertyChanged(nameof(ActiveSection));
         }
 
 
-        public void BuildCurrentQuestion()
+        public void BuildCurrentQuestion(int questionId)
         {
             CurrentQuestion CQ = ActiveSection.ActiveQuestion;
             CQ = new CurrentQuestion();
 
             Question SQ = null;
-            //SQ = ActiveSection.Questions.Where(o => o.QuestionLevel == (ActiveSection.NumberAnswered + 1)).FirstOrDefault();
-            SQ = ActiveSection.Questions.Skip(ActiveSection.NumberAnswered).Take(1).FirstOrDefault();
-            //SQ = ActiveSection.Questions.Where(o => string.IsNullOrEmpty(o.PlayerAnswer)).OrderByDescending(o => o.QuestionLevel).FirstOrDefault();
+            SQ = ActiveSection.Questions.Where(o => o.QuestionId == questionId).FirstOrDefault();
             CQ.CurrentCategoryName = SQ.CategoryName;
 
             CQ.BaseSectionCategoryQuestion = SQ;

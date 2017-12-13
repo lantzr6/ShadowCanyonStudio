@@ -18,6 +18,8 @@
     <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Facebook\library_project_imports\res</ResolvedResourceDirectory>
     <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Forms.Platform.Android\library_project_imports\res</ResolvedResourceDirectory>
     <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Forms.Platform\library_project_imports\res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.GooglePlayServices.Base\library_project_imports\res</ResolvedResourceDirectory>
+    <ResolvedResourceDirectory>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.GooglePlayServices.Basement\library_project_imports\res</ResolvedResourceDirectory>
   </ResolvedResourceDirectories>
   <ResolvedAssetDirectories>
     <ResolvedAssetDirectory>obj\Debug\__library_projects__\Bolts.AppLinks\library_project_imports\assets</ResolvedAssetDirectory>
@@ -49,5 +51,7 @@
     <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Facebook.stamp</ResolvedResourceDirectoryStamp>
     <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Forms.Platform.Android.stamp</ResolvedResourceDirectoryStamp>
     <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.Forms.Platform.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.GooglePlayServices.Base.stamp</ResolvedResourceDirectoryStamp>
+    <ResolvedResourceDirectoryStamp>C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse.Android\obj\Debug\__library_projects__\Xamarin.GooglePlayServices.Basement.stamp</ResolvedResourceDirectoryStamp>
   </ResolvedResourceDirectoryStamps>
 </Paths>

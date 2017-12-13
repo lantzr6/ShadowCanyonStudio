@@ -1,0 +1,7 @@
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverseApi\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverseApi\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverseApi\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverseApi\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverseApi\bin\roslyn\System.IO.Compression.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverseApi\bin\roslyn\VBCSCompiler.exe
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverseApi\obj\DebugLocal\TriviaTraverseApi.dll

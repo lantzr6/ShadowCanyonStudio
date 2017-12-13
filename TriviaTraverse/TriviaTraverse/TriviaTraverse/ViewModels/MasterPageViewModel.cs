@@ -36,11 +36,11 @@ namespace TriviaTraverse.ViewModels
         {
             App._authenticationService.Logout();
 
-            ShowHome();
-            
+            ShowHome(false);
+
             (((App.Current.MainPage as MasterDetailPage).Detail as NavigationPage).RootPage as DashboardPage).Clear();
 
-            Navigation.PushModalAsync(new StartPage());
+            Navigation.PushModalAsync(new TutorialPage());
 
             ((MasterPage)(App.Current.MainPage)).IsPresented = false;
 
@@ -70,7 +70,7 @@ namespace TriviaTraverse.ViewModels
         {
             VGameObj.PlayerGameSteps += 1000;
             VGamePlayerUpdate inObj = new VGamePlayerUpdate() { VGameId = VGameObj.VGameId, PlayerId = PlayerObj.PlayerId, GameSteps = VGameObj.PlayerGameSteps };
-            App.VGameObj = await WebApi.Instance.UpdateVGameAsync(inObj);
+            App.VGameObj = await WebApi.Instance.UpdateVGamePlayerAsync(inObj);
         }
 
         private ICommand _addCoinsCommand;
@@ -94,18 +94,32 @@ namespace TriviaTraverse.ViewModels
 
         }
 
-        public void ShowHome()
+        public void ShowHome(bool reload = true)
         {
-            foreach (Page m in Navigation.ModalStack)
+            int modelIdx = Navigation.ModalStack.Count();
+            for (int i = modelIdx; i > 0; i--)
             {
                 Navigation.PopModalAsync();
             }
-            foreach (Page m in Navigation.NavigationStack)
+            //foreach (Page m in Navigation.ModalStack)
+            //{
+            //    Navigation.PopModalAsync();
+            //}
+            int navIdx = Navigation.NavigationStack.Count();
+            for (int i = navIdx; i > 0; i--)
             {
                 Navigation.PopAsync();
             }
+            //foreach (Page m in Navigation.NavigationStack)
+            //{
+            //    Navigation.PopAsync();
+            //}
 
-            (((App.Current.MainPage as MasterDetailPage).Detail as NavigationPage).RootPage as DashboardPage).LoadDashboard();
+            if (reload)
+            {
+                (((App.Current.MainPage as MasterDetailPage).Detail as NavigationPage).RootPage as DashboardPage).LoadDashboard();
+            }
+            OnPropertyChanged(nameof(PlayerObj));
         }
     }
 }

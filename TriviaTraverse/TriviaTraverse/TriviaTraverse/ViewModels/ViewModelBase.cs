@@ -50,6 +50,20 @@ namespace TriviaTraverse.ViewModels
             get { return !IsBusy; }
         }
 
+        private string _busyMessage;
+        public string BusyMessage
+        {
+            get { return _busyMessage; }
+            set
+            {
+                if (_busyMessage != value)
+                {
+                    _busyMessage = value;
+                    OnPropertyChanged(nameof(BusyMessage));
+                }
+            }
+        }
+
         public void RaisePropertyChanged(string propertyName)
         {
             OnPropertyChanged(propertyName);

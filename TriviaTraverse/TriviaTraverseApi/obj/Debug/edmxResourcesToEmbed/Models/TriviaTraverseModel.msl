@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TriviaTraverse171207ModelStoreContainer" CdmEntityContainer="TriviaTraverse171207Entities">
+    <EntitySetMapping Name="CampaignCategories">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.CampaignCategory">
+        <MappingFragment StoreEntitySet="CampaignCategory">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="QueueLevel" ColumnName="QueueLevel" />
+          <ScalarProperty Name="IsTutorial" ColumnName="IsTutorial" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="CampaignCategoryId" ColumnName="CampaignCategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CampaignSections">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.CampaignSection">
+        <MappingFragment StoreEntitySet="CampaignSection">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+          <ScalarProperty Name="CampaignCategoryId" ColumnName="CampaignCategoryId" />
+          <ScalarProperty Name="CampaignSectionId" ColumnName="CampaignSectionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CampaignStages">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.CampaignStage">
+        <MappingFragment StoreEntitySet="CampaignStage">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="StarsRequired" ColumnName="StarsRequired" />
+          <ScalarProperty Name="StageLevel" ColumnName="StageLevel" />
+          <ScalarProperty Name="CampaignStageId" ColumnName="CampaignStageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GameCategoryQuestionPlayerResults">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.GameCategoryQuestionPlayerResult">
+        <MappingFragment StoreEntitySet="GameCategoryQuestionPlayerResults">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="PointsRewarded" ColumnName="PointsRewarded" />
+          <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+          <ScalarProperty Name="PlayerAnswerText" ColumnName="PlayerAnswerText" />
+          <ScalarProperty Name="GamePlayerId" ColumnName="GamePlayerId" />
+          <ScalarProperty Name="GameCategoryQuestionId" ColumnName="GameCategoryQuestionId" />
+          <ScalarProperty Name="GameCategoryQuestionPlayerResultId" ColumnName="GameCategoryQuestionPlayerResultId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GameTypes">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.GameType">
+        <MappingFragment StoreEntitySet="GameType">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="GameTypeId" ColumnName="GameTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Players">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.Player">
+        <MappingFragment StoreEntitySet="Player">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Points" ColumnName="Points" />
+          <ScalarProperty Name="Stars" ColumnName="Stars" />
+          <ScalarProperty Name="Coins" ColumnName="Coins" />
+          <ScalarProperty Name="LastStepUpdate" ColumnName="LastStepUpdate" />
+          <ScalarProperty Name="StepBank" ColumnName="StepBank" />
+          <ScalarProperty Name="CurrentSteps" ColumnName="CurrentSteps" />
+          <ScalarProperty Name="PlayerLevel" ColumnName="PlayerLevel" />
+          <ScalarProperty Name="FbLogin" ColumnName="FbLogin" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="EmailAddr" ColumnName="EmailAddr" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayerCampaigns">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.PlayerCampaign">
+        <MappingFragment StoreEntitySet="PlayerCampaign">
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="PlayerCampaignId" ColumnName="PlayerCampaignId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayerCampaignCategoryQueues">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.PlayerCampaignCategoryQueue">
+        <MappingFragment StoreEntitySet="PlayerCampaignCategoryQueue">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdateAt" ColumnName="UpdateAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="IsUsed" ColumnName="IsUsed" />
+          <ScalarProperty Name="CampaignCategoryId" ColumnName="CampaignCategoryId" />
+          <ScalarProperty Name="PlayerCampaignId" ColumnName="PlayerCampaignId" />
+          <ScalarProperty Name="PlayerCampaignCategoryQueueId" ColumnName="PlayerCampaignCategoryQueueId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayerCampaignSectionQuestions">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.PlayerCampaignSectionQuestion">
+        <MappingFragment StoreEntitySet="PlayerCampaignSectionQuestion">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="SectionQuestionOrder" ColumnName="SectionQuestionOrder" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="CampaignSectionId" ColumnName="CampaignSectionId" />
+          <ScalarProperty Name="PlayerCampaignId" ColumnName="PlayerCampaignId" />
+          <ScalarProperty Name="PlayerCampaignSectionQuestionId" ColumnName="PlayerCampaignSectionQuestionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayerCampaignStageCategories">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.PlayerCampaignStageCategory">
+        <MappingFragment StoreEntitySet="PlayerCampaignStageCategory">
+          <ScalarProperty Name="CampaignStageId" ColumnName="CampaignStageId" />
+          <ScalarProperty Name="CampaignCategoryId" ColumnName="CampaignCategoryId" />
+          <ScalarProperty Name="PlayerCampaignId" ColumnName="PlayerCampaignId" />
+          <ScalarProperty Name="PlayerCampaignStageCategoryId" ColumnName="PlayerCampaignStageCategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayerQuestionResults">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.PlayerQuestionResult">
+        <MappingFragment StoreEntitySet="PlayerQuestionResult">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="PointsRewarded" ColumnName="PointsRewarded" />
+          <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+          <ScalarProperty Name="PlayerAnswerText" ColumnName="PlayerAnswerText" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="PlayerQuestionResultId" ColumnName="PlayerQuestionResultId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlayerTutorialMessageStatuses">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.PlayerTutorialMessageStatus">
+        <MappingFragment StoreEntitySet="PlayerTutorialMessageStatus">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="CampaignStageBonus" ColumnName="CampaignStageBonus" />
+          <ScalarProperty Name="CampaignStageNewlyUnlocked" ColumnName="CampaignStageNewlyUnlocked" />
+          <ScalarProperty Name="CampaignSectionNewlyComlplete" ColumnName="CampaignSectionNewlyComlplete" />
+          <ScalarProperty Name="QuestionStatusTwo" ColumnName="QuestionStatusTwo" />
+          <ScalarProperty Name="QuestionStatusOne" ColumnName="QuestionStatusOne" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="PlayerTutorialMessageStatusId" ColumnName="PlayerTutorialMessageStatusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.Question">
+        <MappingFragment StoreEntitySet="Question">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="AnswerWrong3" ColumnName="AnswerWrong3" />
+          <ScalarProperty Name="AnswerWrong2" ColumnName="AnswerWrong2" />
+          <ScalarProperty Name="AnswerWrong1" ColumnName="AnswerWrong1" />
+          <ScalarProperty Name="AnswerCorrect" ColumnName="AnswerCorrect" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="HasImage" ColumnName="HasImage" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="QuestionTypeId" ColumnName="QuestionTypeId" />
+          <ScalarProperty Name="QuestionLevel" ColumnName="QuestionLevel" />
+          <ScalarProperty Name="CampaignSectionQuestionOrder" ColumnName="CampaignSectionQuestionOrder" />
+          <ScalarProperty Name="CampaignSectionId" ColumnName="CampaignSectionId" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuestionTypes">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.QuestionType">
+        <MappingFragment StoreEntitySet="QuestionType">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="QuestionTypeId" ColumnName="QuestionTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VGames">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGame">
+        <MappingFragment StoreEntitySet="VGame">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="GameLength" ColumnName="GameLength" />
+          <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
+          <ScalarProperty Name="StepCap" ColumnName="StepCap" />
+          <ScalarProperty Name="PlayerMax" ColumnName="PlayerMax" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="GameTypeId" ColumnName="GameTypeId" />
+          <ScalarProperty Name="GameName" ColumnName="GameName" />
+          <ScalarProperty Name="VGameId" ColumnName="VGameId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VGameCategories">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGameCategory">
+        <MappingFragment StoreEntitySet="VGameCategory">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Stage" ColumnName="Stage" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="VGameId" ColumnName="VGameId" />
+          <ScalarProperty Name="VGameCategoryId" ColumnName="VGameCategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VGameCategorySectionQuestions">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGameCategorySectionQuestion">
+        <MappingFragment StoreEntitySet="VGameCategorySectionQuestion">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="VGameCategoryId" ColumnName="VGameCategoryId" />
+          <ScalarProperty Name="VGameCategorySectionQuestionId" ColumnName="VGameCategorySectionQuestionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VGameNames">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGameName">
+        <MappingFragment StoreEntitySet="VGameName">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="VGameNameId" ColumnName="VGameNameId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VGamePlayers">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGamePlayer">
+        <MappingFragment StoreEntitySet="VGamePlayer">
+          <ScalarProperty Name="AutoRenew" ColumnName="AutoRenew" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="QuestionsAnswered" ColumnName="QuestionsAnswered" />
+          <ScalarProperty Name="Stage" ColumnName="Stage" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="LastStepUpdate" ColumnName="LastStepUpdate" />
+          <ScalarProperty Name="GameSteps" ColumnName="GameSteps" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="VGameId" ColumnName="VGameId" />
+          <ScalarProperty Name="VGamePlayerId" ColumnName="VGamePlayerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VGamePlayerCategories">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGamePlayerCategory">
+        <MappingFragment StoreEntitySet="VGamePlayerCategory">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="VGameCategoryId" ColumnName="VGameCategoryId" />
+          <ScalarProperty Name="VGamePlayerCategoryId" ColumnName="VGamePlayerCategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VGamePlayerSectionQuestions">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGamePlayerSectionQuestion">
+        <MappingFragment StoreEntitySet="VGamePlayerSectionQuestion">
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="UpdateAt" ColumnName="UpdateAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="VGameId" ColumnName="VGameId" />
+          <ScalarProperty Name="VGamePlayerSectionQuestionId" ColumnName="VGamePlayerSectionQuestionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

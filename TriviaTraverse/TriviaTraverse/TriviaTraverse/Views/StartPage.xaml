@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fb_ctrls="clr-namespace:TriviaTraverse.Facebook.Controls"
              x:Class="TriviaTraverse.Views.StartPage"
              Style="{StaticResource PageStyle}">
     <ContentPage.Padding>
@@ -11,14 +12,40 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <Image Source="logo.png" HeightRequest="100" HorizontalOptions="Center"
-                    AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.25"/>
-                <Button x:Name="btnStartTutorial" Text="Play Now!" BorderRadius="0" BackgroundColor="Orange" TextColor="White" Command="{Binding StartTutorialCommand}"
-                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.75,.8,.1" Style="{StaticResource ButtonStyle}"/>
-                <Button x:Name="btnLogin" Text="Log In" BorderRadius="0" BackgroundColor="Silver" TextColor="Black" Command="{Binding LoginCommand}"
-                    AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,1,1,.1" Style="{StaticResource ButtonStyle}"/>
-            </AbsoluteLayout>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="160"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="logo.png" HeightRequest="100"
+                VerticalOptions="Center" HorizontalOptions="Center"/>
+            <StackLayout Grid.Row="1" Orientation="Vertical" BackgroundColor="AliceBlue"
+                VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                
+                <Button x:Name="btnStartTutorial" Text="Play Tutorial Now!" BorderRadius="0" BackgroundColor="Orange" TextColor="White"
+                    Command="{Binding StartTutorialCommand}" Margin="60,0,60,50" Style="{StaticResource ButtonStyle}"/>
+
+                <fb_ctrls:FacebookLoginButton Command="{Binding LoginFacebookCommand}" Margin="80,0,80,20"/>
+
+                <Button Text="Sign up with email" BorderRadius="0" BackgroundColor="White" TextColor="Black"
+                            Command="{Binding SignUpCommand}"
+                            Margin="80,0,80,20" Style="{StaticResource ButtonStyle}"/>
+
+                <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LoginCommand}" CommandParameter="Public"/>
+                    </StackLayout.GestureRecognizers>
+                    <Label Text="Already have an account?" HorizontalOptions="Center"/>
+                    <Label Text="Log in now" FontAttributes="Bold" TextColor="Black"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Grid.Row="2" Orientation="Vertical"
+                VerticalOptions="Center" HorizontalOptions="Center">
+                <Label Text="By signing up, you agree to our"
+                       TextColor="LightGray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                <Label Text="terms of use, privacy policy, and cookie policy."
+                       TextColor="LightGray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+            </StackLayout>
             <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                   BackgroundColor="#AA000000" IsVisible="{Binding IsBusy}">
                 <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"

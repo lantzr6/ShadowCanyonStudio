@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TriviaTraverse.Views.SignUpPage"
              xmlns:converters="clr-namespace:TriviaTraverse.Converters"
-             xmlns:ctrls="clr-namespace:TriviaTraverse.Controls"
              xmlns:fb_ctrls="clr-namespace:TriviaTraverse.Facebook.Controls"
              Style="{StaticResource PageStyle}">
     <ContentPage.Resources>

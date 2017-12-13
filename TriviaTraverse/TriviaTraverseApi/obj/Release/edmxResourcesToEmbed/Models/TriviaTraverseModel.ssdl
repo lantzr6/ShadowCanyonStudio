@@ -1,0 +1,751 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TriviaTraverse171207Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CampaignCategory">
+    <Key>
+      <PropertyRef Name="CampaignCategoryId" />
+    </Key>
+    <Property Name="CampaignCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsTutorial" Type="bit" Nullable="false" />
+    <Property Name="QueueLevel" Type="int" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CampaignSection">
+    <Key>
+      <PropertyRef Name="CampaignSectionId" />
+    </Key>
+    <Property Name="CampaignSectionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CampaignCategoryId" Type="int" Nullable="false" />
+    <Property Name="SectionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CampaignStage">
+    <Key>
+      <PropertyRef Name="CampaignStageId" />
+    </Key>
+    <Property Name="CampaignStageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StageLevel" Type="int" Nullable="false" />
+    <Property Name="StarsRequired" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GameCategoryQuestionPlayerResults">
+    <Key>
+      <PropertyRef Name="GameCategoryQuestionPlayerResultId" />
+    </Key>
+    <Property Name="GameCategoryQuestionPlayerResultId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GameCategoryQuestionId" Type="int" Nullable="false" />
+    <Property Name="GamePlayerId" Type="int" Nullable="false" />
+    <Property Name="PlayerAnswerText" Type="nchar" MaxLength="55" />
+    <Property Name="IsCorrect" Type="bit" />
+    <Property Name="PointsRewarded" Type="int" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GameType">
+    <Key>
+      <PropertyRef Name="GameTypeId" />
+    </Key>
+    <Property Name="GameTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Player">
+    <Key>
+      <PropertyRef Name="PlayerId" />
+    </Key>
+    <Property Name="PlayerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="EmailAddr" Type="nvarchar" MaxLength="55" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FbLogin" Type="bit" Nullable="false" />
+    <Property Name="PlayerLevel" Type="int" Nullable="false" />
+    <Property Name="CurrentSteps" Type="int" Nullable="false" />
+    <Property Name="StepBank" Type="int" Nullable="false" />
+    <Property Name="LastStepUpdate" Type="datetime" Nullable="false" />
+    <Property Name="Coins" Type="int" Nullable="false" />
+    <Property Name="Stars" Type="int" Nullable="false" />
+    <Property Name="Points" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlayerCampaign">
+    <Key>
+      <PropertyRef Name="PlayerCampaignId" />
+    </Key>
+    <Property Name="PlayerCampaignId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlayerCampaignCategoryQueue">
+    <Key>
+      <PropertyRef Name="PlayerCampaignCategoryQueueId" />
+    </Key>
+    <Property Name="PlayerCampaignCategoryQueueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayerCampaignId" Type="int" Nullable="false" />
+    <Property Name="CampaignCategoryId" Type="int" Nullable="false" />
+    <Property Name="IsUsed" Type="bit" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdateAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlayerCampaignSectionQuestion">
+    <Key>
+      <PropertyRef Name="PlayerCampaignSectionQuestionId" />
+    </Key>
+    <Property Name="PlayerCampaignSectionQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayerCampaignId" Type="int" Nullable="false" />
+    <Property Name="CampaignSectionId" Type="int" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="SectionQuestionOrder" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlayerCampaignStageCategory">
+    <Key>
+      <PropertyRef Name="PlayerCampaignStageCategoryId" />
+    </Key>
+    <Property Name="PlayerCampaignStageCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayerCampaignId" Type="int" Nullable="false" />
+    <Property Name="CampaignCategoryId" Type="int" Nullable="false" />
+    <Property Name="CampaignStageId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlayerQuestionResult">
+    <Key>
+      <PropertyRef Name="PlayerQuestionResultId" />
+    </Key>
+    <Property Name="PlayerQuestionResultId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="PlayerAnswerText" Type="nchar" MaxLength="55" />
+    <Property Name="IsCorrect" Type="bit" />
+    <Property Name="PointsRewarded" Type="int" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlayerTutorialMessageStatus">
+    <Key>
+      <PropertyRef Name="PlayerTutorialMessageStatusId" />
+    </Key>
+    <Property Name="PlayerTutorialMessageStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+    <Property Name="QuestionStatusOne" Type="bit" Nullable="false" />
+    <Property Name="QuestionStatusTwo" Type="bit" Nullable="false" />
+    <Property Name="CampaignSectionNewlyComlplete" Type="bit" Nullable="false" />
+    <Property Name="CampaignStageNewlyUnlocked" Type="bit" Nullable="false" />
+    <Property Name="CampaignStageBonus" Type="bit" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryId" Type="int" Nullable="false" />
+    <Property Name="CampaignSectionId" Type="int" />
+    <Property Name="CampaignSectionQuestionOrder" Type="int" />
+    <Property Name="QuestionLevel" Type="int" Nullable="false" />
+    <Property Name="QuestionTypeId" Type="int" Nullable="false" />
+    <Property Name="Text" Type="nvarchar" MaxLength="255" />
+    <Property Name="HasImage" Type="bit" />
+    <Property Name="ImageUrl" Type="nvarchar" MaxLength="255" />
+    <Property Name="AnswerCorrect" Type="nvarchar" MaxLength="55" Nullable="false" />
+    <Property Name="AnswerWrong1" Type="nvarchar" MaxLength="55" Nullable="false" />
+    <Property Name="AnswerWrong2" Type="nvarchar" MaxLength="55" Nullable="false" />
+    <Property Name="AnswerWrong3" Type="nvarchar" MaxLength="55" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="QuestionType">
+    <Key>
+      <PropertyRef Name="QuestionTypeId" />
+    </Key>
+    <Property Name="QuestionTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="55" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VGame">
+    <Key>
+      <PropertyRef Name="VGameId" />
+    </Key>
+    <Property Name="VGameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GameName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="GameTypeId" Type="int" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="EndTime" Type="datetime" Nullable="false" />
+    <Property Name="PlayerMax" Type="int" Nullable="false" />
+    <Property Name="StepCap" Type="int" Nullable="false" />
+    <Property Name="IsPrivate" Type="bit" Nullable="false" />
+    <Property Name="GameLength" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VGameCategory">
+    <Key>
+      <PropertyRef Name="VGameCategoryId" />
+    </Key>
+    <Property Name="VGameCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VGameId" Type="int" Nullable="false" />
+    <Property Name="CategoryId" Type="int" Nullable="false" />
+    <Property Name="Stage" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VGameCategorySectionQuestion">
+    <Key>
+      <PropertyRef Name="VGameCategorySectionQuestionId" />
+    </Key>
+    <Property Name="VGameCategorySectionQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VGameCategoryId" Type="int" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VGameName">
+    <Key>
+      <PropertyRef Name="VGameNameId" />
+    </Key>
+    <Property Name="VGameNameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VGamePlayer">
+    <Key>
+      <PropertyRef Name="VGamePlayerId" />
+    </Key>
+    <Property Name="VGamePlayerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VGameId" Type="int" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+    <Property Name="AutoRenew" Type="bit" Nullable="false" />
+    <Property Name="GameSteps" Type="int" Nullable="false" />
+    <Property Name="LastStepUpdate" Type="datetime" Nullable="false" />
+    <Property Name="Score" Type="int" Nullable="false" />
+    <Property Name="Stage" Type="int" Nullable="false" />
+    <Property Name="QuestionsAnswered" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VGamePlayerCategory">
+    <Key>
+      <PropertyRef Name="VGamePlayerCategoryId" />
+    </Key>
+    <Property Name="VGamePlayerCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VGameCategoryId" Type="int" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VGamePlayerSectionQuestion">
+    <Key>
+      <PropertyRef Name="VGamePlayerSectionQuestionId" />
+    </Key>
+    <Property Name="VGamePlayerSectionQuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VGameId" Type="int" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+    <Property Name="QuestionId" Type="int" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+    <Property Name="UpdateAt" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_CampaignSection_CampaignCategory">
+    <End Role="CampaignCategory" Type="Self.CampaignCategory" Multiplicity="1" />
+    <End Role="CampaignSection" Type="Self.CampaignSection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CampaignCategory">
+        <PropertyRef Name="CampaignCategoryId" />
+      </Principal>
+      <Dependent Role="CampaignSection">
+        <PropertyRef Name="CampaignCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerCampaign_Player">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="PlayerCampaign" Type="Self.PlayerCampaign" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="PlayerId" />
+      </Principal>
+      <Dependent Role="PlayerCampaign">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerCampaignCategoryQueue_CampaignCategory">
+    <End Role="CampaignCategory" Type="Self.CampaignCategory" Multiplicity="1" />
+    <End Role="PlayerCampaignCategoryQueue" Type="Self.PlayerCampaignCategoryQueue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CampaignCategory">
+        <PropertyRef Name="CampaignCategoryId" />
+      </Principal>
+      <Dependent Role="PlayerCampaignCategoryQueue">
+        <PropertyRef Name="CampaignCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerCampaignCategoryQueue_PlayerCampaign">
+    <End Role="PlayerCampaign" Type="Self.PlayerCampaign" Multiplicity="1" />
+    <End Role="PlayerCampaignCategoryQueue" Type="Self.PlayerCampaignCategoryQueue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PlayerCampaign">
+        <PropertyRef Name="PlayerCampaignId" />
+      </Principal>
+      <Dependent Role="PlayerCampaignCategoryQueue">
+        <PropertyRef Name="PlayerCampaignId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerCampaignSectionQuestion_CampaignSection">
+    <End Role="CampaignSection" Type="Self.CampaignSection" Multiplicity="1" />
+    <End Role="PlayerCampaignSectionQuestion" Type="Self.PlayerCampaignSectionQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CampaignSection">
+        <PropertyRef Name="CampaignSectionId" />
+      </Principal>
+      <Dependent Role="PlayerCampaignSectionQuestion">
+        <PropertyRef Name="CampaignSectionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerCampaignSectionQuestion_PlayerCampaign">
+    <End Role="PlayerCampaign" Type="Self.PlayerCampaign" Multiplicity="1" />
+    <End Role="PlayerCampaignSectionQuestion" Type="Self.PlayerCampaignSectionQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PlayerCampaign">
+        <PropertyRef Name="PlayerCampaignId" />
+      </Principal>
+      <Dependent Role="PlayerCampaignSectionQuestion">
+        <PropertyRef Name="PlayerCampaignId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerCampaignSectionQuestion_Question">
+    <End Role="Question" Type="Self.Question" Multiplicity="1" />
+    <End Role="PlayerCampaignSectionQuestion" Type="Self.PlayerCampaignSectionQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="PlayerCampaignSectionQuestion">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerCampaignStageCategory_CampaignStage">
+    <End Role="CampaignStage" Type="Self.CampaignStage" Multiplicity="1" />
+    <End Role="PlayerCampaignStageCategory" Type="Self.PlayerCampaignStageCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CampaignStage">
+        <PropertyRef Name="CampaignStageId" />
+      </Principal>
+      <Dependent Role="PlayerCampaignStageCategory">
+        <PropertyRef Name="CampaignStageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerCampaignStageCategory_CampaignStageCategory">
+    <End Role="CampaignCategory" Type="Self.CampaignCategory" Multiplicity="1" />
+    <End Role="PlayerCampaignStageCategory" Type="Self.PlayerCampaignStageCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CampaignCategory">
+        <PropertyRef Name="CampaignCategoryId" />
+      </Principal>
+      <Dependent Role="PlayerCampaignStageCategory">
+        <PropertyRef Name="CampaignCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerCampaignStageCategory_PlayerCampaign">
+    <End Role="PlayerCampaign" Type="Self.PlayerCampaign" Multiplicity="1" />
+    <End Role="PlayerCampaignStageCategory" Type="Self.PlayerCampaignStageCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PlayerCampaign">
+        <PropertyRef Name="PlayerCampaignId" />
+      </Principal>
+      <Dependent Role="PlayerCampaignStageCategory">
+        <PropertyRef Name="PlayerCampaignId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerQuestionResult_Player">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="PlayerQuestionResult" Type="Self.PlayerQuestionResult" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="PlayerId" />
+      </Principal>
+      <Dependent Role="PlayerQuestionResult">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerQuestionResult_Question">
+    <End Role="Question" Type="Self.Question" Multiplicity="1" />
+    <End Role="PlayerQuestionResult" Type="Self.PlayerQuestionResult" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="PlayerQuestionResult">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PlayerTutorialMessageStatus_Player">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="PlayerTutorialMessageStatus" Type="Self.PlayerTutorialMessageStatus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="PlayerId" />
+      </Principal>
+      <Dependent Role="PlayerTutorialMessageStatus">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Question_CampaignSection">
+    <End Role="CampaignSection" Type="Self.CampaignSection" Multiplicity="0..1" />
+    <End Role="Question" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CampaignSection">
+        <PropertyRef Name="CampaignSectionId" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="CampaignSectionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Question_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Question" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Question_QuestionType">
+    <End Role="QuestionType" Type="Self.QuestionType" Multiplicity="1" />
+    <End Role="Question" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionType">
+        <PropertyRef Name="QuestionTypeId" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="QuestionTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGame_GameType">
+    <End Role="GameType" Type="Self.GameType" Multiplicity="1" />
+    <End Role="VGame" Type="Self.VGame" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GameType">
+        <PropertyRef Name="GameTypeId" />
+      </Principal>
+      <Dependent Role="VGame">
+        <PropertyRef Name="GameTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGameCategory_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="VGameCategory" Type="Self.VGameCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="VGameCategory">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGameCategory_VGame">
+    <End Role="VGame" Type="Self.VGame" Multiplicity="1" />
+    <End Role="VGameCategory" Type="Self.VGameCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VGame">
+        <PropertyRef Name="VGameId" />
+      </Principal>
+      <Dependent Role="VGameCategory">
+        <PropertyRef Name="VGameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGameCategorySectionQuestion_Question">
+    <End Role="Question" Type="Self.Question" Multiplicity="1" />
+    <End Role="VGameCategorySectionQuestion" Type="Self.VGameCategorySectionQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="VGameCategorySectionQuestion">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGameCategorySectionQuestion_VGameCategory">
+    <End Role="VGameCategory" Type="Self.VGameCategory" Multiplicity="1" />
+    <End Role="VGameCategorySectionQuestion" Type="Self.VGameCategorySectionQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VGameCategory">
+        <PropertyRef Name="VGameCategoryId" />
+      </Principal>
+      <Dependent Role="VGameCategorySectionQuestion">
+        <PropertyRef Name="VGameCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGamePlayer_Player">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="VGamePlayer" Type="Self.VGamePlayer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="PlayerId" />
+      </Principal>
+      <Dependent Role="VGamePlayer">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGamePlayer_VGame">
+    <End Role="VGame" Type="Self.VGame" Multiplicity="1" />
+    <End Role="VGamePlayer" Type="Self.VGamePlayer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VGame">
+        <PropertyRef Name="VGameId" />
+      </Principal>
+      <Dependent Role="VGamePlayer">
+        <PropertyRef Name="VGameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGamePlayerCategory_Player">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="VGamePlayerCategory" Type="Self.VGamePlayerCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="PlayerId" />
+      </Principal>
+      <Dependent Role="VGamePlayerCategory">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGamePlayerCategory_VGameCategory">
+    <End Role="VGameCategory" Type="Self.VGameCategory" Multiplicity="1" />
+    <End Role="VGamePlayerCategory" Type="Self.VGamePlayerCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VGameCategory">
+        <PropertyRef Name="VGameCategoryId" />
+      </Principal>
+      <Dependent Role="VGamePlayerCategory">
+        <PropertyRef Name="VGameCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGamePlayerSectionQuestion_Player">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="VGamePlayerSectionQuestion" Type="Self.VGamePlayerSectionQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="PlayerId" />
+      </Principal>
+      <Dependent Role="VGamePlayerSectionQuestion">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGamePlayerSectionQuestion_Question">
+    <End Role="Question" Type="Self.Question" Multiplicity="1" />
+    <End Role="VGamePlayerSectionQuestion" Type="Self.VGamePlayerSectionQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="VGamePlayerSectionQuestion">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VGamePlayerSectionQuestion_VGame">
+    <End Role="VGame" Type="Self.VGame" Multiplicity="1" />
+    <End Role="VGamePlayerSectionQuestion" Type="Self.VGamePlayerSectionQuestion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VGame">
+        <PropertyRef Name="VGameId" />
+      </Principal>
+      <Dependent Role="VGamePlayerSectionQuestion">
+        <PropertyRef Name="VGameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TriviaTraverse171207ModelStoreContainer">
+    <EntitySet Name="CampaignCategory" EntityType="Self.CampaignCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CampaignSection" EntityType="Self.CampaignSection" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CampaignStage" EntityType="Self.CampaignStage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GameCategoryQuestionPlayerResults" EntityType="Self.GameCategoryQuestionPlayerResults" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GameType" EntityType="Self.GameType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PlayerCampaign" EntityType="Self.PlayerCampaign" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PlayerCampaignCategoryQueue" EntityType="Self.PlayerCampaignCategoryQueue" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PlayerCampaignSectionQuestion" EntityType="Self.PlayerCampaignSectionQuestion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PlayerCampaignStageCategory" EntityType="Self.PlayerCampaignStageCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PlayerQuestionResult" EntityType="Self.PlayerQuestionResult" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PlayerTutorialMessageStatus" EntityType="Self.PlayerTutorialMessageStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionType" EntityType="Self.QuestionType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VGame" EntityType="Self.VGame" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VGameCategory" EntityType="Self.VGameCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VGameCategorySectionQuestion" EntityType="Self.VGameCategorySectionQuestion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VGameName" EntityType="Self.VGameName" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VGamePlayer" EntityType="Self.VGamePlayer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VGamePlayerCategory" EntityType="Self.VGamePlayerCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VGamePlayerSectionQuestion" EntityType="Self.VGamePlayerSectionQuestion" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CampaignSection_CampaignCategory" Association="Self.FK_CampaignSection_CampaignCategory">
+      <End Role="CampaignCategory" EntitySet="CampaignCategory" />
+      <End Role="CampaignSection" EntitySet="CampaignSection" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerCampaign_Player" Association="Self.FK_PlayerCampaign_Player">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="PlayerCampaign" EntitySet="PlayerCampaign" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerCampaignCategoryQueue_CampaignCategory" Association="Self.FK_PlayerCampaignCategoryQueue_CampaignCategory">
+      <End Role="CampaignCategory" EntitySet="CampaignCategory" />
+      <End Role="PlayerCampaignCategoryQueue" EntitySet="PlayerCampaignCategoryQueue" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerCampaignCategoryQueue_PlayerCampaign" Association="Self.FK_PlayerCampaignCategoryQueue_PlayerCampaign">
+      <End Role="PlayerCampaign" EntitySet="PlayerCampaign" />
+      <End Role="PlayerCampaignCategoryQueue" EntitySet="PlayerCampaignCategoryQueue" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerCampaignSectionQuestion_CampaignSection" Association="Self.FK_PlayerCampaignSectionQuestion_CampaignSection">
+      <End Role="CampaignSection" EntitySet="CampaignSection" />
+      <End Role="PlayerCampaignSectionQuestion" EntitySet="PlayerCampaignSectionQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerCampaignSectionQuestion_PlayerCampaign" Association="Self.FK_PlayerCampaignSectionQuestion_PlayerCampaign">
+      <End Role="PlayerCampaign" EntitySet="PlayerCampaign" />
+      <End Role="PlayerCampaignSectionQuestion" EntitySet="PlayerCampaignSectionQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerCampaignSectionQuestion_Question" Association="Self.FK_PlayerCampaignSectionQuestion_Question">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="PlayerCampaignSectionQuestion" EntitySet="PlayerCampaignSectionQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerCampaignStageCategory_CampaignStage" Association="Self.FK_PlayerCampaignStageCategory_CampaignStage">
+      <End Role="CampaignStage" EntitySet="CampaignStage" />
+      <End Role="PlayerCampaignStageCategory" EntitySet="PlayerCampaignStageCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerCampaignStageCategory_CampaignStageCategory" Association="Self.FK_PlayerCampaignStageCategory_CampaignStageCategory">
+      <End Role="CampaignCategory" EntitySet="CampaignCategory" />
+      <End Role="PlayerCampaignStageCategory" EntitySet="PlayerCampaignStageCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerCampaignStageCategory_PlayerCampaign" Association="Self.FK_PlayerCampaignStageCategory_PlayerCampaign">
+      <End Role="PlayerCampaign" EntitySet="PlayerCampaign" />
+      <End Role="PlayerCampaignStageCategory" EntitySet="PlayerCampaignStageCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerQuestionResult_Player" Association="Self.FK_PlayerQuestionResult_Player">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="PlayerQuestionResult" EntitySet="PlayerQuestionResult" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerQuestionResult_Question" Association="Self.FK_PlayerQuestionResult_Question">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="PlayerQuestionResult" EntitySet="PlayerQuestionResult" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PlayerTutorialMessageStatus_Player" Association="Self.FK_PlayerTutorialMessageStatus_Player">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="PlayerTutorialMessageStatus" EntitySet="PlayerTutorialMessageStatus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Question_CampaignSection" Association="Self.FK_Question_CampaignSection">
+      <End Role="CampaignSection" EntitySet="CampaignSection" />
+      <End Role="Question" EntitySet="Question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Question_Category" Association="Self.FK_Question_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Question" EntitySet="Question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Question_QuestionType" Association="Self.FK_Question_QuestionType">
+      <End Role="QuestionType" EntitySet="QuestionType" />
+      <End Role="Question" EntitySet="Question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGame_GameType" Association="Self.FK_VGame_GameType">
+      <End Role="GameType" EntitySet="GameType" />
+      <End Role="VGame" EntitySet="VGame" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGameCategory_Category" Association="Self.FK_VGameCategory_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="VGameCategory" EntitySet="VGameCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGameCategory_VGame" Association="Self.FK_VGameCategory_VGame">
+      <End Role="VGame" EntitySet="VGame" />
+      <End Role="VGameCategory" EntitySet="VGameCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGameCategorySectionQuestion_Question" Association="Self.FK_VGameCategorySectionQuestion_Question">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="VGameCategorySectionQuestion" EntitySet="VGameCategorySectionQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGameCategorySectionQuestion_VGameCategory" Association="Self.FK_VGameCategorySectionQuestion_VGameCategory">
+      <End Role="VGameCategory" EntitySet="VGameCategory" />
+      <End Role="VGameCategorySectionQuestion" EntitySet="VGameCategorySectionQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGamePlayer_Player" Association="Self.FK_VGamePlayer_Player">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="VGamePlayer" EntitySet="VGamePlayer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGamePlayer_VGame" Association="Self.FK_VGamePlayer_VGame">
+      <End Role="VGame" EntitySet="VGame" />
+      <End Role="VGamePlayer" EntitySet="VGamePlayer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGamePlayerCategory_Player" Association="Self.FK_VGamePlayerCategory_Player">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="VGamePlayerCategory" EntitySet="VGamePlayerCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGamePlayerCategory_VGameCategory" Association="Self.FK_VGamePlayerCategory_VGameCategory">
+      <End Role="VGameCategory" EntitySet="VGameCategory" />
+      <End Role="VGamePlayerCategory" EntitySet="VGamePlayerCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGamePlayerSectionQuestion_Player" Association="Self.FK_VGamePlayerSectionQuestion_Player">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="VGamePlayerSectionQuestion" EntitySet="VGamePlayerSectionQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGamePlayerSectionQuestion_Question" Association="Self.FK_VGamePlayerSectionQuestion_Question">
+      <End Role="Question" EntitySet="Question" />
+      <End Role="VGamePlayerSectionQuestion" EntitySet="VGamePlayerSectionQuestion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VGamePlayerSectionQuestion_VGame" Association="Self.FK_VGamePlayerSectionQuestion_VGame">
+      <End Role="VGame" EntitySet="VGame" />
+      <End Role="VGamePlayerSectionQuestion" EntitySet="VGamePlayerSectionQuestion" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

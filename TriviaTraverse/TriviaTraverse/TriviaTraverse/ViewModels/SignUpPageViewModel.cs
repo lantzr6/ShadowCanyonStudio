@@ -15,7 +15,6 @@ using TriviaTraverse.Models;
 using TriviaTraverse.Services;
 using TriviaTraverse.Views;
 using Xamarin.Forms;
-using static Android.Provider.SyncStateContract;
 using static TriviaTraverse.Helpers.Settings;
 
 namespace TriviaTraverse.ViewModels
@@ -244,15 +243,15 @@ namespace TriviaTraverse.ViewModels
                 }
                 else
                 {
-                    App.CampaignObj = null;
-                    App.TutorialObj = null;
+                    //App.CampaignObj = null;
+                    //App.TutorialObj = null;
 
-                    Player player = await WebApi.Instance.GetNewTempPlayerAsync();
-                    PlayerObj.PlayerId = player.PlayerId;
-                    PlayerObj.UserName = player.UserName;
-                    PlayerObj.EmailAddr = player.EmailAddr;
-                    PlayerObj.Password = player.Password;
-                    PlayerObj.PlayerLevel = player.PlayerLevel;
+                    //Player player = await WebApi.Instance.GetNewTempPlayerAsync();
+                    //PlayerObj.PlayerId = player.PlayerId;
+                    //PlayerObj.UserName = player.UserName;
+                    //PlayerObj.EmailAddr = player.EmailAddr;
+                    //PlayerObj.Password = player.Password;
+                    //PlayerObj.PlayerLevel = player.PlayerLevel;
 
                     UpdateAccount();
                 }

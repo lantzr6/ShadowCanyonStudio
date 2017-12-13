@@ -3,7 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="TriviaTraverse.Facebook.Controls.FacebookLoginButton"
-    Text="Log in with Facebook"
+    Text="Connect with Facebook"
     TextColor="White"
     FontAttributes="Bold"
     BackgroundColor="#3b5998"

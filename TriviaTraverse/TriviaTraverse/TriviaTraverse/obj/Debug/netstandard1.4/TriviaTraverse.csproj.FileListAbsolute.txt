@@ -1,10 +1,4 @@
-C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.dll.config
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.deps.json
-C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.dll
-C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.pdb
-C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Mono.Android.dll
-C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Mono.Android.pdb
-C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Mono.Android.xml
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.csproj.CoreCompileInputs.cache
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.App.xaml.g.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Controls.FacebookLoginButton.xaml.g.cs
@@ -13,6 +7,8 @@ C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debu
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.CampaignBoardPage.xaml.g.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.DashboardPage.xaml.g.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.GameBoardPage.xaml.g.cs
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.GameJoinPage.xaml.g.cs
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.LoginPage.xaml.g.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.MasterPage.xaml.g.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.QuestionPage.xaml.g.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.QuestionStatusPage.xaml.g.cs
@@ -20,9 +16,11 @@ C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debu
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.SignUpDataPage.xaml.g.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.SignUpPage.xaml.g.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.StartPage.xaml.g.cs
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.TutorialPage.xaml.g.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.AssemblyInfo.cs
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\Trivia Traverse.dll
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\Trivia Traverse.pdb
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.dll.config
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.dll
+C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\bin\Debug\netstandard1.4\Trivia Traverse.pdb
 C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.csprojResolveAssemblyReference.cache
-C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Controls.HeaderVGameControl.xaml.g.cs
-C:\Data\ShadowCanyonStudio\TriviaTraverse\TriviaTraverse\TriviaTraverse\obj\Debug\netstandard1.4\TriviaTraverse.Views.GameJoinPage.xaml.g.cs

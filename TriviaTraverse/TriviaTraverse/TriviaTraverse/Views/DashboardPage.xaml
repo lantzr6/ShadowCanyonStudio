@@ -13,7 +13,7 @@
     </ContentPage.Resources>
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
-                    iOS="0"
+                    iOS="0,20,0,0"
                     Android="0"
                     WinPhone="0" />
     </ContentPage.Padding>
@@ -32,7 +32,7 @@
                         <Image Source="steps_circle.png"/>
                         <Label Text="{Binding PlayerObj.CurrentSteps, StringFormat='You have walked {0:N} steps today!'}" TextColor="Black" VerticalOptions="Center"/>
                     </StackLayout>
-                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                    <StackLayout Orientation="Vertical" VerticalOptions="Fill" HorizontalOptions="Fill"
                                  Margin="20,4">
                         <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
                             <Grid VerticalOptions="Center" HorizontalOptions="Center">
@@ -42,18 +42,15 @@
                             <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Margin="10,0,0,0">
                                 <Label Text="Name Name" TextColor="Black" FontAttributes="Bold"/>
                                 <Label Text="Tokens: ?" TextColor="Black"/>
-                                <Label Text="Experience Points: ????" TextColor="Black"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="LastStepQuery" TextColor="Black" Margin="0,0,4,0"/>
+                                    <Label Text="{Binding PlayerObj.LastLastStepUpdate}" TextColor="Black"/>
+                                </StackLayout>
                             </StackLayout>
                         </StackLayout>
-                        <Label Text="Campaigns" TextColor="Gray"/>
-                        <ListView x:Name="lstCampaigns" ItemsSource="{Binding DashboardObj.Campaigns}" BackgroundColor="LightGray" VerticalOptions="Start">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextCell Text="{Binding PlayerCampaignId}" TextColor="Black"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                        <Label Text="RECENT CHALLENGES" TextColor="Gray"/>
+                        <Button Text="Campaign" Command="{Binding PlayCampaignCommand}" CommandParameter="{Binding DashboardObj.Campaigns[0].PlayerCampaignId}"
+                                 Style="{StaticResource ButtonStyle}"/>
+                        <Label Text="Games" TextColor="Gray"/>
                         <ListView x:Name="lstVGames" ItemsSource="{Binding DashboardObj.VGames}" BackgroundColor="LightGray" VerticalOptions="Start">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -64,9 +61,14 @@
                     </StackLayout>
                 </StackLayout>
                 <Grid VerticalOptions="FillAndExpand" Grid.Row="2">
-                    <Button Grid.Column="0" Text="Join Versus Game" BorderRadius="0" BackgroundColor="Gray" TextColor="Black"
-                            Command="{Binding JoinGameCommand}"
+                    <StackLayout Orientation="Horizontal">
+                        <Button Grid.Column="0" Text="New Game" BorderRadius="0" BackgroundColor="Gray" TextColor="Black"
+                            Command="{Binding NewGameCommand}"
                             IsVisible="True"/>
+                        <Button Grid.Column="0" Text="Refresh" BorderRadius="0" BackgroundColor="Gray" TextColor="Black"
+                            Command="{Binding RefreshCommand}"
+                            IsVisible="True"/>
+                    </StackLayout>
                 </Grid>
             </Grid>
             <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
