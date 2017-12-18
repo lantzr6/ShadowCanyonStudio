@@ -31,41 +31,11 @@ namespace TriviaTraverse.Models
         Tutorial
     }
 
-    //public class UserData
-    //{
-
-    //    private bool _isLoginActive;
-    //    public bool IsLoginActive
-    //    {
-    //        get { return _isLoginActive; }
-    //        set
-    //        {
-    //            if (_isLoginActive != value)
-    //            {
-    //                _isLoginActive = value;
-    //                Settings.UserDataStorage = this;
-    //            }
-    //        }
-    //    }
-
-    //    private int _campaignStageLevel;
-    //    public int CampaignStageLevel
-    //    {
-    //        get { return _campaignStageLevel; }
-    //        set
-    //        {
-    //            if (_campaignStageLevel != value)
-    //            {
-    //                _campaignStageLevel = value;
-    //                Settings.UserDataStorage = this;
-    //            }
-    //        }
-    //    }
-
-
-    //}
-
-
+    public class SelectableItemWrapper<T>
+    {
+        public bool IsSelected { get; set; }
+        public T Item { get; set; }
+    }
 
     public class Player : INotifyPropertyChanged
     {
@@ -332,70 +302,6 @@ namespace TriviaTraverse.Models
         #endregion
     }
 
-    public class SelectableItemWrapper<T>
-    {
-        public bool IsSelected { get; set; }
-        public T Item { get; set; }
-    }
-
-    //public class User : INotifyPropertyChanged
-    //{
-    //    string fullname;
-    //    public string Fullname
-    //    {
-    //        get { return fullname; }
-
-    //        set
-    //        {
-    //            fullname = value;
-    //            OnPropertyChanged();
-    //        }
-    //    }
-    //    string password;
-    //    public string Password
-    //    {
-    //        get { return password; }
-
-    //        set
-    //        {
-    //            password = value;
-    //            OnPropertyChanged();
-    //        }
-    //    }
-    //    string email;
-    //    public string Email
-    //    {
-    //        get { return email; }
-
-    //        set
-    //        {
-    //            email = value;
-    //            OnPropertyChanged();
-    //        }
-    //    }
-
-    //    #region INotifyPropertyChanged implementation
-
-    //    /// <summary>
-    //    /// Occurs when property changed.
-    //    /// </summary>
-    //    public event PropertyChangedEventHandler PropertyChanged;
-
-    //    /// <summary>
-    //    /// Raises the property changed event.
-    //    /// </summary>
-    //    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    //    {
-    //        var handler = PropertyChanged;
-    //        if (handler != null)
-    //        {
-    //            handler(this, new PropertyChangedEventArgs(propertyName));
-    //        }
-    //    }
-
-    //    #endregion
-    //}
-
     public class CurrentQuestion : INotifyPropertyChanged
     {
         public Question BaseSectionCategoryQuestion { get; set; }
@@ -512,6 +418,7 @@ namespace TriviaTraverse.Models
     public class GameSection : INotifyPropertyChanged
     {
         public int CampaignSectionId { get; set; }
+        public int SectionOrder { get; set; }
         public List<Question> Questions { get; set; }
         CurrentQuestion _activeQuestion;
         public CurrentQuestion ActiveQuestion
@@ -666,9 +573,10 @@ namespace TriviaTraverse.Models
         }
 
         public GameSection() { }
-        public GameSection(VGameCategory vcat)
+        public GameSection(VGameCategory vcat, int order)
         {
-            this.SectionType = GameSectionType.VersusRegular;
+            this.SectionOrder = order;
+            this.SectionType = (order > 1 ? GameSectionType.VersusRegular : GameSectionType.VersusFirst);
             this.Questions = vcat.Questions;
             this.SectionName = vcat.CategoryName;
             this.NumberOfQuestions = 5;
@@ -711,7 +619,6 @@ namespace TriviaTraverse.Models
         {
             get
             {
-                //return Stages.Where(o => o.StageLevel > 0).OrderByDescending(o => o.StageLevel).FirstOrDefault();
                 return Stages.OrderByDescending(o => o.StageLevel).FirstOrDefault();
             }
         }
@@ -740,18 +647,7 @@ namespace TriviaTraverse.Models
         public string PlayerAnswer { get; set; }
         public int PointsRewarded { get; set; }
         public bool IsUnanswered { get; set; }
-        //private bool _isUnanswered = true;
-        //public bool IsUnanswered
-        //    {
-        //    get { return _isUnanswered; }
-        //    set
-        //    {
-        //        if (value != _isUnanswered)
-        //        {
-        //            _isUnanswered = value; RaisePropertyChanged(nameof(IsUnanswered));
-        //        }
-        //    }
-        //    }
+
         public bool PlayerCorrect
         {
             get
@@ -810,6 +706,7 @@ namespace TriviaTraverse.Models
         public int VGameId { get; set; }
         public int PlayerId { get; set; }
         public int GameSteps { get; set; }
+        public int StepBank { get; set; }
         public DateTime LastStepUpdate { get; set; }
     }
 
@@ -859,6 +756,7 @@ namespace TriviaTraverse.Models
         public DateTime EndTime { get; set; }
         public int PlayerMax { get; set; }
         public int PlayerGameSteps { get; set; }
+        public int PlayerGameStepBank { get; set; }
         public int PlayerScore { get; set; }
         public DateTime PlayerLastStepQuery { get; set; }
 
@@ -873,6 +771,23 @@ namespace TriviaTraverse.Models
             {
                 DateTime now = DateTime.Now;
                 return (now >= StartTimeLocal && now < EndTimeLocal);
+            }
+        }
+        public int StepCost
+        {
+            get
+            {
+                int retVal = 1000;
+                switch (GameStepCap)
+                {
+                        case 5000:
+                            retVal = 500;
+                            break;
+                        case 8000:
+                            retVal = 800;
+                            break;
+                }
+                return retVal;
             }
         }
 
@@ -919,6 +834,7 @@ namespace TriviaTraverse.Models
         public int VGamePlayerId { get; set; }
         public string UserName { get; set; }
         public int GameSteps { get; set; }
+        public int StepBank { get; set; }
         public int Score { get; set; }
         public int Stage { get; set; }
         public int QuestionsAnswered { get; set; }
@@ -927,101 +843,101 @@ namespace TriviaTraverse.Models
     public class VGameCategory
     {
         public int VGameCategoryId { get; set; }
-        public int Stage { get; set; }
+        //public int Stage { get; set; }
         public string CategoryName { get; set; }
-        public bool IsUsed { get; set; }
-        public bool IsNotUsed
-        {
-            get { return !IsUsed; }
-        }
+        //public bool IsUsed { get; set; }
+        //public bool IsNotUsed
+        //{
+        //    get { return !IsUsed; }
+        //}
         public List<Question> Questions { get; set; }  //holds questions to build stage on device
     }
 
-    public class Game
-    {
-        public int GameId { get; set; }
-        public string StartedAt { get; set; }
-        public GameStatus Status { get; set; }
-        public bool IsPlayReady
-        {
-            get
-            {
-                return (this.Status == GameStatus.InProgress);
-            }
-        }
-        public int Winner { get; set; }
-        public GamePlayer SelfPlayer { get; set; }
-        public List<GamePlayer> OpponentPlayers { get; set; }
-        public List<GameCategoryBasic> GameCategories { get; set; }
-    }
+    //public class Game
+    //{
+    //    public int GameId { get; set; }
+    //    public string StartedAt { get; set; }
+    //    public GameStatus Status { get; set; }
+    //    public bool IsPlayReady
+    //    {
+    //        get
+    //        {
+    //            return (this.Status == GameStatus.InProgress);
+    //        }
+    //    }
+    //    public int Winner { get; set; }
+    //    public GamePlayer SelfPlayer { get; set; }
+    //    public List<GamePlayer> OpponentPlayers { get; set; }
+    //    public List<GameCategoryBasic> GameCategories { get; set; }
+    //}
 
 
 
-    public class GamePlayer
-    {
-        public int GamePlayerId { get; set; }
-        public int PlayerId { get; set; }
-        public GameCategory GameCategory1 { get; set; }
-        public GameCategory GameCategory2 { get; set; }
-        public GameCategory GameCategory3 { get; set; }
-        public int CurrentCategoryNumber { get; set; }
-        public int CurrentQuestionLevel { get; set; }
-        public CurrentQuestion ActiveQuestion { get; set; }
-        public int TotalScore { get; set; }
-        public bool IsComplete { get; set; }
-    }
+    //public class GamePlayer
+    //{
+    //    public int GamePlayerId { get; set; }
+    //    public int PlayerId { get; set; }
+    //    public GameCategory GameCategory1 { get; set; }
+    //    public GameCategory GameCategory2 { get; set; }
+    //    public GameCategory GameCategory3 { get; set; }
+    //    public int CurrentCategoryNumber { get; set; }
+    //    public int CurrentQuestionLevel { get; set; }
+    //    public CurrentQuestion ActiveQuestion { get; set; }
+    //    public int TotalScore { get; set; }
+    //    public bool IsComplete { get; set; }
+    //}
 
-    public class GameCategoryQuestion
-    {
-        public int GameCategoryQuestionId { get; set; }
-        public int QuestionId { get; set; }
-        public string Text { get; set; }
-        public int QuestionLevel { get; set; }
-        public string QuestionType { get; set; }
-        public bool IsMultiChoice
-        {
-            get
-            {
-                return (QuestionType.Trim() == "MultipleChoice");
-            }
-        }
-        public bool HasImage { get; set; }
-        public string ImageUrl { get; set; }
-        public string AnswerCorrect { get; set; }
-        public string AnswerWrong1 { get; set; }
-        public string AnswerWrong2 { get; set; }
-        public string AnswerWrong3 { get; set; }
-        public string PlayerAnswer { get; set; }
-        public int PointsRewarded { get; set; }
-    }
+    //public class GameCategoryQuestion
+    //{
+    //    public int GameCategoryQuestionId { get; set; }
+    //    public int QuestionId { get; set; }
+    //    public string Text { get; set; }
+    //    public int QuestionLevel { get; set; }
+    //    public string QuestionType { get; set; }
+    //    public bool IsMultiChoice
+    //    {
+    //        get
+    //        {
+    //            return (QuestionType.Trim() == "MultipleChoice");
+    //        }
+    //    }
+    //    public bool HasImage { get; set; }
+    //    public string ImageUrl { get; set; }
+    //    public string AnswerCorrect { get; set; }
+    //    public string AnswerWrong1 { get; set; }
+    //    public string AnswerWrong2 { get; set; }
+    //    public string AnswerWrong3 { get; set; }
+    //    public string PlayerAnswer { get; set; }
+    //    public int PointsRewarded { get; set; }
+    //}
 
 
-    public class GamePlayerQuestionResult
-    {
-        public int GamePlayerId { get; set; }
-        public int CurrentCategoryNum { get; set; }
-        public int CurrentQuestionLevel { get; set; }
-        public bool IsComplete { get; set; }
-        public int TotalScore { get; set; }
-        public int GameCategoryQuestionId { get; set; }
-        public string PlayerAnswerText { get; set; }
-        public bool IsCorrect { get; set; }
-        public int PointsRewards { get; set; }
-    }
+    //public class GamePlayerQuestionResult
+    //{
+    //    public int GamePlayerId { get; set; }
+    //    public int CurrentCategoryNum { get; set; }
+    //    public int CurrentQuestionLevel { get; set; }
+    //    public bool IsComplete { get; set; }
+    //    public int TotalScore { get; set; }
+    //    public int GameCategoryQuestionId { get; set; }
+    //    public string PlayerAnswerText { get; set; }
+    //    public bool IsCorrect { get; set; }
+    //    public int PointsRewards { get; set; }
+    //}
 
-    public class GameCategory
-    {
-        public int GameCategoryId { get; set; }
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
-        public List<GameCategoryQuestion> GameCategoryQuestions { get; set; }
-    }
-    public class GameCategoryBasic
-    {
-        public int GameCategoryId { get; set; }
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
-    }
+    //public class GameCategory
+    //{
+    //    public int GameCategoryId { get; set; }
+    //    public int CategoryId { get; set; }
+    //    public string CategoryName { get; set; }
+    //    public List<GameCategoryQuestion> GameCategoryQuestions { get; set; }
+    //}
+    //public class GameCategoryBasic
+    //{
+    //    public int GameCategoryId { get; set; }
+    //    public int CategoryId { get; set; }
+    //    public string CategoryName { get; set; }
+    //}
 
     public class StepData
     {

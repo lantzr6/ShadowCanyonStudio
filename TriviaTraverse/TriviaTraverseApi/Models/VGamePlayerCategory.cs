@@ -20,6 +20,7 @@ namespace TriviaTraverseApi.Models
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }
         public bool Deleted { get; set; }
+        public int SectionOrder { get; set; }
     
         public virtual Player Player { get; set; }
         public virtual VGameCategory VGameCategory { get; set; }

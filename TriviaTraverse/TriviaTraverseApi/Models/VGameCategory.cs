@@ -24,7 +24,6 @@ namespace TriviaTraverseApi.Models
         public int VGameCategoryId { get; set; }
         public int VGameId { get; set; }
         public int CategoryId { get; set; }
-        public int Stage { get; set; }
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }
         public bool Deleted { get; set; }

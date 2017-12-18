@@ -23,6 +23,7 @@ namespace TriviaTraverseApi.Models
             this.VGamePlayers = new HashSet<VGamePlayer>();
             this.VGamePlayerCategories = new HashSet<VGamePlayerCategory>();
             this.VGamePlayerSectionQuestions = new HashSet<VGamePlayerSectionQuestion>();
+            this.BotInfoes = new HashSet<BotInfo>();
         }
     
         public int PlayerId { get; set; }
@@ -40,6 +41,7 @@ namespace TriviaTraverseApi.Models
         public System.DateTime CreatedAt { get; set; }
         public System.DateTime UpdatedAt { get; set; }
         public bool Deleted { get; set; }
+        public bool IsBot { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PlayerCampaign> PlayerCampaigns { get; set; }
@@ -53,5 +55,7 @@ namespace TriviaTraverseApi.Models
         public virtual ICollection<VGamePlayerCategory> VGamePlayerCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VGamePlayerSectionQuestion> VGamePlayerSectionQuestions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BotInfo> BotInfoes { get; set; }
     }
 }

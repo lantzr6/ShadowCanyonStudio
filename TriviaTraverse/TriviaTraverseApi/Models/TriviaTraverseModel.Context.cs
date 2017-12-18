@@ -47,5 +47,6 @@ namespace TriviaTraverseApi.Models
         public virtual DbSet<VGamePlayer> VGamePlayers { get; set; }
         public virtual DbSet<VGamePlayerCategory> VGamePlayerCategories { get; set; }
         public virtual DbSet<VGamePlayerSectionQuestion> VGamePlayerSectionQuestions { get; set; }
+        public virtual DbSet<BotInfo> BotInfoes { get; set; }
     }
 }

@@ -78,6 +78,7 @@
     <EntitySetMapping Name="Players">
       <EntityTypeMapping TypeName="TriviaTraverse171207Model.Player">
         <MappingFragment StoreEntitySet="Player">
+          <ScalarProperty Name="IsBot" ColumnName="IsBot" />
           <ScalarProperty Name="Deleted" ColumnName="Deleted" />
           <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
           <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
@@ -229,7 +230,6 @@
           <ScalarProperty Name="Deleted" ColumnName="Deleted" />
           <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
           <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-          <ScalarProperty Name="Stage" ColumnName="Stage" />
           <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
           <ScalarProperty Name="VGameId" ColumnName="VGameId" />
           <ScalarProperty Name="VGameCategoryId" ColumnName="VGameCategoryId" />
@@ -259,6 +259,9 @@
     <EntitySetMapping Name="VGamePlayers">
       <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGamePlayer">
         <MappingFragment StoreEntitySet="VGamePlayer">
+          <ScalarProperty Name="BotAvailableQuestions" ColumnName="BotAvailableQuestions" />
+          <ScalarProperty Name="BotStageProgress" ColumnName="BotStageProgress" />
+          <ScalarProperty Name="StepBank" ColumnName="StepBank" />
           <ScalarProperty Name="AutoRenew" ColumnName="AutoRenew" />
           <ScalarProperty Name="Deleted" ColumnName="Deleted" />
           <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
@@ -277,6 +280,7 @@
     <EntitySetMapping Name="VGamePlayerCategories">
       <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGamePlayerCategory">
         <MappingFragment StoreEntitySet="VGamePlayerCategory">
+          <ScalarProperty Name="SectionOrder" ColumnName="SectionOrder" />
           <ScalarProperty Name="Deleted" ColumnName="Deleted" />
           <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
           <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
@@ -296,6 +300,17 @@
           <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
           <ScalarProperty Name="VGameId" ColumnName="VGameId" />
           <ScalarProperty Name="VGamePlayerSectionQuestionId" ColumnName="VGamePlayerSectionQuestionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BotInfoes">
+      <EntityTypeMapping TypeName="TriviaTraverse171207Model.BotInfo">
+        <MappingFragment StoreEntitySet="BotInfo">
+          <ScalarProperty Name="StepGoalPercent" ColumnName="StepGoalPercent" />
+          <ScalarProperty Name="OpenRate" ColumnName="OpenRate" />
+          <ScalarProperty Name="AccurancyRate" ColumnName="AccurancyRate" />
+          <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+          <ScalarProperty Name="BotInfoId" ColumnName="BotInfoId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

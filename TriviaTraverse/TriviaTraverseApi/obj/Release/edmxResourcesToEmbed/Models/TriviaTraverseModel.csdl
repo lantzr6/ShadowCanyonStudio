@@ -135,6 +135,11 @@
       <End Role="VGameCategory" EntitySet="VGameCategories" />
       <End Role="VGamePlayerCategory" EntitySet="VGamePlayerCategories" />
     </AssociationSet>
+    <EntitySet Name="BotInfoes" EntityType="TriviaTraverse171207Model.BotInfo" />
+    <AssociationSet Name="FK_BotInfo_Player" Association="TriviaTraverse171207Model.FK_BotInfo_Player">
+      <End Role="Player" EntitySet="Players" />
+      <End Role="BotInfo" EntitySet="BotInfoes" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="CampaignCategory">
     <Key>
@@ -239,6 +244,8 @@
     <NavigationProperty Name="VGamePlayers" Relationship="TriviaTraverse171207Model.FK_VGamePlayer_Player" FromRole="Player" ToRole="VGamePlayer" />
     <NavigationProperty Name="VGamePlayerCategories" Relationship="TriviaTraverse171207Model.FK_VGamePlayerCategory_Player" FromRole="Player" ToRole="VGamePlayerCategory" />
     <NavigationProperty Name="VGamePlayerSectionQuestions" Relationship="TriviaTraverse171207Model.FK_VGamePlayerSectionQuestion_Player" FromRole="Player" ToRole="VGamePlayerSectionQuestion" />
+    <Property Name="IsBot" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="BotInfoes" Relationship="TriviaTraverse171207Model.FK_BotInfo_Player" FromRole="Player" ToRole="BotInfo" />
   </EntityType>
   <EntityType Name="PlayerCampaign">
     <Key>
@@ -392,7 +399,6 @@
     <Property Name="VGameCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="VGameId" Type="Int32" Nullable="false" />
     <Property Name="CategoryId" Type="Int32" Nullable="false" />
-    <Property Name="Stage" Type="Int32" Nullable="false" />
     <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="Deleted" Type="Boolean" Nullable="false" />
@@ -439,6 +445,9 @@
     <NavigationProperty Name="Player" Relationship="TriviaTraverse171207Model.FK_VGamePlayer_Player" FromRole="VGamePlayer" ToRole="Player" />
     <NavigationProperty Name="VGame" Relationship="TriviaTraverse171207Model.FK_VGamePlayer_VGame" FromRole="VGamePlayer" ToRole="VGame" />
     <Property Name="AutoRenew" Type="Boolean" Nullable="false" />
+    <Property Name="StepBank" Type="Int32" Nullable="false" />
+    <Property Name="BotStageProgress" Type="Int32" Nullable="false" />
+    <Property Name="BotAvailableQuestions" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
   </EntityType>
   <EntityType Name="VGamePlayerCategory">
     <Key>
@@ -452,6 +461,7 @@
     <Property Name="Deleted" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Player" Relationship="TriviaTraverse171207Model.FK_VGamePlayerCategory_Player" FromRole="VGamePlayerCategory" ToRole="Player" />
     <NavigationProperty Name="VGameCategory" Relationship="TriviaTraverse171207Model.FK_VGamePlayerCategory_VGameCategory" FromRole="VGamePlayerCategory" ToRole="VGameCategory" />
+    <Property Name="SectionOrder" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="VGamePlayerSectionQuestion">
     <Key>
@@ -801,6 +811,29 @@
       </Principal>
       <Dependent Role="VGamePlayerCategory">
         <PropertyRef Name="VGameCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="BotInfo">
+    <Key>
+      <PropertyRef Name="BotInfoId" />
+    </Key>
+    <Property Name="BotInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PlayerId" Type="Int32" Nullable="false" />
+    <Property Name="AccurancyRate" Type="Int32" Nullable="false" />
+    <Property Name="OpenRate" Type="Int32" Nullable="false" />
+    <Property Name="StepGoalPercent" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Player" Relationship="TriviaTraverse171207Model.FK_BotInfo_Player" FromRole="BotInfo" ToRole="Player" />
+  </EntityType>
+  <Association Name="FK_BotInfo_Player">
+    <End Type="TriviaTraverse171207Model.Player" Role="Player" Multiplicity="1" />
+    <End Type="TriviaTraverse171207Model.BotInfo" Role="BotInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="PlayerId" />
+      </Principal>
+      <Dependent Role="BotInfo">
+        <PropertyRef Name="PlayerId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

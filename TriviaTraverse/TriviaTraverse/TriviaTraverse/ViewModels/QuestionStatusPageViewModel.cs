@@ -71,13 +71,11 @@ namespace TriviaTraverse.ViewModels
                 switch (ActiveSection.SectionType)
                 {
                     case GameSectionType.Campaign:
-                        stepsNeeded = 1000 - PlayerObj.StepBank;
-                        break;
                     case GameSectionType.CampaignTutorial:
                         stepsNeeded = 1000 - PlayerObj.StepBank;
                         break;
                     case GameSectionType.VersusRegular:
-                        stepsNeeded = 1000 - VGameObj.PlayerGameSteps;
+                        stepsNeeded = VGameObj.StepCost - VGameObj.PlayerGameStepBank;
                         break;
                     case GameSectionType.VersusFirst:
                         stepsNeeded = 0;
@@ -142,7 +140,7 @@ namespace TriviaTraverse.ViewModels
         }
         private async void OnClose()
         {
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
         }
         private ICommand _closeTutorialOneCommand;
         public ICommand CloseTutorialOneCommand =>
@@ -198,8 +196,9 @@ namespace TriviaTraverse.ViewModels
                     App.UpdatePlayerData();
                     break;
                 case GameSectionType.VersusRegular:
-                    VGameObj.PlayerGameSteps -= 1000;
-                    VGamePlayerUpdate inObj = new VGamePlayerUpdate() { VGameId = VGameObj.VGameId, PlayerId = PlayerObj.PlayerId, GameSteps = VGameObj.PlayerGameSteps, LastStepUpdate = VGameObj.PlayerLastStepQuery };
+                    VGameObj.PlayerGameStepBank -= VGameObj.StepCost;
+                    VGamePlayerUpdate inObj = new VGamePlayerUpdate() { VGameId = VGameObj.VGameId, PlayerId = PlayerObj.PlayerId,
+                        GameSteps = VGameObj.PlayerGameSteps, StepBank = VGameObj.PlayerGameStepBank, LastStepUpdate = VGameObj.PlayerLastStepQuery };
                     App.VGameObj = await WebApi.Instance.UpdateVGamePlayerAsync(inObj);
                     break;
             }

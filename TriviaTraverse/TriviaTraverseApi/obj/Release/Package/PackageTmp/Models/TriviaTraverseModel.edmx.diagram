@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="TriviaTraverse171207Model.CampaignStage" Width="1.5" PointX="0.75" PointY="16.375" />
         <EntityTypeShape EntityType="TriviaTraverse171207Model.Category" Width="1.5" PointX="6" PointY="21.875" />
         <EntityTypeShape EntityType="TriviaTraverse171207Model.GameCategoryQuestionPlayerResult" Width="1.5" PointX="12.75" PointY="2.125" />
-        <EntityTypeShape EntityType="TriviaTraverse171207Model.GameType" Width="1.5" PointX="3.75" PointY="2.75" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.GameType" Width="1.5" PointX="3.75" PointY="3.375" />
         <EntityTypeShape EntityType="TriviaTraverse171207Model.Player" Width="2.375" PointX="0.625" PointY="5" />
         <EntityTypeShape EntityType="TriviaTraverse171207Model.PlayerCampaign" Width="1.5" PointX="3.75" PointY="6.375" />
         <EntityTypeShape EntityType="TriviaTraverse171207Model.PlayerCampaignCategoryQueue" Width="1.5" PointX="6" PointY="11.125" />
@@ -55,6 +55,8 @@
         <AssociationConnector Association="TriviaTraverse171207Model.FK_VGamePlayerSectionQuestion_VGame" />
         <AssociationConnector Association="TriviaTraverse171207Model.FK_VGameCategorySectionQuestion_VGameCategory" />
         <AssociationConnector Association="TriviaTraverse171207Model.FK_VGamePlayerCategory_VGameCategory" />
+        <EntityTypeShape EntityType="TriviaTraverse171207Model.BotInfo" Width="1.5" PointX="3" PointY="0.5" />
+        <AssociationConnector Association="TriviaTraverse171207Model.FK_BotInfo_Player" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

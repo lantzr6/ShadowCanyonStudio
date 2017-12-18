@@ -18,7 +18,7 @@ INSERT INTO [dbo].[CampaignCategory] ([CategoryName],[IsTutorial],[QueueLevel],[
 ('C Cat 2',0,1,GETDATE(),GETDATE(),0),
 ('C Cat 3',0,1,GETDATE(),GETDATE(),0),
 ('C Cat 4',0,1,GETDATE(),GETDATE(),0),
-('C Cat 5',0,2,GETDATE(),GETDATE(),0);   ,
+('C Cat 5',0,2,GETDATE(),GETDATE(),0),
 ('C Cat 6',0,2,GETDATE(),GETDATE(),0),
 ('C Cat 7',0,2,GETDATE(),GETDATE(),0),
 ('C Cat 8',0,2,GETDATE(),GETDATE(),0),
@@ -60,14 +60,11 @@ INSERT INTO [dbo].[CampaignSection]([CampaignCategoryId],[SectionName],[CreatedA
 (3,'Section 3-Bonus',GETDATE(),GETDATE(),0),
 (4,'Section 4-Bonus',GETDATE(),GETDATE(),0),
 (5,'Section 5-Bonus',GETDATE(),GETDATE(),0),
-(6,'Section 6-Bonus',GETDATE(),GETDATE(),0); 
-
-
-  ,
+(6,'Section 6-Bonus',GETDATE(),GETDATE(),0),
 (7,'Section 7-Bonus',GETDATE(),GETDATE(),0),
 (8,'Section 8-Bonus',GETDATE(),GETDATE(),0),
 (9,'Section 9-Bonus',GETDATE(),GETDATE(),0),
-(10,'Section 10-Bonus',GETDATE(),GETDATE(),0);   ,
+(10,'Section 10-Bonus',GETDATE(),GETDATE(),0),
 (7,'Section 7-1',GETDATE(),GETDATE(),0),
 (7,'Section 7-2',GETDATE(),GETDATE(),0),
 (7,'Section 7-3',GETDATE(),GETDATE(),0),
@@ -91,7 +88,7 @@ INSERT INTO [dbo].[CampaignSection]([CampaignCategoryId],[SectionName],[CreatedA
 (10,'Section 10-3',GETDATE(),GETDATE(),0),
 (10,'Section 10-4',GETDATE(),GETDATE(),0),
 (10,'Section 10-5',GETDATE(),GETDATE(),0),
-(10,'Section 10-6',GETDATE(),GETDATE(),0),;
+(10,'Section 10-6',GETDATE(),GETDATE(),0);
 
 INSERT INTO [dbo].[Question]([CategoryId],[CampaignSectionId],[QuestionLevel],[QuestionTypeId],[Text],[HasImage],[ImageUrl],[AnswerCorrect],[AnswerWrong1],[AnswerWrong2],[AnswerWrong3],[CreatedAt],[UpdatedAt],[Deleted])VALUES
 (1,1,1,3,'Tutorial Q 1',0,null,'Correct','Wrong 1','Wrong 2','Wrong 3',GETDATE(),GETDATE(),0),
@@ -422,7 +419,6 @@ INSERT INTO [dbo].[Question]([CategoryId],[CampaignSectionId],[QuestionLevel],[Q
 
 
 INSERT INTO [dbo].[Question]([CategoryId],[CampaignSectionId],[QuestionLevel],[QuestionTypeId],[Text],[HasImage],[ImageUrl],[AnswerCorrect],[AnswerWrong1],[AnswerWrong2],[AnswerWrong3],[CreatedAt],[UpdatedAt],[Deleted])VALUES
-
 (6,36,1,3,'Section 60 Q 1-2',0,null,'Correct','Wrong 1','Wrong 2','Wrong 3',GETDATE(),GETDATE(),0),
 (6,36,2,3,'Section 60 Q 2-2',0,null,'Correct','Wrong 1','Wrong 2','Wrong 3',GETDATE(),GETDATE(),0),
 (6,36,3,3,'Section 60 Q 3-2',0,null,'Correct','Wrong 1','Wrong 2','Wrong 3',GETDATE(),GETDATE(),0),
@@ -437,4 +433,40 @@ where [QuestionId] > 305;
 
 SELECT * FROM [Question];
 
+INSERT INTO [dbo].[Player]
+           ([UserName],[IsBot],[EmailAddr],[Password],[FbLogin],[PlayerLevel]
+           ,[CurrentSteps],[StepBank],[LastStepUpdate],[Coins],[Stars],[Points]
+           ,[CreatedAt],[UpdatedAt],[Deleted])
+     VALUES
+           ('BotOne',1,'botOne@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0),
+           ('BotTwo',1,'BotTwo@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0),
+           ('BotThree',1,'BotThree@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0),
+           ('BotFour',1,'BotFour@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0),
+           ('BotFive',1,'BotFive@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0),
+           ('BotSix',1,'BotSix@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0),
+           ('BotSeven',1,'BotSeven@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0),
+           ('BotEight',1,'BotEight@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0),
+           ('BotNine',1,'BotNine@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0),
+           ('BotTen',1,'BotTen@shadowcanyonestudios.com','dw45sehs5h',0,1
+           ,0,0,GetDate(),0,0,0
+           ,GetDate(),GetDate(),0)
+GO
 

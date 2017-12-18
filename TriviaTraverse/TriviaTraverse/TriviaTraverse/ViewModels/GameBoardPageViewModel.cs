@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using TriviaTraverse.Api;
 using TriviaTraverse.Controls;
+using TriviaTraverse.Helpers;
 using TriviaTraverse.Models;
 using TriviaTraverse.Views;
 using Xamarin.Forms;
@@ -28,9 +29,17 @@ namespace TriviaTraverse.ViewModels
         {
             // Asynchronously initialize this instance.
             IsBusy = true;
-            ViewState = "Self";
             VGameObj = await LoadVGame(vGameId);
             App.GameMode = GameMode.VGame;
+            if (VGameObj.Sections.Count == 0)
+            {
+                WrappedItems = VGameObj.CategoryQueue.Select(item => new WrappedSelection<object>() { Item = item, IsSelected = false }).ToList();
+                foreach (var wi in WrappedItems)
+                {
+                    wi.PropertyChanged += (sender, e) => { CategoriesSelected(); };
+                }
+                SelectCategoryVisible = true;
+            }
             IsBusy = false;
         }
 
@@ -111,19 +120,19 @@ namespace TriviaTraverse.ViewModels
             get { return !SelectCategoryVisible; }
         }
 
-        private string _viewState;
-        public string ViewState
-        {
-            get { return _viewState; }
-            set
-            {
-                if (_viewState != value)
-                {
-                    _viewState = value;
-                    RaisePropertyChanged(nameof(ViewState));
-                }
-            }
-        }
+        //private string _viewState;
+        //public string ViewState
+        //{
+        //    get { return _viewState; }
+        //    set
+        //    {
+        //        if (_viewState != value)
+        //        {
+        //            _viewState = value;
+        //            RaisePropertyChanged(nameof(ViewState));
+        //        }
+        //    }
+        //}
 
         private List<WrappedSelection<object>> _wrapperItems;
         public List<WrappedSelection<object>> WrappedItems
@@ -158,7 +167,7 @@ namespace TriviaTraverse.ViewModels
             IsBusy = true;
             int obj = int.Parse(parm);
 
-            App.ActiveSection = VGameObj.Sections[obj];
+            App.ActiveSection = VGameObj.Sections.Where(o=>o.SectionOrder == obj).FirstOrDefault();
             if (!App.ActiveSection.IsComplete)
             {
                 GameSection returnSection = VGameObj.Sections[obj];
@@ -167,26 +176,26 @@ namespace TriviaTraverse.ViewModels
             IsBusy = false;
         }
 
-        public async void SectionNext()
-        {
-            IsBusy = true;
-            //if (VGameObj.StartTime >= DateTime.Now)
-            //{
-            if (VGameObj.CategoryQueue.Count() == 0)
-            {
-                VGameObj = await WebApi.Instance.StartGame(VGameObj.VGameId, PlayerObj.PlayerId);
-            }
+        //public async void SectionNext()
+        //{
+        //    IsBusy = true;
+        //    //if (VGameObj.StartTime >= DateTime.Now)
+        //    //{
+        //    if (VGameObj.CategoryQueue.Count() == 0)
+        //    {
+        //        VGameObj = await WebApi.Instance.StartGame(VGameObj.VGameId, PlayerObj.PlayerId);
+        //    }
 
-            WrappedItems = VGameObj.CategoryQueue.Select(item => new WrappedSelection<object>() { Item = item, IsSelected = false }).ToList();
-            foreach (var wi in WrappedItems)
-            {
-                wi.PropertyChanged += (sender, e) => { CategoriesSelected(); };
-            }
+        //    WrappedItems = VGameObj.CategoryQueue.Select(item => new WrappedSelection<object>() { Item = item, IsSelected = false }).ToList();
+        //    foreach (var wi in WrappedItems)
+        //    {
+        //        wi.PropertyChanged += (sender, e) => { CategoriesSelected(); };
+        //    }
 
-            SelectCategoryVisible = true;
-            //}
-            IsBusy = false;
-        }
+        //    SelectCategoryVisible = true;
+        //    //}
+        //    IsBusy = false;
+        //}
 
         public async void CategoriesSelected()
         {
@@ -199,23 +208,27 @@ namespace TriviaTraverse.ViewModels
                     wi.PropertyChanged -= (sender, e) => { CategoriesSelected(); };
                 }
             }
-            if ((VGameObj.GameStepCap == 15000 && selectedCnt == 3) || (VGameObj.GameStepCap < 15000 && selectedCnt == 2))
+            if ((VGameObj.GameStepCap == 15000 && selectedCnt == 4) || (VGameObj.GameStepCap < 15000 && selectedCnt == 3))
             {
+                WrappedItems.Shuffle();
                 IsBusy = true;
                 VGameSelectedCategories inObj = new VGameSelectedCategories();
                 inObj.PlayerId = PlayerObj.PlayerId;
                 inObj.VGameId = VGameObj.VGameId;
-                foreach (WrappedSelection<object> wi in WrappedItems)
+                int order = 1;
+                for (int i = 1; i <= WrappedItems.Count(); i++)
                 {
-                    if (wi.IsSelected)
+                    if (WrappedItems[i-1].IsSelected)
                     {
-                        VGameCategory vcat = wi.Item as VGameCategory;
+                        VGameCategory vcat = WrappedItems[i-1].Item as VGameCategory;
                         if (vcat != null)
                         {
-                            VGameObj.Sections.Add(new GameSection(vcat));
-                            vcat.IsUsed = true;
+                            //vcat.IsUsed = true;
+                            GameSection gs = new GameSection(vcat, order);
+                            VGameObj.Sections.Add(gs);
                         }
                         inObj.SelectedCategories.Add(vcat);
+                        ++order;
                     }
                 }
                 await WebApi.Instance.PostSelectedCategories(inObj);
@@ -232,21 +245,21 @@ namespace TriviaTraverse.ViewModels
             return section;
         }
 
-        public async void ShowStats()
-        {
-            IsBusy = true;
-            VGameObj = await LoadVGame(VGameObj.VGameId);
-            ViewState = "Stats";
-            IsBusy = false;
-        }
+        //public async void ShowStats()
+        //{
+        //    IsBusy = true;
+        //    VGameObj = await LoadVGame(VGameObj.VGameId);
+        //    ViewState = "Stats";
+        //    IsBusy = false;
+        //}
 
-        public async void ShowSelf()
-        {
-            IsBusy = true;
-            VGameObj = await LoadVGame(VGameObj.VGameId);
-            ViewState = "Self";
-            IsBusy = false;
-        }
+        //public async void ShowSelf()
+        //{
+        //    IsBusy = true;
+        //    VGameObj = await LoadVGame(VGameObj.VGameId);
+        //    ViewState = "Self";
+        //    IsBusy = false;
+        //}
 
 
     }

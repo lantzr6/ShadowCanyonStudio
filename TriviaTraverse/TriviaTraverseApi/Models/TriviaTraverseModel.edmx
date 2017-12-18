@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TriviaTraverse171207Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BotInfo">
+          <Key>
+            <PropertyRef Name="BotInfoId" />
+          </Key>
+          <Property Name="BotInfoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlayerId" Type="int" Nullable="false" />
+          <Property Name="AccurancyRate" Type="int" Nullable="false" />
+          <Property Name="OpenRate" Type="int" Nullable="false" />
+          <Property Name="StepGoalPercent" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="CampaignCategory">
           <Key>
             <PropertyRef Name="CampaignCategoryId" />
@@ -79,6 +89,7 @@
           </Key>
           <Property Name="PlayerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsBot" Type="bit" Nullable="false" />
           <Property Name="EmailAddr" Type="nvarchar" MaxLength="55" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FbLogin" Type="bit" Nullable="false" />
@@ -218,7 +229,6 @@
           <Property Name="VGameCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VGameId" Type="int" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
-          <Property Name="Stage" Type="int" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
@@ -250,10 +260,13 @@
           <Property Name="PlayerId" Type="int" Nullable="false" />
           <Property Name="AutoRenew" Type="bit" Nullable="false" />
           <Property Name="GameSteps" Type="int" Nullable="false" />
+          <Property Name="StepBank" Type="int" Nullable="false" />
           <Property Name="LastStepUpdate" Type="datetime" Nullable="false" />
           <Property Name="Score" Type="int" Nullable="false" />
           <Property Name="Stage" Type="int" Nullable="false" />
           <Property Name="QuestionsAnswered" Type="int" Nullable="false" />
+          <Property Name="BotStageProgress" Type="int" Nullable="false" />
+          <Property Name="BotAvailableQuestions" Type="nvarchar" MaxLength="13" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
@@ -265,6 +278,7 @@
           <Property Name="VGamePlayerCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VGameCategoryId" Type="int" Nullable="false" />
           <Property Name="PlayerId" Type="int" Nullable="false" />
+          <Property Name="SectionOrder" Type="int" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
@@ -281,6 +295,18 @@
           <Property Name="UpdateAt" Type="datetime" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_BotInfo_Player">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="BotInfo" Type="Self.BotInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="PlayerId" />
+            </Principal>
+            <Dependent Role="BotInfo">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CampaignSection_CampaignCategory">
           <End Role="CampaignCategory" Type="Self.CampaignCategory" Multiplicity="1" />
           <End Role="CampaignSection" Type="Self.CampaignSection" Multiplicity="*" />
@@ -618,6 +644,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="TriviaTraverse171207ModelStoreContainer">
+          <EntitySet Name="BotInfo" EntityType="Self.BotInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignCategory" EntityType="Self.CampaignCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignSection" EntityType="Self.CampaignSection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CampaignStage" EntityType="Self.CampaignStage" Schema="dbo" store:Type="Tables" />
@@ -640,6 +667,10 @@
           <EntitySet Name="VGamePlayer" EntityType="Self.VGamePlayer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VGamePlayerCategory" EntityType="Self.VGamePlayerCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VGamePlayerSectionQuestion" EntityType="Self.VGamePlayerSectionQuestion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BotInfo_Player" Association="Self.FK_BotInfo_Player">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="BotInfo" EntitySet="BotInfo" />
+          </AssociationSet>
           <AssociationSet Name="FK_CampaignSection_CampaignCategory" Association="Self.FK_CampaignSection_CampaignCategory">
             <End Role="CampaignCategory" EntitySet="CampaignCategory" />
             <End Role="CampaignSection" EntitySet="CampaignSection" />
@@ -892,6 +923,11 @@
             <End Role="VGameCategory" EntitySet="VGameCategories" />
             <End Role="VGamePlayerCategory" EntitySet="VGamePlayerCategories" />
           </AssociationSet>
+          <EntitySet Name="BotInfoes" EntityType="TriviaTraverse171207Model.BotInfo" />
+          <AssociationSet Name="FK_BotInfo_Player" Association="TriviaTraverse171207Model.FK_BotInfo_Player">
+            <End Role="Player" EntitySet="Players" />
+            <End Role="BotInfo" EntitySet="BotInfoes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CampaignCategory">
           <Key>
@@ -996,6 +1032,8 @@
           <NavigationProperty Name="VGamePlayers" Relationship="TriviaTraverse171207Model.FK_VGamePlayer_Player" FromRole="Player" ToRole="VGamePlayer" />
           <NavigationProperty Name="VGamePlayerCategories" Relationship="TriviaTraverse171207Model.FK_VGamePlayerCategory_Player" FromRole="Player" ToRole="VGamePlayerCategory" />
           <NavigationProperty Name="VGamePlayerSectionQuestions" Relationship="TriviaTraverse171207Model.FK_VGamePlayerSectionQuestion_Player" FromRole="Player" ToRole="VGamePlayerSectionQuestion" />
+          <Property Name="IsBot" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BotInfoes" Relationship="TriviaTraverse171207Model.FK_BotInfo_Player" FromRole="Player" ToRole="BotInfo" />
         </EntityType>
         <EntityType Name="PlayerCampaign">
           <Key>
@@ -1149,7 +1187,6 @@
           <Property Name="VGameCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VGameId" Type="Int32" Nullable="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
-          <Property Name="Stage" Type="Int32" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
@@ -1196,6 +1233,9 @@
           <NavigationProperty Name="Player" Relationship="TriviaTraverse171207Model.FK_VGamePlayer_Player" FromRole="VGamePlayer" ToRole="Player" />
           <NavigationProperty Name="VGame" Relationship="TriviaTraverse171207Model.FK_VGamePlayer_VGame" FromRole="VGamePlayer" ToRole="VGame" />
           <Property Name="AutoRenew" Type="Boolean" Nullable="false" />
+          <Property Name="StepBank" Type="Int32" Nullable="false" />
+          <Property Name="BotStageProgress" Type="Int32" Nullable="false" />
+          <Property Name="BotAvailableQuestions" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="VGamePlayerCategory">
           <Key>
@@ -1209,6 +1249,7 @@
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Player" Relationship="TriviaTraverse171207Model.FK_VGamePlayerCategory_Player" FromRole="VGamePlayerCategory" ToRole="Player" />
           <NavigationProperty Name="VGameCategory" Relationship="TriviaTraverse171207Model.FK_VGamePlayerCategory_VGameCategory" FromRole="VGamePlayerCategory" ToRole="VGameCategory" />
+          <Property Name="SectionOrder" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="VGamePlayerSectionQuestion">
           <Key>
@@ -1561,6 +1602,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BotInfo">
+          <Key>
+            <PropertyRef Name="BotInfoId" />
+          </Key>
+          <Property Name="BotInfoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlayerId" Type="Int32" Nullable="false" />
+          <Property Name="AccurancyRate" Type="Int32" Nullable="false" />
+          <Property Name="OpenRate" Type="Int32" Nullable="false" />
+          <Property Name="StepGoalPercent" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Player" Relationship="TriviaTraverse171207Model.FK_BotInfo_Player" FromRole="BotInfo" ToRole="Player" />
+        </EntityType>
+        <Association Name="FK_BotInfo_Player">
+          <End Type="TriviaTraverse171207Model.Player" Role="Player" Multiplicity="1" />
+          <End Type="TriviaTraverse171207Model.BotInfo" Role="BotInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="PlayerId" />
+            </Principal>
+            <Dependent Role="BotInfo">
+              <PropertyRef Name="PlayerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1644,6 +1708,7 @@
           <EntitySetMapping Name="Players">
             <EntityTypeMapping TypeName="TriviaTraverse171207Model.Player">
               <MappingFragment StoreEntitySet="Player">
+                <ScalarProperty Name="IsBot" ColumnName="IsBot" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
@@ -1795,7 +1860,6 @@
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Stage" ColumnName="Stage" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="VGameId" ColumnName="VGameId" />
                 <ScalarProperty Name="VGameCategoryId" ColumnName="VGameCategoryId" />
@@ -1825,6 +1889,9 @@
           <EntitySetMapping Name="VGamePlayers">
             <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGamePlayer">
               <MappingFragment StoreEntitySet="VGamePlayer">
+                <ScalarProperty Name="BotAvailableQuestions" ColumnName="BotAvailableQuestions" />
+                <ScalarProperty Name="BotStageProgress" ColumnName="BotStageProgress" />
+                <ScalarProperty Name="StepBank" ColumnName="StepBank" />
                 <ScalarProperty Name="AutoRenew" ColumnName="AutoRenew" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
@@ -1843,6 +1910,7 @@
           <EntitySetMapping Name="VGamePlayerCategories">
             <EntityTypeMapping TypeName="TriviaTraverse171207Model.VGamePlayerCategory">
               <MappingFragment StoreEntitySet="VGamePlayerCategory">
+                <ScalarProperty Name="SectionOrder" ColumnName="SectionOrder" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
@@ -1862,6 +1930,17 @@
                 <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
                 <ScalarProperty Name="VGameId" ColumnName="VGameId" />
                 <ScalarProperty Name="VGamePlayerSectionQuestionId" ColumnName="VGamePlayerSectionQuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BotInfoes">
+            <EntityTypeMapping TypeName="TriviaTraverse171207Model.BotInfo">
+              <MappingFragment StoreEntitySet="BotInfo">
+                <ScalarProperty Name="StepGoalPercent" ColumnName="StepGoalPercent" />
+                <ScalarProperty Name="OpenRate" ColumnName="OpenRate" />
+                <ScalarProperty Name="AccurancyRate" ColumnName="AccurancyRate" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="BotInfoId" ColumnName="BotInfoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

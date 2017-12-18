@@ -26,6 +26,9 @@ namespace TriviaTraverseApi.Models
         public System.DateTime UpdatedAt { get; set; }
         public bool Deleted { get; set; }
         public bool AutoRenew { get; set; }
+        public int StepBank { get; set; }
+        public int BotStageProgress { get; set; }
+        public string BotAvailableQuestions { get; set; }
     
         public virtual Player Player { get; set; }
         public virtual VGame VGame { get; set; }

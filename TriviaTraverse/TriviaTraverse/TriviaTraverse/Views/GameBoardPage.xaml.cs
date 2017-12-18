@@ -115,57 +115,57 @@ namespace TriviaTraverse.Views
         
         private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            VGame _vgame = vm.VGameObj;
-            //setup global objects
-            if (!ObjectsCreated)
+            if (vm.VGameObj != null && vm.VGameObj.Sections.Any())
             {
-                screenWidth = e.Info.Width;
-                screenHeight = e.Info.Height;
-
-                //one pixel = .0005f;
-                margin2 = screenHeight * .001f;
-                margin4 = margin2 * 2;
-                //margin6 = margin2 * 3;
-                margin8 = margin2 * 4;
-                margin10 = margin2 * 5;
-
-                blackSmallTextPaint.TextSize = screenHeight * .0221f;
-                graphLabelTextPaint.TextSize = screenHeight * .0221f;
-                inactiveSmallTextPaint.TextSize = blackSmallTextPaint.TextSize;
-                blackLargeTextPaint.TextSize = screenHeight * .0385f;
-                playerNameTextPaint.TextSize = screenHeight * .0221f;
-
-                paintGraph.StrokeWidth = screenWidth * .0056f;
-                paintLines.StrokeWidth = screenWidth * .0042f;
-                paintMntOutline.StrokeWidth = screenWidth * .0028f;
-
-                GameNamePath = new SKPath();
-                GameNamePath.MoveTo(0, screenHeight * .0577f);
-                GameNamePath.RLineTo(screenWidth, 0);
-                ScorePath = new SKPath();
-                ScorePath.MoveTo(screenWidth * .6573f, screenHeight * .65f);
-                ScorePath.RLineTo(screenWidth, 0);
-                StartTimePath = new SKPath();
-                StartTimePath.MoveTo(screenWidth / 2, screenHeight * .0577f);
-                StartTimePath.RLineTo(screenWidth, 0);
-
-                ObjectsCreated = true;
-            }
-            clickAreas.Clear();
-
-            SKSurface surface = e.Surface;
-            SKCanvas canvas = surface.Canvas;
-
-            canvas.Clear();
-
-            if (_vgame != null)
-            {
-                canvas.DrawTextOnPath(_vgame.GameName, GameNamePath, 0, 0, blackLargeTextPaint);
-                canvas.DrawTextOnPath(_vgame.StartTimeLocal.ToString(), StartTimePath, 0, blackLargeTextPaint.FontSpacing, blackLargeTextPaint);
-                canvas.DrawTextOnPath(_vgame.EndTimeLocal.ToString(), StartTimePath, 0, (blackLargeTextPaint.FontSpacing *2) + 4, blackLargeTextPaint);
-
-                if (vm.ViewState == "Self")
+                VGame _vgame = vm.VGameObj;
+                //setup global objects
+                if (!ObjectsCreated)
                 {
+                    screenWidth = e.Info.Width;
+                    screenHeight = e.Info.Height;
+
+                    //one pixel = .0005f;
+                    margin2 = screenHeight * .001f;
+                    margin4 = margin2 * 2;
+                    //margin6 = margin2 * 3;
+                    margin8 = margin2 * 4;
+                    margin10 = margin2 * 5;
+
+                    blackSmallTextPaint.TextSize = screenHeight * .0221f;
+                    graphLabelTextPaint.TextSize = screenHeight * .0221f;
+                    inactiveSmallTextPaint.TextSize = blackSmallTextPaint.TextSize;
+                    blackLargeTextPaint.TextSize = screenHeight * .0385f;
+                    playerNameTextPaint.TextSize = screenHeight * .0221f;
+
+                    paintGraph.StrokeWidth = screenWidth * .0056f;
+                    paintLines.StrokeWidth = screenWidth * .0042f;
+                    paintMntOutline.StrokeWidth = screenWidth * .0028f;
+
+                    GameNamePath = new SKPath();
+                    GameNamePath.MoveTo(0, screenHeight * .0577f);
+                    GameNamePath.RLineTo(screenWidth, 0);
+                    ScorePath = new SKPath();
+                    ScorePath.MoveTo(screenWidth * .6573f, screenHeight * .65f);
+                    ScorePath.RLineTo(screenWidth, 0);
+                    StartTimePath = new SKPath();
+                    StartTimePath.MoveTo(screenWidth / 2, screenHeight * .0577f);
+                    StartTimePath.RLineTo(screenWidth, 0);
+
+                    ObjectsCreated = true;
+                }
+                clickAreas.Clear();
+
+                SKSurface surface = e.Surface;
+                SKCanvas canvas = surface.Canvas;
+
+                canvas.Clear();
+
+                if (_vgame != null)
+                {
+                    canvas.DrawTextOnPath(_vgame.GameName, GameNamePath, 0, 0, blackLargeTextPaint);
+                    canvas.DrawTextOnPath(_vgame.StartTimeLocal.ToString(), StartTimePath, 0, blackLargeTextPaint.FontSpacing, blackLargeTextPaint);
+                    canvas.DrawTextOnPath(_vgame.EndTimeLocal.ToString(), StartTimePath, 0, (blackLargeTextPaint.FontSpacing *2) + 4, blackLargeTextPaint);
+
                     ////draw stats button
                     //canvas.DrawRect(statsRect, highlightFillPaint);
                     //RegisterClickArea("ShowStats", statsRect, null);
@@ -174,7 +174,7 @@ namespace TriviaTraverse.Views
                     canvas.DrawTextOnPath("Score", ScorePath, 0, 0, blackLargeTextPaint);
                     canvas.DrawTextOnPath(_vgame.PlayerScore.ToString(), ScorePath, 0, blackLargeTextPaint.TextSize + margin10, blackSmallTextPaint);
 
-                    bool nextButton = false;
+                    //bool nextButton = false;
                     int numberMnts = 1;
                     switch (_vgame.GameStepCap)
                     {
@@ -191,7 +191,7 @@ namespace TriviaTraverse.Views
                             numberMnts = 3;
                             break;
                     }
-                    nextButton = (_vgame.Sections.Count() == 1 && _vgame.Sections[0].IsComplete);
+                    //nextButton = (_vgame.Sections.Count() == 1 && _vgame.Sections[0].IsComplete);
                     //draw mountains
                     //draw section mountains
                     int fieldIdx = numberMnts -2;
@@ -203,15 +203,14 @@ namespace TriviaTraverse.Views
                         { sectionType = 1; isActive = true; }
                         else
                         {
-                            if (i == 1) { isActive = true; }
-                            else if (i <= _vgame.Sections.Count())
+                            if (i <= _vgame.Sections.Count())
                             {
                                 isActive = _vgame.Sections[i - 2].IsComplete;
                             }
                             if (i == numberMnts) { sectionType = 3; }
                             //if (numberMnts == 5 && fieldIdx == 3) { --fieldIdx; } //skip position 3 for 20k game
                         }
-                        DrawMountain(canvas, i - 1, sectionType, fieldIdx, isActive);
+                        DrawMountain(canvas, i, sectionType, fieldIdx, isActive);
                         if (i < numberMnts) { --fieldIdx; }
                     }
 
@@ -329,22 +328,24 @@ namespace TriviaTraverse.Views
                         iPlayer++;
                     }
 
-                    if (nextButton)
-                    {
-                        //draw next button
-                        SKRect nextBtn = new SKRect(screenWidth * .2f, (screenHeight / 2) - (screenHeight * .05f), screenWidth * .8f, (screenHeight / 2) + (screenHeight * .05f));
-                        canvas.DrawRect(nextBtn, highlightFillPaint);
+                    //if (nextButton)
+                    //{
+                    //    //draw next button
+                    //    SKRect nextBtn = new SKRect(screenWidth * .2f, (screenHeight / 2) - (screenHeight * .05f), screenWidth * .8f, (screenHeight / 2) + (screenHeight * .05f));
+                    //    canvas.DrawRect(nextBtn, highlightFillPaint);
 
-                        RegisterClickArea("Next", nextBtn);
-                    }
+                    //    RegisterClickArea("Next", nextBtn);
+                    //}
 
-                }
+
+                 }
             }
         }
 
-        private void DrawMountain(SKCanvas canvas, int sectionIdx, int sectionType, int fieldIdx, bool IsActive)  //sectionType: 1 = first, 2 = field, 3 = last
+        private void DrawMountain(SKCanvas canvas, int sectionOrder, int sectionType, int fieldIdx, bool IsActive)  //sectionType: 1 = first, 2 = field, 3 = last
         {
-            GameSection section = ((sectionIdx < vm.VGameObj.Sections.Count()) ? vm.VGameObj.Sections[sectionIdx] : null);
+            //GameSection section = ((sectionIdx < vm.VGameObj.Sections.Count()) ? vm.VGameObj.Sections[sectionIdx] : null);
+            GameSection section = vm.VGameObj.Sections.Where(o => o.SectionOrder == sectionOrder).FirstOrDefault();
 
             SKPoint topleft = new SKPoint();
 
@@ -408,7 +409,7 @@ namespace TriviaTraverse.Views
                 canvas.DrawPath(path, paintFill);  //fill
                 if (IsActive)
                 {
-                    if (!section.IsComplete) { RegisterClickArea("Section", path, sectionIdx.ToString()); }
+                    if (!section.IsComplete) { RegisterClickArea("Section", path, sectionOrder.ToString()); }
                 }
                 else
                 {
@@ -485,7 +486,7 @@ namespace TriviaTraverse.Views
                 path.MoveTo(textPointT.X, textPointT.Y);
                 path.LineTo(textPointT.X + (screenWidth * .2778f), textPointT.Y);
 
-                canvas.DrawTextOnPath(sectionIdx.ToString(), path, 0, 0, newPaintT);
+                canvas.DrawTextOnPath(section.SectionName, path, 0, 0, newPaintT);
             }
 
         }
@@ -530,18 +531,18 @@ namespace TriviaTraverse.Views
                             case "Section":
                                 vm.SelectSection(clickAreas[i].Value);
                                 break;
-                            case "Next":
-                                vm.SectionNext();
-                                break;
-                            case "Option":
-                                DisplayOption = clickAreas[i].Value;
-                                break;
-                            case "ShowStats":
-                                vm.ShowStats();
-                                break;
-                            case "Back":
-                                vm.ShowSelf();
-                                break;
+                            //case "Next":
+                            //    vm.SectionNext();
+                            //    break;
+                            //case "Option":
+                            //    DisplayOption = clickAreas[i].Value;
+                            //    break;
+                            //case "ShowStats":
+                            //    vm.ShowStats();
+                            //    break;
+                            //case "Back":
+                            //    vm.ShowSelf();
+                            //    break;
                         }
                         break;
                     }

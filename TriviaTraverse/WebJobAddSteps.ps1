@@ -1,0 +1,1 @@
+﻿Invoke-WebRequest http://triviatraverseapi20171207014847.azurewebsites.net/api/job/addsteps
